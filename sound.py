@@ -1,6 +1,7 @@
 import wave
 import struct
 import numpy as np
+import scipy
 
 # opens sound in read only mode
 with wave.open('sound.wav', 'r') as sound_file:
@@ -8,6 +9,9 @@ with wave.open('sound.wav', 'r') as sound_file:
 	file_length = sound_file.getnframes ()			
 	# Creates a new vector and intializes it to 0
 	sound = np.zeros (file_length)					
+	Fs = sound_file.getframerate()
+	# print (file_length)
+	# print (Fs)
 
 	for i in range (file_length):
 		# Reads each sample and stores it in an array
@@ -20,13 +24,41 @@ with wave.open('sound.wav', 'r') as sound_file:
 	sound = np.divide (sound, float (2**15))		
 
 	count = 0
-	# Calculate this
-	cMax = 2222
-	sRange = 0.05
+	# Calculate the value of cMin 
+	cMin = 500
+	silenceEnd = [0]
+	silenceStart = []
+	Count = []
+	# print ("Test1")
 	# Modify Kadane's algo to detect silence
 	for i in range (len(sound)):
-		if (sound[i] > -sRange && sound[i] < sRange):
-			count++;
+		if i == 0:
+			if count == 0:
+				# Append start position of silence in a list
+				silenceStart.append (i)
+			count += 1
 		else:
-			count = 0;
-		if (count > cMax):
+			# Appends end position of silence and the size of silence
+			# Also resets count to 0
+			silenceEnd.append (i)
+			Count.append (count)
+			count = 0
+	# Detecting first note. Maintain all silence start and end point to detect multiple node
+	# print ("test2")
+	note_start = 0
+	note_end = silenceStart
+	# Not sure if this works
+	fre = []
+	# Find a better way to apply fft. This method is too slow
+	sound = abs(scipy.fft(sound))
+	# Perform the following task as long as there is more silence
+	while (silenceStart):
+		i = silenceEnd.pop()
+		j = silenceStart.pop()
+		print ("test", i)
+		count = Count.pop()
+		if Count > cMin:
+			freq = max (sound[i], sound[j])
+			fre.append(Fs*(freq-1)/file_length)
+	for i in fre:
+		print(i)
