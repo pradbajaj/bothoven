@@ -1,7 +1,7 @@
 import wave
 import struct
 import numpy as np
-import scipy
+from scipy import fft
 
 # opens sound in read only mode
 with wave.open('sound.wav', 'r') as sound_file:
@@ -25,7 +25,7 @@ with wave.open('sound.wav', 'r') as sound_file:
 
 	count = 0
 	# Calculate the value of cMin 
-	cMin = 500
+	cMin = 50
 	silenceEnd = [0]
 	silenceStart = []
 	Count = []
@@ -50,15 +50,16 @@ with wave.open('sound.wav', 'r') as sound_file:
 	# Not sure if this works
 	fre = []
 	# Find a better way to apply fft. This method is too slow
-	sound = abs(scipy.fft(sound))
+	print ("fft start")
+	Sound = fft(sound)
+	print ("fft end")
 	# Perform the following task as long as there is more silence
 	while (silenceStart):
 		i = silenceEnd.pop()
 		j = silenceStart.pop()
-		print ("test", i)
 		count = Count.pop()
-		if Count > cMin:
-			freq = max (sound[i], sound[j])
+		if count > cMin:
+			freq = max (Sound[i], Sound[j])
 			fre.append(Fs*(freq-1)/file_length)
 	for i in fre:
 		print(i)
