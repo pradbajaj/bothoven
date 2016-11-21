@@ -131,14 +131,3 @@ if __name__ == "__main__":
     with wave.open('Audio_files/Audio_1.wav', 'r') as sound_file:         # Opening Audio file
     	Identified_Notes = play(sound_file)                             # Calling play function
     	print ("Notes = ", Identified_Notes)                            # printing the values of notes obtained for 'play'
-    	'''
-    	#code for checking output for all audio files
-    	Identified_Notes_list = []                                      # defining an empty list
-    	for file_number in range(1,6):                                  # 'number of audio_file' times iterrations
-        	file_name = "Audio_files/Audio_"+str(file_number)+".wav"    # defining variable file_name containing the name of corresponding audio_file
-       		sound_file = wave.open(file_name,'r')                       # opening audio files
-        	Identified_Notes = play(sound_file)                         # calling play function
-        	Identified_Notes_list.append(Identified_Notes)              # inserting Indetified_Notes of an audio_file into list
-    print (Identified_Notes_list)                                   # printing Identified_Notes_list
-    
-    #'''
