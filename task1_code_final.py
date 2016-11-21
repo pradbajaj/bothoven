@@ -17,24 +17,25 @@ def detect_silence(sound_file):     # importing Sound file array
     silence = []                    # silence is a n_d_array whose 1st element would be silence_start and 2nd element would be silence_end
     silence_start = []              # silence_start contains starting indices of the silence
     silence_end = []                # silence_end contains ending indices of the silence
-    while i < len(sound_file)-1:    # loop will be executed 'elements in sound file array' time
-        if sound_file[i] < 0.0005:  # if element is close to zero it could be starting of silence
+    cError = 0.0005
+    while i in range(len(sound_file)):    # loop will be executed 'elements in sound file array' time
+        if sound_file[i] < cError:  # if element is close to zero it could be starting of silence
             count = i               # saving 'possible starting index of silence' as count
             mean = sound_file[i]    # mean is 'actual mean' of consective 2 elements
-            while mean < 0.0005 and i < len(sound_file)-1:          # while mean is close to zero and index is less than 'elements in sound_file' loop will be executed
+            while mean < cError and i < len(sound_file)-1:          # while mean is close to zero and index is less than 'elements in sound_file' loop will be executed
                 mean = (sound_file[i] + sound_file[i+1])/2          # updating mean as 'actual mean' of consective 2 elements
-                i = i+1                                             # updating i
+                i += 1                                             # updating i
             if i - count > 500:                                     # if difference of count and i ('possible ending index of silence') is greater than 500, it will be our silence
                 silence_start.append(count)                         # adding count in silence_start
                 silence_end.append(i)                               # adding i in silence_end
                 j = j+1                                             # updating j
-        i = i+1                                                     # updating j
+        i = i+1                                                     # updating i
     silence.append(silence_start)   # adding silence_start as an element in silence
     silence.append(silence_end)     # adding silence_end as an element in silence
     return silence                  # retuning silence n_d_array
 
 #Function To detect Indices of Notes
-def detect_note(sound_file):        #importing sound file array
+def detect_note(sound_file):        # importing sound file array
     silence = detect_silence(sound_file)        # calling detect_silence to get silence matrix
     i = 1                                       # i is counter for 'elements in sound_file' times iterrations
     notes = []                                  # notes is a n_d_array whose 1st element would be notes_start and 2nd element would be notes_end
@@ -77,7 +78,7 @@ def play(sound_file):                           # importing 'sound_file'
         fre.append(frequency)                                                      # adding frequency to 'fre' array
         i = i+1                                                                    # updating i
         Identified_Notes = []                                                      # declaring an empty list Identified_Notes
-    for x in xrange(0,len(fre)):          
+    for x in range(0,len(fre)):          
         if fre[x] > 1035 and fre[x] < 1055:
             Identified_Notes.append('C6')
         elif fre[x] > 1165 and fre[x] < 1185:
@@ -127,17 +128,17 @@ def play(sound_file):                           # importing 'sound_file'
 if __name__ == "__main__":
     
     #code for checking output for single audio file
-    sound_file = wave.open('Audio_files/Audio_1.wav', 'r')          # Opening Audio file
-    Identified_Notes = play(sound_file)                             # Calling play function
-    print ("Notes = ", Identified_Notes)                            # printing the values of notes obtained for 'play'
-    '''
-    #code for checking output for all audio files
-    Identified_Notes_list = []                                      # defining an empty list
-    for file_number in range(1,6):                                  # 'number of audio_file' times iterrations
-        file_name = "Audio_files/Audio_"+str(file_number)+".wav"    # defining variable file_name containing the name of corresponding audio_file
-        sound_file = wave.open(file_name,'r')                       # opening audio files
-        Identified_Notes = play(sound_file)                         # calling play function
-        Identified_Notes_list.append(Identified_Notes)              # inserting Indetified_Notes of an audio_file into list
+    with wave.open('Audio_files/Audio_1.wav', 'r') as sound_file:         # Opening Audio file
+    	Identified_Notes = play(sound_file)                             # Calling play function
+    	print ("Notes = ", Identified_Notes)                            # printing the values of notes obtained for 'play'
+    	'''
+    	#code for checking output for all audio files
+    	Identified_Notes_list = []                                      # defining an empty list
+    	for file_number in range(1,6):                                  # 'number of audio_file' times iterrations
+        	file_name = "Audio_files/Audio_"+str(file_number)+".wav"    # defining variable file_name containing the name of corresponding audio_file
+       		sound_file = wave.open(file_name,'r')                       # opening audio files
+        	Identified_Notes = play(sound_file)                         # calling play function
+        	Identified_Notes_list.append(Identified_Notes)              # inserting Indetified_Notes of an audio_file into list
     print (Identified_Notes_list)                                   # printing Identified_Notes_list
     
     #'''
