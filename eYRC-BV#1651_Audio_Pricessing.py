@@ -55,6 +55,9 @@ def detect_note(sound_file):        # importing sound file array
         notes_start.append(silence[1][i-1])     # notes_start will be having same value as silence_end
         notes_end.append(silence[0][i])         # notes_end will be having same value as silence_start
         i = i+1                                 # updating i
+    if silence[1][len(silence[0])-1] != len(sound_file)-1:  # checking if sound_file is ending with silence
+        notes_start.append(silence[1][i-1])                 # if not than adding the 'ending index' of last silence to 'starting index' of next note
+        notes_end.append(len(sound_file)-1)                 # adding 'ending index' of sound_file to 'ending index' of next note
     notes.append(notes_start)                   # adding notes_start as an element in notes
     notes.append(notes_end)                     # adding notes_end as an element in notes
     return notes                                # returning notes n_d_array
@@ -136,7 +139,7 @@ def play(sound_file):                           # importing 'sound_file'
 if __name__ == "__main__":
     '''
     #code for checking output for single audio file
-    sound_file = wave.open('Audio_files/Audio_3.wav', 'r')          # Opening Audio file
+    sound_file = wave.open('Audio_files/audacity_1.wav', 'r')          # Opening Audio file
     Identified_Notes = play(sound_file)                             # Calling play function
     sound_file.close()                                              # closing the audio file
     print ("Notes = ", Identified_Notes)                            # printing the values of notes obtained for 'play'
