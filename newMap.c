@@ -62,3 +62,4 @@ void updateLink (struct triangleLink* update, int nodeL, int nodeR,int weight) {
 }
 
 #undef size
+#undef INF
