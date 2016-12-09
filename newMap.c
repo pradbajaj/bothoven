@@ -38,6 +38,7 @@ struct triangleLink* setLink (struct Triangle *left, struct Triangle *right) {
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++)
 			temp->links[i][j] = INF;
+	//Stores links based on which triangle being converted
 	switch (temp->linkType) {
 		case 1:
 			temp->links[4][1] = 1;
@@ -48,6 +49,16 @@ struct triangleLink* setLink (struct Triangle *left, struct Triangle *right) {
 			break;
 	}
 	return temp;
+}
+
+//Updates triangle if obstacle in encounterd
+void updateTriangle (struct Triangle *update, int nodeL, int nodeR, int weight) {
+	update->nodes[nodeL][nodeR] = weight;
+}
+
+//Updates link weights if obstacle is encountered
+void updateLink (struct triangleLink* update, int nodeL, int nodeR,int weight) {
+	update->links[nodeL][nodeR] = weight;
 }
 
 #undef size
