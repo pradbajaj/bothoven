@@ -15,10 +15,11 @@ int* move (int path[], int count){
 }
 
 //Returns distance of each point from the searching point. 
-int* BFS (int search){
+int* BFS (int search) {
 	struct Queue Q = NewQueue();	//Initializing the queue required to 
 									//maintan nodes to be visited
-	int *bfs = new bfs [size], source = search;
+	int *bfs = new int [size], source = search;
+	bfs = (int *) malloc (size*sizeof (int));
 	bool visited[size];				//Maintains if the node is visited
 	for (int i = 1; i < size; i++) {
 		bfs[i] = 0;
@@ -55,7 +56,7 @@ int* heuristic (int destination, int source, int *sDistance){
 //Executes dStar and moves the bot from source to destination. Returns if move 
 //was successful
 int dStar (int source, int dest){
-	int *sDistance = new int [size];
+	int *sDistance = (int*) malloc (size*sizeof(int));
 	int *heuris = heuristic (dest, source, sDistance);
 	int tDistance[size];
 	int path [size], count;
@@ -67,10 +68,13 @@ int dStar (int source, int dest){
 	while (1) {
 		int *condition = move (path, count);
 		//Movement is successful
-		if (condition[0] == 0) {
-			break;
-		}
-		source = 
+		if (condition[0] == 0) break; 
+		source = move[2];
+		map [move[1]][move[2]] = INF;		//Updating map when obstacle is 
+		//encountered
+		sDistance[move[2]] = INF;
+		free (heuris);		
+		tDistance[move[1]] = INF;
 	}
 	return 0;
 }
