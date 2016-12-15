@@ -1,3 +1,7 @@
+/*********************************POSSIBLE ISSUES******************************
+	*Reliability of BFS in case of weighted graph
+******************************************************************************/
+
 #include "QueueDynamic.h"
 #define size 49
 
@@ -10,7 +14,7 @@ extern int map_angle[48][48];
 	*corresponding to if the movement was successful 2nd corresponds to 
 	*the node the bot departed from and 3rd to the intermediate destination
 ******************************************************************************/
-int* move (int path[], int count){
+int* move (int path[], int count) {
 
 }
 
@@ -47,7 +51,7 @@ int* BFS (int search) {
 }
 
 //Returns the heuristic for destination
-int* heuristic (int destination, int source, int *sDistance){
+int* heuristic (int destination, int source, int *sDistance) {
 	int *heuris = BFS (destination);	//Calculates heuristics of the node
 	sDistance = BFS (source);		//Returns source distance for dStar
 	return heuris;
@@ -55,26 +59,7 @@ int* heuristic (int destination, int source, int *sDistance){
 
 //Executes dStar and moves the bot from source to destination. Returns if move 
 //was successful
-int dStar (int source, int dest){
-	int *sDistance = (int*) malloc (size*sizeof(int));
-	int *heuris = heuristic (dest, source, sDistance);
-	int tDistance[size];
-	int path [size], count;
-	//Initializing total distance (from source and destination) which
-	//needs to be minimised
-	for (int i = 1; i < size; i++) {
-		tDistance[i] = sDistance[i] + heuris[i];
-	}
-	while (1) {
-		int *condition = move (path, count);
-		//Movement is successful
-		if (condition[0] == 0) break; 
-		source = move[2];
-		map [move[1]][move[2]] = INF;		//Updating map when obstacle is 
-		//encountered
-		sDistance[move[2]] = INF;
-		free (heuris);		
-		tDistance[move[1]] = INF;
-	}
+int dStar (int source, int dest) {
+
 	return 0;
 }
