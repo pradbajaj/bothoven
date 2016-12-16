@@ -51,15 +51,37 @@ int* BFS (int search) {
 }
 
 //Returns the heuristic for destination
-int* heuristic (int destination, int source, int *sDistance) {
+int* heuristic (int destination) {
 	int *heuris = BFS (destination);	//Calculates heuristics of the node
-	sDistance = BFS (source);		//Returns source distance for dStar
 	return heuris;
+}
+
+inline int fCostCalc (int gCost, int heuristic) {
+	return gCost + heuristic;
 }
 
 //Executes dStar and moves the bot from source to destination. Returns if move 
 //was successful
 int dStar (int source, int dest) {
+	int *heuris = heuristic (dest);		//Gets the h cost or heuristic
+	//parent maintains the path. Open list maintains the nodes to be explored
+	//closed list maintains the node that are already scanned
+	int parent[size], open[size], closed[size];	
+	int gCost[size], fCost[size];	
+	int openSize = 0;				//Maintains the size of open list.
+	//This speeds up the scanning process.
+	gCost[source] = 0;
+	fCost[source] = fCostCalc (gCost[source], heuristic[source]);
+	for (int i = 0; i < size; i++) {
+		//Initialising open and closed list to be empty
+		open [i] = closed [i] = 0;
+		parent [i] = -1;
+		gCost[i] = fCost[i] = INF;
+	}
+	open[source] = 1, openSize++;
+	//Scan as long as the open list is not empty
+	while (openSize > 0) {
 
+	}
 	return 0;
 }
