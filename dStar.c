@@ -67,9 +67,13 @@ inline int fCostCalc (int gCost, int heuristic) {
 //Returns the index with lowest value in an array
 int extractMin (int list[], int cost[], int Size) {
 	//Think of initializing min
-	int min = 1;	
+	int min = -1;	
 	for (int i = 0; i < Size; i++) {
 		if (list[i] != 0) {
+			if (min == -1) {
+				min = i;
+				continue;
+			}
 			min = ((cost[min] < cost[i]) ? min : i);
 		}
 	}
