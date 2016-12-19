@@ -1,3 +1,4 @@
+// 7 , 29 , 26 , 18 , 24 , 13 , 30 , 16 , 20
 //Check abs function in embeded c
 #define size 49
 #define INF 10000
@@ -23,7 +24,9 @@ int initMap () {
 	map[35][42] = map[42][35] = 1;
 	map[42][41] = map[41][42] = 1;
 	map[41][32] = map[32][41] = 1;
-	map[32][48] = map[48][32] = 1;
+
+	map[32][48] = map[48][32] = INF;
+	
 	map[47][31] = map[31][47] = 1;
 	map[31][40] = map[40][31] = 1;
 	map[40][39] = map[39][40] = 1;
@@ -34,7 +37,9 @@ int initMap () {
 	map[36][25] = map[25][36] = 1;
 	map[36][44] = map[44][36] = 1;
 	map[43][35] = map[35][43] = 1;
-	map[24][1]  = map[1][24]  = 1;
+
+	map[24][1]  = map[1][24]  = INF;
+
 	map[23][44] = map[44][23] = 1;
 	map[23][43] = map[43][23] = 1;
 	map[19][34] = map[34][19] = 1;
@@ -47,6 +52,10 @@ int initMap () {
 	map[7][45]  = map[45][7]  = 1;
 	map[3][26]  = map[26][3]  = 1;
 	map[3][25]  = map[25][3]  = 1;
+
+	map[35][36] = map[36][35] = INF;
+
+	map[11][12] = map[12][11] = INF;
 	//Mapping notes to nodes
 	int map_link[34][6];
 	for (int i = 0; i < 25; i++)
