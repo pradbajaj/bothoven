@@ -30,7 +30,7 @@ int initMap () {
 	map[42][41] = map[41][42] = 1;
 	map[41][32] = map[32][41] = 1;
 
-	map[32][48] = map[48][32] = INF;
+	map[32][48] = map[48][32] = 1;
 	
 	map[47][31] = map[31][47] = 1;
 	map[31][40] = map[40][31] = 1;
@@ -43,7 +43,7 @@ int initMap () {
 	map[36][44] = map[44][36] = 1;
 	map[43][35] = map[35][43] = 1;
 
-	map[24][1]  = map[1][24]  = INF;
+	map[24][1]  = map[1][24]  = 1;
 
 	map[23][44] = map[44][23] = 1;
 	map[23][43] = map[43][23] = 1;
@@ -58,9 +58,9 @@ int initMap () {
 	map[3][26]  = map[26][3]  = 1;
 	map[3][25]  = map[25][3]  = 1;
 
-	map[35][36] = map[36][35] = INF;
+	map[35][36] = map[36][35] = 1;
 
-	map[11][12] = map[12][11] = INF;
+	map[11][12] = map[12][11] = 1;
 	//Mapping notes to nodes
 	for (int i = 0; i < 25; i++)
 		for (int j = 0; j < 6; j++)
@@ -194,7 +194,25 @@ int initMap () {
 	*the node the bot departed from and 3rd to the intermediate destination
 ******************************************************************************/
 int* move (int path[], int count) {
-
+	int *res = new int[3];
+	res[0] = res[1] = res[2] = 0;
+	cout << path[0] << "\t";
+	for (int i = 0; i < count-1; i++) {
+		if ((path[i] == 32 && path[i+1] == 48) || (path[i] == 48 && 
+			path[i+1] == 32) || (path[i] == 24 && path[i+1] == 1) ||
+			(path[i] == 1 && path[i+1] == 24) || (path[i] == 35 && 
+			path[i+1] == 36) || (path[i] == 36 && path[i+1] == 35) || 
+			(path[i] == 11 && path[i+1] == 12) || (path[i] == 11 && 
+			path[i+1] == 12)) {
+			cout << "Obstacle between " << path[i] << " and " << path[i+1];
+			res[0] = 1;
+			res[1] = path[i];
+			res[2] = path[i+1];
+			return res;
+		}
+		cout << path [i+1] << "\t";
+	}
+	return res;
 }
 
 //Returns distance of each point from the searching point. 
@@ -282,72 +300,77 @@ int* pathFind (int *parent, int destination, int *pathSize) {
 	path[j] = -1;
 	//Corrects the order of the path
 	reverse (path, *pathSize);
-	for (int i = 0; i < *pathSize; i++)
+	/*for (int i = 0; i < *pathSize; i++)
 		cout << path[i] << "\t";
 	cout << endl;
+	
+	*/
 	return parent;
 }
 
 //Executes dStar and moves the bot from source to destination. Returns if move 
 //was successful
 int dStar (int source, int dest) {
-	int *heuris = heuristic (dest);		//Gets the h cost or heuristic
-	//parent maintains the path. Open list maintains the nodes to be explored
-	//closed list maintains the node that are already scanned
-	int parent[size], open[size], closed[size], current;	
-	int gCost[size], fCost[size];	
-	int openSize = 0, closedSize = 0;				//Maintains the size of open list.
-	//This speeds up the scanning process.
-	gCost[source] = 0;
-	fCost[source] = fCostCalc (gCost[source], heuris[source]);
-	for (int i = 0; i < size; i++) {
-		//Initialising open and closed list to be empty
-		open[i] = closed[i] = 0;
-		parent[i] = -1;
-		gCost[i] = fCost[i] = INF;
-	}
-	open[source] = 1, openSize++;
-	//Scan as long as the open list is not empty
-	while (openSize > 0) {
-		current = extractMin (open, fCost, size);
-		open[current] = 0, openSize--;
-		closed[current] = 1, closedSize++;
-		if (current == dest) break;			//Path to destination is available
+	while (1) {
+		int *heuris = heuristic (dest);		//Gets the h cost or heuristic
+		//parent maintains the path. Open list maintains the nodes to be explored
+		//closed list maintains the node that are already scanned
+		int parent[size], open[size], closed[size], current;	
+		int gCost[size], fCost[size];	
+		int openSize = 0, closedSize = 0;				//Maintains the size of open list.
+		//This speeds up the scanning process.
+		gCost[source] = 0;
+		fCost[source] = fCostCalc (gCost[source], heuris[source]);
 		for (int i = 0; i < size; i++) {
-			if (map[current][i] != INF) {
-				if (closed[i] == 0) {	//if point is not on the closed list
-					if (open[i] == 0) {
-						//If point is not in the open as well as the closed
-						//list, add the point to open list. Also calculate
-						//gCost and fCost. Update parent to current for
-						//retracing the path.
-						open[i] = 1;
-						openSize++;
-						gCost[i] = gCost[current] + map[current][i];
-						fCost[i] = fCostCalc(gCost[i], heuris[i]);
-						parent[i] = current;
-					} else {
-						//Otherwise update path if the new one is better than
-						//the already discovered path.
-						if ((gCost[current] + map[current][i]) < gCost[i]) {
+			//Initialising open and closed list to be empty
+			open[i] = closed[i] = 0;
+			parent[i] = -1;
+			gCost[i] = fCost[i] = INF;
+		}
+		open[source] = 1, openSize++;
+		//Scan as long as the open list is not empty
+		while (openSize > 0) {
+			current = extractMin (open, fCost, size);
+			open[current] = 0, openSize--;
+			closed[current] = 1, closedSize++;
+			if (current == dest) break;			//Path to destination is available
+			for (int i = 0; i < size; i++) {
+				if (map[current][i] != INF) {
+					if (closed[i] == 0) {	//if point is not on the closed list
+						if (open[i] == 0) {
+							//If point is not in the open as well as the closed
+							//list, add the point to open list. Also calculate
+							//gCost and fCost. Update parent to current for
+							//retracing the path.
+							open[i] = 1;
+							openSize++;
 							gCost[i] = gCost[current] + map[current][i];
 							fCost[i] = fCostCalc(gCost[i], heuris[i]);
 							parent[i] = current;
+						} else {
+							//Otherwise update path if the new one is better than
+							//the already discovered path.
+							if ((gCost[current] + map[current][i]) < gCost[i]) {
+								gCost[i] = gCost[current] + map[current][i];
+								fCost[i] = fCostCalc(gCost[i], heuris[i]);
+								parent[i] = current;
+							}
 						}
 					}
 				}
 			}
 		}
+		int *pathSize = (int*) malloc (sizeof(int));
+		*pathSize = 0;
+		int *path = pathFind (parent, dest, pathSize);
+		int *result = move (path, *pathSize);
+		if (result[0] == 0) return 0;		//Movement complete
+		//Updates the map
+		map[result[1]][result[2]] = map[result[2]][result[1]] = INF;
+		source = result[1];
+		free (heuris);
+		free (pathSize);
 	}
-	int *pathSize = (int*) malloc (sizeof(int));
-	*pathSize = 0;
-	int *path = pathFind (parent, dest, pathSize);
-	/*for (int i = 0; i < *pathSize; i++)
-		cout << path[i] << "\t";
-	*/
-	cout << endl;
-	free (heuris);
-	free (pathSize);
 }
 // 7 , 29 , 26 , 18 , 24 , 13 , 30 , 16 , 20
 int main () {
@@ -355,8 +378,8 @@ int main () {
 	int Nodes[10];
 	Nodes[0] = 1;
 	Nodes[1] = 7;
-	Nodes[2] = 29;
-	Nodes[3] = 26;
+	Nodes[2] = 28;
+	Nodes[3] = 27;
 	Nodes[4] = 18;
 	Nodes[5] = 24;
 	Nodes[6] = 13;
@@ -365,5 +388,6 @@ int main () {
 	Nodes[9] = 20;
 	for (int i = 0; i < 9; i++) {
 		dStar (Nodes[i], Nodes[i+1]);
+		cout << endl;
 	}
 }
