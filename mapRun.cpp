@@ -204,7 +204,8 @@ int* move (int path[], int count) {
 			path[i+1] == 36) || (path[i] == 36 && path[i+1] == 35) || 
 			(path[i] == 11 && path[i+1] == 12) || (path[i] == 11 && 
 			path[i+1] == 12)) {
-			cout << "Obstacle between " << path[i] << " and " << path[i+1];
+			cout << "Obstacle between " << path[i] << " and " << path[i+1] <<
+					"\t";
 			res[0] = 1;
 			res[1] = path[i];
 			res[2] = path[i+1];
@@ -303,9 +304,15 @@ int* pathFind (int *parent, int destination, int *pathSize) {
 	/*for (int i = 0; i < *pathSize; i++)
 		cout << path[i] << "\t";
 	cout << endl;
+<<<<<<< HEAD
 	
 	*/
 	return parent;
+=======
+	*/
+	
+	return path;
+>>>>>>> f4197000a3f8306abcc5a8e5bce33164b09b35bd
 }
 
 //Executes dStar and moves the bot from source to destination. Returns if move 
