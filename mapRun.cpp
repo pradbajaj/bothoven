@@ -202,8 +202,8 @@ int* move (int path[], int count) {
 			path[i+1] == 32) || (path[i] == 24 && path[i+1] == 1) ||
 			(path[i] == 1 && path[i+1] == 24) || (path[i] == 35 && 
 			path[i+1] == 36) || (path[i] == 36 && path[i+1] == 35) || 
-			(path[i] == 11 && path[i+1] == 12) || (path[i] == 11 && 
-			path[i+1] == 12)) {
+			(path[i] == 11 && path[i+1] == 12) || (path[i] == 12 && 
+			path[i+1] == 11)) {
 			cout << "Obstacle between " << path[i] << " and " << path[i+1] <<
 					"\t";
 			res[0] = 1;
