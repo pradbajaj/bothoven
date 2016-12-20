@@ -304,15 +304,8 @@ int* pathFind (int *parent, int destination, int *pathSize) {
 	/*for (int i = 0; i < *pathSize; i++)
 		cout << path[i] << "\t";
 	cout << endl;
-<<<<<<< HEAD
-	
 	*/
-	return parent;
-=======
-	*/
-	
 	return path;
->>>>>>> f4197000a3f8306abcc5a8e5bce33164b09b35bd
 }
 
 //Executes dStar and moves the bot from source to destination. Returns if move 
