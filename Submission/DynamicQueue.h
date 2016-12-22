@@ -11,7 +11,7 @@
 #ifndef __QUEUE_DYNAMIC_H__
 #define __QUEUE_DYNAMIC_H__
 
-#include <cstdlib>
+#include <stdlib.h>
 
 /*
 	**********************************NOTES************************************
@@ -34,6 +34,6 @@ struct Queue * NewQueue();
 void EnQueue(struct Queue *Q, int data);
 int DeQueue(struct Queue *Q);
 void EmptyQueue(struct Queue *Q);
-bool IsEmpty(struct Queue *Q);
+int IsEmpty(struct Queue *Q);
 
 #endif			//__QUEUE_DYNAMIC_H__

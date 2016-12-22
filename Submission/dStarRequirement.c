@@ -9,15 +9,15 @@
 	*Global Variable: externals: map, map_link, map_angle
 */
 
-#include "QueueDynamic.h"
+#include "DynamicQueue.h"
 #include <stdlib.h>
 
 #define size 49
 #define INF 600000
 
-extern int map[][];
-extern int map_link[][];
-extern int map_angle[][];
+extern int map[size][size];
+extern int map_link[size][size];
+extern int map_angle[size][size];
 
 /*
 	*Function name: BFS (int)
@@ -34,10 +34,10 @@ int* BFS (int search) {
 									//maintan nodes to be visited
 	int *bfs, source = search;
 	bfs = (int *) malloc (size*sizeof (int));
-	bool visited[size];				//Maintains if the node is visited
+	int visited[size];				//Maintains if the node is visited
 	for (int i = 1; i < size; i++) {
 		bfs[i] = 0;
-		visited[i] = false;
+		visited[i] = 0;
 	}
 	EnQueue (Q, search);
 	while (!IsEmpty (Q)) {
@@ -45,14 +45,14 @@ int* BFS (int search) {
 		//be searched
 		search = DeQueue (Q);
 		for (int i = 1; i < size; i++) {
-			if (!visited[i]) {
+			if (visited[i] == 0) {
 				if (map[search][i] != INF) {
 					//Adding weight to bfs if the node is connected
 					bfs[i] = map[search][i] + bfs[search];
 					//In that case, neighbours of this node needs to be scanned
 					//too
 					EnQueue (Q, i);
-					visited [i] = true;
+					visited [i] = 1;
 				}
 			}
 		}

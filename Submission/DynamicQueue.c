@@ -63,6 +63,6 @@ void EmptyQueue(struct Queue *Q) {
 		DeQueue(Q);
 }
 
-bool IsEmpty(struct Queue *Q){
-	return (Q->head==NULL) ? true : false ;
+int IsEmpty(struct Queue *Q){
+	return (Q->head==NULL) ? 1 : 0 ;
 }

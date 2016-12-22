@@ -8,6 +8,7 @@
 */
 
 #include <math.h>
+#include <stdlib.h>
 
 #define size 49
 #define INF 600000

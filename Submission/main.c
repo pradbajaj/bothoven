@@ -32,7 +32,6 @@ int main () {
 	Nodes[9] = 20;
 	for (int i = 0; i < 9; i++) {
 		dStar (Nodes[i], Nodes[i+1]);
-		cout << endl;
 	}
 	// after the bot completed all the angles
 	// it will stop and beep for 5 seconds

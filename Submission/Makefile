@@ -1,14 +1,16 @@
 CXX = cc
 SRCS = adjacency.c, dStar.c, dStarRequirement.c, DynamicQueue.c, main.c, mapRun.c
-OBJS=$(subst .cc,.o,$(SRCS))
-
+OBJS = $(SRCS:.c=.o)
 all: bothoven
 
 bothoven: $(OBJS)
-	$(CXX) -o wormhole $(OBJS) 
+	$(CXX) $(OBJS) -o bothoven
+
+$(OBJS): $(SRCS)
+	$(CXX) -c *.o
 
 .PHONY: clean
 
 clean:
-	rm $(OBJS)
+	rm *.o
 	rm bothoven
