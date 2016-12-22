@@ -131,7 +131,7 @@ void port_init();
 void timer5_init();
 void velocity(unsigned char, unsigned char);
 void motors_delay();
-void move();
+void move(int[][], int);
 
 volatile unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder
 volatile unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
@@ -478,7 +478,7 @@ void init_devices (void)
 	sei();   //Enables the global interrupts
 }
 
-void move()
+void move(int[][], int)
 {
 	senser_value_L = ADC_Conversion(3);	//Getting data of Left WL Sensor
 	senser_value_C = ADC_Conversion(2);	//Getting data of Center WL Sensor

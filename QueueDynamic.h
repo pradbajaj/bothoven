@@ -1,3 +1,6 @@
+#ifndef __QUEUE_DYNAMIC_H__
+#define __QUEUE_DYNAMIC_H__
+
 #include <cstdlib>
 
 int choice;
@@ -54,3 +57,5 @@ void EmptyQueue(struct Queue *Q) {
 bool IsEmpty(struct Queue *Q){
 	return (Q->head==NULL) ? true : false ;
 }
+
+#endif			//__QUEUE_DYNAMIC_H__
