@@ -1,25 +1,50 @@
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*filename: dStar.c
+	*Theme: Bothoven
+	*Functions: dStar()
+	*External Requirements:
+		Funcitons: BFS(int), heuristic(int), fCostCalc(int, int),
+					extractMin(int, int, int), reverse (int*, int), 
+					pathFind(int*, int, int*)
+		Variables: map, map_link, map_angle
+*/
 #include <cstdlib>
-#include "QueueDynamic.h"
+#include "DynamicQueue.h"
 
 #define size 49
+#define INF 600000
 
+//Moves the bot on the given path
+extern int* Move (int*, int);
 //Returns distance of each point from the searching point. 
 extern int* BFS (int);
 //Returns the heuristic for destination
 extern int* heuristic (int);
 //Calculates the fCost
-extern inline int fCostCalc (int, int);
+extern int fCostCalc (int, int);
 //Returns the index with lowest value in an array
-extern int extractMin (int, int, int);
+extern int extractMin (int[], int[], int);
 //Reverses the array (needed to reverse so that it is now directed from source
 //to destination)
 extern void reverse (int*, int); 
 extern int* pathFind (int*, int, int*);
-extern int map[][];
-extern int map_link[][];
-extern int map_angle[][];
-//Executes dStar and moves the bot from source to destination. Returns if move 
-//was successful
+extern int map[size][size];
+extern int map_link[size][size];
+extern int map_angle[size][size];
+
+/*
+	*Funtion Name: dStar(int, int)
+	*Input: Source or the current position of the bot
+			Destination or the buzzer point
+	*Output: 0 in case of successful completion of the path
+	*Logic: Calculates heuristics using BFS
+			Applies A* search to find the path with least cost.
+			If obstacle is encountered, updates the cost and re-evaluates the
+			fastest route.
+	*Example Call: dStar (1, 5);
+*/
 int dStar (int source, int dest) {
 	while (1) {
 		int *heuris = heuristic (dest);		//Gets the h cost or heuristic
@@ -74,7 +99,7 @@ int dStar (int source, int dest) {
 		int *pathSize = (int*) malloc (sizeof(int));
 		*pathSize = 0;
 		int *path = pathFind (parent, dest, pathSize);
-		int *result = move (path, *pathSize);
+		int *result = Move (path, *pathSize);
 		if (result[0] == 0) return 0;		//Movement complete
 		//Updates the map
 		map[result[1]][result[2]] = map[result[2]][result[1]] = INF;

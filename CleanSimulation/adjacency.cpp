@@ -1,3 +1,12 @@
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*filename: adjacency.c
+	*Theme: Bothoven
+	*Functions: initMap()
+	*Global Variable: map, map_link, map_angle
+*/
+
 #include <iostream>
 #include <cmath>
 
@@ -6,11 +15,19 @@ using namespace std;
 #define size 49
 #define INF 10000
 
-//Stores absolute angles, links nodes to notes and map graphs
-int map [size][size];
-int map_link[34][6];
+//Stores absolute angles, links nodes to notes and maps graphs respectively
 int map_angle[48][48];
+int map_link[34][6];
+int map [size][size];
 
+/*
+	*Function Name: initMap
+	*Input: NIL
+	*Output: integer-> 0 if everything was successful
+	*Logic: Initializes the map with the know map.
+	*		Required only at the begining.
+	*Example Call: initMap();
+*/
 int initMap () {
 	//Initializes each nodes as unconnected
 	for (int i = 0; i < size; i++)
