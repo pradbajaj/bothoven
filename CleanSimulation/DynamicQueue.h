@@ -1,7 +1,24 @@
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*filename: DynamicQueue.h
+	*Theme: Bothoven
+	*Functions: NewNode(), NewQueue(), EnQueue(), DeQueue(), EmptyQueue(),
+				IsEmpty()
+	*Global Variable: NIL
+*/
+
 #ifndef __QUEUE_DYNAMIC_H__
 #define __QUEUE_DYNAMIC_H__
 
 #include <cstdlib>
+
+/*
+	**********************************NOTES************************************
+	*This is the header file which has the interface for dynamic queue.
+	*Implementation of each function is defined in the DynamicQueue.cpp
+	**********************************END**************************************
+*/
 
 int choice;
 struct Node {

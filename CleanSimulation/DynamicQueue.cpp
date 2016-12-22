@@ -1,4 +1,25 @@
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*File name: DynamicQueue.cpp
+	*Theme: Bothoven
+	*Functions: NewNode(), NewQueue(), EnQueue(), DeQueue(), EmptyQueue(),
+				IsEmpty()
+	*Global Variables: NIL
+*/
 #include "DynamicQueue.h"
+
+/*
+	******************************NOTES****************************************
+	*The functions in this file simply implements a dynamic queue.
+	*NewNode() creates a new Node for the queue.
+	*NewQueue() initializes a new queue.
+	*Enqueue() adds a new node into the queue.
+	*Dequeue() removes the node from the queue in FIFO order.
+	*EmptyQueue() deletes every single element from the queue.
+	*IsEmpty() checks and returns if the queue is empty.
+	******************************END******************************************
+*/
 
 struct Node * NewNode() {
 	struct Node *temp = (struct Node*) malloc (sizeof(struct Node));
