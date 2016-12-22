@@ -123,9 +123,8 @@ Date: 19th October 2012
 #define		VELOCITY_MAX	175
 #define		VELOCITY_MIN	125
 #define 	VELOCITY_LOW	0
-#define 	BLACK			0x5A
-#define 	WHITE			10
-#define		Threshold 		40
+#define		Threshold 		40		//Defining Threshold value of black line
+									// Sensor Value less than threshold will be considered white line
 
 void port_init();
 void timer5_init();
@@ -484,6 +483,9 @@ void move(int[], int)
 	senser_value_C = ADC_Conversion(2);	//Getting data of Center WL Sensor
 	senser_value_R = ADC_Conversion(1);	//Getting data of Right WL Sensor
 
+	// If black line is at left sensor and center sensor is not decting a black line
+	// Speed up right motor a bit to get a left turn
+	// Further set the flag to be equal to '1' suggesting that bot has taken left turn this time
 	if ((senser_value_L > Threshold) && (senser_value_C < Threshold))
 	{
 		forward();
@@ -492,6 +494,9 @@ void move(int[], int)
 		velocity(left_motor,right_motor);
 		flag = 1;
 	}
+	// If black line is at right sensor and center sensor is not decting a black line
+	// Speed up left motor a bit to get a right turn
+	// Further set the flag to be equal to '2' suggesting that bot has taken right turn this time
 	else if ((senser_value_R > Threshold) && (senser_value_C < Threshold))
 	{
 		forward();
@@ -500,6 +505,8 @@ void move(int[], int)
 		velocity(left_motor,right_motor);
 		flag = 2;
 	}
+	// If black line is at center sensor and left & right sensors are not decting a black line
+	// Speed up both motors equally to get a straight movement
 	else if ((senser_value_C > Threshold) && (senser_value_L < Threshold) && (senser_value_R < Threshold))
 	{
 		forward();
@@ -507,6 +514,8 @@ void move(int[], int)
 		right_motor = 255;
 		velocity(left_motor, right_motor);
 	}
+	// If black line is nowhere to be found
+	// Speed up right or left motor according to the flag set
 	else if ((senser_value_R < Threshold) && (senser_value_C < Threshold) && (senser_value_L < Threshold))
 	{
 		forward();
@@ -521,9 +530,9 @@ void move(int[], int)
 	}
 }
 
-extern map[size][size];
-extern map_link[size][size];
-extern map_angle[size][size];
+extern map[size][size];					// defining the paths here
+extern map_link[size][size];			// defining the notes which are linked or same (eg. 5 and 27) 
+extern map_angle[size][size];			// defining the angles between nodes here
 
 extern dStar (int, int);
 
@@ -539,13 +548,12 @@ int main()
 	init_devices();
 	lcd_set_4bit();
 	lcd_init();
-	//int n = 8; // nummber of angles
 	
+	// after dectecting the note bot will turn angle[i] angle
 	signed int angle[] = {0,-60,0,60,0,-1,-120,0,-1,-120,-1,120,-60,-60,120,
 		120,0,120,0,-60,0,60,-1,180,-60,0,60,0,-60,-1,180,60,0,60,-60,-60,120,
 		-120,0,120,0,-1,0,0,180,0,0,0,-120,0,-60,-1,180,60,0,-60,-1,0,0,0,0,-1}; 
-		// after dectecting the note bot will turn angle[i] angle
-	//signed int angle[] = {120,0}; // after dectecting the note bot will turn angle[i] angle
+	
 	signed int count = -1;
 
 	while(count < 61)
@@ -554,6 +562,10 @@ int main()
 
 		Front_IR_Sensor = ADC_Conversion(6);    //Getting data of Center IR Proximity Sensor Sensor
 
+		// If their an object with in 9 cm range of IR sensor
+		// LCD will print "OBSTRACLE DETECTED !"
+		// Bot will take an initial right turn to shift from the black line
+		// Then bot will take right turn until the center whiteline sensor is on top of black line
 		if (Front_IR_Sensor < 90)
 		{
 			lcd_cursor(1,1);
@@ -573,8 +585,10 @@ int main()
 			forward();
 		}
 
-		move();
+		move();// calling the move function
 
+		// If center center plus left or right sensor detects the black line
+		// The bot is over a node
 		if ((senser_value_C > Threshold) && (senser_value_L > Threshold))
 		{
 			lcd_cursor(2,1);
@@ -582,6 +596,7 @@ int main()
 			// move while encoders certain value reach
 			
 			count++;
+			// If angle[i] is -1 we have got a MNP hence the bot will beep
 			if (angle[count] == -1)
 			{
 				buzzer_on();
@@ -594,6 +609,10 @@ int main()
 				count++;
 			}
 
+			//if angle[i] is 60 the bot has to take a 60 degree turn
+			// bot will move 6 cm ahead and 30 degree left to skip the current black line
+			// then it will rotate left until it finds another black line
+			// lcd will print "60 degree success"
 			if (angle[count] == 60)
 			{
 				forward_mm(60);
@@ -609,6 +628,10 @@ int main()
 				lcd_cursor(1,1);
 				lcd_string("60 degree succes");
 			}
+			//if angle[i] is 120 the bot has to take a 120 degree turn
+			// bot will move 1.5 cm ahead and 30 degree back left to skip the current black line
+			// then it will rotate soft left until it finds another black line
+			// lcd will print "120 degree success"
 			else if (angle[count] == 120)
 			{
 				forward_mm(15);
@@ -624,6 +647,10 @@ int main()
 				lcd_cursor(1,1);
 				lcd_string("120 degree suces");
 			}
+			//if angle[i] is -60 the bot has to take a -60 degree turn
+			// bot will move 6 cm ahead and 30 degree right to skip the current black line
+			// then it will rotate rihgt until it finds another black line
+			// lcd will print "-60 degree success"
 			else if (angle[count] == -60)
 			{
 				forward_mm(60);
@@ -639,6 +666,10 @@ int main()
 				lcd_cursor(1,1);
 				lcd_string("-60 degree suces");
 			}
+			//if angle[i] is -120 the bot has to take a -120 degree turn
+			// bot will move 1.5 cm ahead and 30 degree back right to skip the current black line
+			// then it will rotate soft right until it finds another black line
+			// lcd will print "-120 degree success"
 			else if (angle[count] == -120)
 			{
 				forward_mm(15);
@@ -654,6 +685,9 @@ int main()
 				lcd_cursor(1,1);
 				lcd_string("-120 degre suces");
 			}
+			//if angle[i] is 180 the bot has to take a 190 degree turn
+			// bot will move left for 500 milliseconds to skip the current black line
+			// then it will rotate left until it finds another black line
 			else if (angle[count] == 180)
 			{
 				left();
@@ -669,6 +703,7 @@ int main()
 				forward();
 			}
 
+			// by default lcd will be print "MOVING ON FLEX"
 			lcd_cursor(1,1);
 			lcd_string("                ");
 			lcd_cursor(2,1);
@@ -773,29 +808,10 @@ int main()
 			lcd_cursor(2,1);
 			lcd_string("MOVING ON FLEX!!");
 		}
-	
-		//print_sensor(2,3,3);	//Prints value of WHITE Line Sensor1
-		//print_sensor(2,7,2);	//Prints Value of WHITE Line Sensor2
-		//print_sensor(2,11,1);	//Prints Value of WHITE Line Sensor3
-		//print_sensor(2,1,6);	//Prints Value of IR sensor
-		//lcd_print(2,1,pid,3);
-		//lcd_print(1,1,senser_value_1,2);
-		//lcd_print(1,4,senser_value_2,2);
-		//lcd_print(1,7,senser_value_3,2);
-		//lcd_print(1,10,senser_value_4,2);
-		//lcd_print(1,13,senser_value_5,2);
-		//lcd_print(2,1,senser_value_6,2);
-		//lcd_print(2,4,senser_value_7,2);
-		//lcd_print(2,7,senser_value_L+50,2);
-		//lcd_print(2,10,senser_value_C+50,2);
-		//lcd_print(2,13,senser_value_R+50,2);
-		//lcd_print(2,5,left_motor,3);
-		//lcd_print(2,9,right_motor,3);
-		//lcd_cursor(1,1);
-		//lcd_string("Pradyumna Aayush");
-		//lcd_cursor(2,1);
-		//lcd_string("Shashwat Pranjal");
 	}
+
+	// after the bot completed all the angles
+	// it will stop and beep for 5 seconds
 	for (int i = 0; i < 20; ++i)
 	{
 		stop();
@@ -805,6 +821,8 @@ int main()
 		buzzer_off();
 		_delay_ms(150);
 	}
+
+	// after all the task is completed the lcd will print "TASK COMPLETED!!!"
 	while(1)
 	{
 		stop();
