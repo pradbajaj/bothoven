@@ -13,7 +13,7 @@
 using namespace std;
 
 #define size 49
-#define INF 10000
+#define INF 600000
 
 //Stores absolute angles, links nodes to notes and maps graphs respectively
 int map_angle[48][48];
@@ -74,10 +74,6 @@ int initMap () {
 	map[3][25]  = map[25][3]  = 1;
 	map[35][36] = map[36][35] = 1;
 	map[11][12] = map[12][11] = 1;
-	//Mapping notes to nodes
-	for (int i = 0; i < 25; i++)
-		for (int j = 0; j < 6; j++)
-			map_link[i][j] = -1;
 	for (int i = 1; i < 25; i++)
 		for (int j = 0; j < 6; j++)
 			map_link[i][j] = (j == 0 ? i : -1);
@@ -127,6 +123,10 @@ int initMap () {
 	map_link[32][5] = 42;
 	
 	//Storing absolute angle of every point.
+	for (int i = 1; i < 24; i++) {
+		map_angle[i][i+1] = 30;
+		map_angle[i+1][i] = -30;
+	}
 	map_angle[3][25]  = -150;
     map_angle[25][3]  = 30;
 	map_angle[3][26]  = -90;

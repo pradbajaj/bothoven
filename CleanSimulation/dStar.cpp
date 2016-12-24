@@ -16,8 +16,6 @@
 #define size 49
 #define INF 600000
 
-//Moves the bot on the given path
-extern int* Move (int*, int);
 //Returns distance of each point from the searching point. 
 extern int* BFS (int);
 //Returns the heuristic for destination
@@ -30,9 +28,38 @@ extern int extractMin (int[], int[], int);
 //to destination)
 extern void reverse (int*, int); 
 extern int* pathFind (int*, int, int*);
+extern int* mapRun (int[], int);
 extern int map[size][size];
 extern int map_link[size][size];
 extern int map_angle[size][size];
+
+/*
+	*Funtion Name: Move (int[], int)
+	*Input: An array that contains the path to be followed and
+			the number of nodes in that path
+	*Output: 3 integers where the first one tells if there was an obstacle
+			In case an obstacle is encountered:
+				2nd tells the node left
+				3rd tells the node it was supposed to go to.
+	*Logic: Converts nodes to an array of angle and calls the run function
+			Returns the result by changing index to actual nodes
+	*Example Call: int *res = Move (path, pathSize);
+*/
+int* Move (int path[], int pathSize) {
+	signed int *angle = (signed int*) malloc(pathSize*sizeof(int));
+	for (int j = 0, i = 1; i < pathSize-1; i++, j++) {
+		angle[j] = map_angle[path[i+1]][path[i]] - 
+					map_angle[path[i]][path[i-1]];
+	}
+	angle[pathSize-1] = 0;
+	int *res = mapRun (angle, pathSize);
+	if (res[0] != 0) {
+		res[1] = path[res[1]];
+		res[2] = path[res[2]];
+	}
+	free(angle);
+	return res;
+}
 
 /*
 	*Funtion Name: dStar(int, int)
@@ -100,10 +127,14 @@ int dStar (int source, int dest) {
 		*pathSize = 0;
 		int *path = pathFind (parent, dest, pathSize);
 		int *result = Move (path, *pathSize);
-		if (result[0] == 0) return 0;		//Movement complete
+		if (result[0] == 0) {
+			free (result);
+			return 0;		//Movement complete
+		}
 		//Updates the map
 		map[result[1]][result[2]] = map[result[2]][result[1]] = INF;
 		free (heuris);
 		free (pathSize);
+		free (result);
 	}
 }

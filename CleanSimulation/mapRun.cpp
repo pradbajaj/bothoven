@@ -110,6 +110,15 @@ Date: 19th October 2012
   http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode
 
 ********************************************************************************/
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*filename: mapRun.cpp
+	*Theme: Bothoven
+	*Functions: initMap()
+	*Global Variable: map, map_link, map_angle
+*/
+
 #define F_CPU 14745600
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -130,7 +139,7 @@ void port_init();
 void timer5_init();
 void velocity(unsigned char, unsigned char);
 void motors_delay();
-void move(int[], int);
+void move();
 
 volatile unsigned long int ShaftCountLeft = 0; //to keep track of left position encoder
 volatile unsigned long int ShaftCountRight = 0; //to keep track of right position encoder
@@ -147,11 +156,26 @@ int left_motor = 0, right_motor = 0;
 unsigned char Front_ultrasonic_Sensor=0;
 unsigned char Front_IR_Sensor=0;
 
+/*
+	*Function name: buzzer_pin_config()
+	*Input: NIL
+	*Output: NIL
+	*Logic: Configures the pin used for buzzer
+	*Example Call: int *cost = BFS(source);
+*/
+
 void buzzer_pin_config (void)
 {
  DDRC = DDRC | 0x08;		//Setting PORTC 3 as output
  PORTC = PORTC & 0xF7;		//Setting PORTC 3 logic low to turnoff buzzer
 }
+
+/*
+	*********************************NOTE**************************************
+	*The following functions configures the pins required for various stuff
+	*like lcd_port, adc_pin etc
+	**********************************END**************************************
+*/
 //Function to configure LCD port
 void lcd_port_config (void)
 {
@@ -477,7 +501,7 @@ void init_devices (void)
 	sei();   //Enables the global interrupts
 }
 
-void move(int[], int)
+void move()
 {
 	senser_value_L = ADC_Conversion(3);	//Getting data of Left WL Sensor
 	senser_value_C = ADC_Conversion(2);	//Getting data of Center WL Sensor
@@ -543,20 +567,19 @@ extern dStar (int, int);
 	*Logic: Given a array of nodes, executes dStar to find the best path
 			to touch all the nodes and follows it.
 */
-int main()
+int* mapRun(signed int angle[], int Size)
 {
 	init_devices();
 	lcd_set_4bit();
 	lcd_init();
 	
 	// after dectecting the note bot will turn angle[i] angle
-	signed int angle[] = {0,-60,0,60,0,-1,-120,0,-1,-120,-1,120,-60,-60,120,
-		120,0,120,0,-60,0,60,-1,180,-60,0,60,0,-60,-1,180,60,0,60,-60,-60,120,
-		-120,0,120,0,-1,0,0,180,0,0,0,-120,0,-60,-1,180,60,0,-60,-1,0,0,0,0,-1}; 
-	
 	signed int count = -1;
+	int *res = (int*) malloc (3*sizeof(int));		//Holds result
+	for (int i = 0; i < 3; i++)
+		res[i] = 0;
 
-	while(count < 61)
+	while(count < Size)
 	{
 		int flag = 0;
 
@@ -583,6 +606,10 @@ int main()
 			stop();
 			_delay_ms(100);
 			forward();
+			res[0] = 1;
+			res[1] = count+1;
+			res[2] = count+2;
+			return res;
 		}
 
 		move();// calling the move function
@@ -809,27 +836,5 @@ int main()
 			lcd_string("MOVING ON FLEX!!");
 		}
 	}
-
-	// after the bot completed all the angles
-	// it will stop and beep for 5 seconds
-	for (int i = 0; i < 20; ++i)
-	{
-		stop();
-		velocity(0,0);
-		buzzer_on();
-		_delay_ms(100);
-		buzzer_off();
-		_delay_ms(150);
-	}
-
-	// after all the task is completed the lcd will print "TASK COMPLETED!!!"
-	while(1)
-	{
-		stop();
-		velocity(0,0);
-		lcd_cursor(1,1);
-		lcd_string("      Task      ");
-		lcd_cursor(2,1);
-		lcd_string("  Completed!!!  ");
-	}
+	return res;
 }

@@ -198,12 +198,15 @@ int* move (int path[], int count) {
 	res[0] = res[1] = res[2] = 0;
 	cout << path[0] << "\t";
 	for (int i = 0; i < count-1; i++) {
-		if ((path[i] == 32 && path[i+1] == 48) || (path[i] == 48 && 
-			path[i+1] == 32) || (path[i] == 24 && path[i+1] == 1) ||
-			(path[i] == 1 && path[i+1] == 24) || (path[i] == 35 && 
-			path[i+1] == 36) || (path[i] == 36 && path[i+1] == 35) || 
-			(path[i] == 11 && path[i+1] == 12) || (path[i] == 12 && 
-			path[i+1] == 11)) {
+		if ((path[i] == 4 && path[i+1] == 5) || (path[i] == 5 && 
+			path[i+1] == 4) || (path[i] == 11 && path[i+1] == 12) ||
+			(path[i] == 12 && path[i+1] == 11) || (path[i] == 16 && 
+			path[i+1] == 17) || (path[i] == 17 && path[i+1] == 16) || 
+			(path[i] == 19 && path[i+1] == 20) || (path[i] == 20 && 
+			path[i+1] == 19) || (path[i] == 23 && path[i+1] == 43) || (path[i] == 43 && 
+			path[i+1] == 23) || (path[i] == 42 && 
+			path[i+1] == 41) || (path[i] == 41 && 
+			path[i+1] == 42)) {
 			cout << "Obstacle between " << path[i] << " and " << path[i+1] <<
 					"\t";
 			res[0] = 1;

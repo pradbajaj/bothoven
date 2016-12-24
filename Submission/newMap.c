@@ -1,3 +1,33 @@
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*filename: newMap.c 
+	*Theme: Bothoven
+	*Functions: setUp (int), setLink (struct Triangle*, struct Triangle*),
+				updateTriange (struct Triangle*, int, int, int), 
+				updateTriangleLink (struct TriangleLink*, int, int, int)
+				dStar (struct Triangle*, struct Triangle*, struct TriangleLink*
+				, int, int)
+	*Global Variable: struct Triangle, struct TrianlgeLink
+*/
+
+/*
+	*********************************NOTE**************************************
+	*This file is not actually used at this stage
+	*We currently think that this will be a better implementation, if we
+	*succeed with it. Here we noticed that the map can be broken down into 
+	*6 triangles. Of those triangles, 3 are exactly identical and other 3 are
+	*mirror image of these. We also need to maintain a method to link between
+	*these two triangles which will be stored in TriangleLink.
+	*We think that this method is better because this way our dStar will need
+	*to be applied on even smaller set of nodes and that will result in some
+	*serious time complexity improvements. However, we don't think this will
+	*result in any memory improvement as we'll still need to maintain data of
+	*every node (although in a different manner) because the position of the 
+	*obstacles is not already known.
+	*********************************END***************************************
+*/
+
 #define size 5
 #define INF 100000
 

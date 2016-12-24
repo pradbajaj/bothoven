@@ -13,6 +13,7 @@
 #include <cstdlib>
 
 #define size 49
+#define INF 600000
 
 extern int map[][];
 extern int map_link[][];
