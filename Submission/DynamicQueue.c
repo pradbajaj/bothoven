@@ -1,7 +1,7 @@
 /*
 	*Team ID: eYRC-BV#1651
 	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
-	*File name: DynamicQueue.cpp
+	*File name: DynamicQueue.c
 	*Theme: Bothoven
 	*Functions: NewNode(), NewQueue(), EnQueue(), DeQueue(), EmptyQueue(),
 				IsEmpty()
@@ -63,6 +63,6 @@ void EmptyQueue(struct Queue *Q) {
 		DeQueue(Q);
 }
 
-bool IsEmpty(struct Queue *Q){
-	return (Q->head==NULL) ? true : false ;
+int IsEmpty(struct Queue *Q){
+	return (Q->head==NULL) ? 1 : 0 ;
 }

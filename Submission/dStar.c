@@ -10,7 +10,7 @@
 					pathFind(int*, int, int*)
 		Variables: map, map_link, map_angle
 */
-#include <cstdlib>
+#include <stdlib.h>
 #include "DynamicQueue.h"
 
 #define size 49

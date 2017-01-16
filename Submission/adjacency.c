@@ -7,10 +7,8 @@
 	*Global Variable: map, map_link, map_angle
 */
 
-#include <iostream>
-#include <cmath>
-
-using namespace std;
+#include <math.h>
+#include <stdlib.h>
 
 #define size 49
 #define INF 600000

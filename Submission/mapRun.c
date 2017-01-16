@@ -113,7 +113,7 @@ Date: 19th October 2012
 /*
 	*Team ID: eYRC-BV#1651
 	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
-	*filename: mapRun.cpp
+	*filename: mapRun.c
 	*Theme: Bothoven
 	*Functions: initMap()
 	*Global Variable: map, map_link, map_angle
