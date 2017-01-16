@@ -109,7 +109,32 @@ int initMap () {
 	map_link[32][4] = 41;
 	map_link[32][5] = 42;
 //Mapping angles
-int map_angle[48][48];
+int map_angle[49][49];
+int sangle = -30;
+	for (int i = 2; i < 23; i=i+2)
+	{
+		map_angle[i][i+1] = sangle;
+		map_angle[i+1][i+2] = sangle;
+		if (sangle < 0)
+		{
+			map_angle[i+1][i] = sangle + 180;
+			map_angle[i+2][i+1] = sangle + 180;
+		}
+		if (sangle > 0)
+		{
+			map_angle[i+1][i] = sangle - 180;
+			map_angle[i+2][i+1] = sangle - 180;
+		}
+		sangle -= 30;
+		if (sangle < -180)
+		{
+			sangle = 150;
+		}
+	}
+	map_angle[1][2] = 0;
+	map_angle[2][1] = 180;
+	map_angle[1][24] = 180;
+	map_angle[24][1] = 0;
 
 	map_angle[3][25]  = -150;
     map_angle[25][3]  = 30;
