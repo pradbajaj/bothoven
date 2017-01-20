@@ -9,14 +9,6 @@ import wave
 from scipy.io import wavfile
 import struct
 import math
-from sympy.ntheory import factorint
-
-FACTOR_LIMIT = 100
-
-def bestFFTlength(n):
-    while max(factorint(n)) >= FACTOR_LIMIT:
-        n -= 1
-    return n
 
 #Function To Detect Silence
 def detect_silence(sound_file):           # importing Sound file array
@@ -80,7 +72,7 @@ def play(sound_file):                           # importing 'sound_file'
     fre = []                                    # a 1_d array to contain frequency of corresponding notes
     while i < j:                                # loop till index become equal to max index of note
         sample_sound = sound[notes[0][i]:notes[1][i]]                              # defining sample_sound as a subarray of sound file array containing elements ranging from index note_start(x) to note_end(x)
-        fast = abs(np.fft.fft(sample_sound,bestFFTlength(len(sample_sound))))                                       # applying Fast Fourier Transform to sample_sound and its absolute value is stored in an array named fast
+        fast = abs(np.fft.fft(sample_sound))                                       # applying Fast Fourier Transform to sample_sound and its absolute value is stored in an array named fast
         fast_max = max(fast)                                                       # defining fast_max as the maximum element in array fast
         count = 1                                                                  # defining count equal 1
         while count < len(sample_sound) and abs(fast_max - fast[count]) >= 1:      # calculating 1st index corresponding to fast_max
