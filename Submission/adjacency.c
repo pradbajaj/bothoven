@@ -1,32 +1,10 @@
-/*
-	*Team ID: eYRC-BV#1651
-	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
-	*filename: adjacency.c
-	*Theme: Bothoven
-	*Functions: initMap()
-	*Global Variable: map, map_link, map_angle
-*/
-
-#include <math.h>
-#include <stdlib.h>
-
+// 7 , 29 , 26 , 18 , 24 , 13 , 30 , 16 , 20
+//Check abs function in embeded c
 #define size 49
-#define INF 600000
+#define INF 10000
 
-//Stores absolute angles, links nodes to notes and maps graphs respectively
-int map_angle[48][48];
-int map_link[34][6];
-int map [size][size];
-
-/*
-	*Function Name: initMap
-	*Input: NIL
-	*Output: integer-> 0 if everything was successful
-	*Logic: Initializes the map with the know map.
-	*		Required only at the begining.
-	*Example Call: initMap();
-*/
 int initMap () {
+	int map [size][size];
 	//Initializes each nodes as unconnected
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++)
@@ -46,7 +24,9 @@ int initMap () {
 	map[35][42] = map[42][35] = 1;
 	map[42][41] = map[41][42] = 1;
 	map[41][32] = map[32][41] = 1;
-	map[32][48] = map[48][32] = 1;
+
+	map[32][48] = map[48][32] = INF;
+	
 	map[47][31] = map[31][47] = 1;
 	map[31][40] = map[40][31] = 1;
 	map[40][39] = map[39][40] = 1;
@@ -57,7 +37,9 @@ int initMap () {
 	map[36][25] = map[25][36] = 1;
 	map[36][44] = map[44][36] = 1;
 	map[43][35] = map[35][43] = 1;
-	map[24][1]  = map[1][24]  = 1;
+
+	map[24][1]  = map[1][24]  = INF;
+
 	map[23][44] = map[44][23] = 1;
 	map[23][43] = map[43][23] = 1;
 	map[19][34] = map[34][19] = 1;
@@ -70,8 +52,15 @@ int initMap () {
 	map[7][45]  = map[45][7]  = 1;
 	map[3][26]  = map[26][3]  = 1;
 	map[3][25]  = map[25][3]  = 1;
-	map[35][36] = map[36][35] = 1;
-	map[11][12] = map[12][11] = 1;
+
+	map[35][36] = map[36][35] = INF;
+
+	map[11][12] = map[12][11] = INF;
+	//Mapping notes to nodes
+	int map_link[34][6];
+	for (int i = 0; i < 25; i++)
+		for (int j = 0; j < 6; j++)
+			map_link[i][j] = -1;
 	for (int i = 1; i < 25; i++)
 		for (int j = 0; j < 6; j++)
 			map_link[i][j] = (j == 0 ? i : -1);
@@ -119,12 +108,34 @@ int initMap () {
 	map_link[32][3] = 35;
 	map_link[32][4] = 41;
 	map_link[32][5] = 42;
-	
-	//Storing absolute angle of every point.
-	for (int i = 1; i < 24; i++) {
-		map_angle[i][i+1] = 30;
-		map_angle[i+1][i] = -30;
+//Mapping angles
+int map_angle[49][49];
+int sangle = -30;
+	for (int i = 2; i < 23; i=i+2)
+	{
+		map_angle[i][i+1] = sangle;
+		map_angle[i+1][i+2] = sangle;
+		if (sangle < 0)
+		{
+			map_angle[i+1][i] = sangle + 180;
+			map_angle[i+2][i+1] = sangle + 180;
+		}
+		if (sangle > 0)
+		{
+			map_angle[i+1][i] = sangle - 180;
+			map_angle[i+2][i+1] = sangle - 180;
+		}
+		sangle -= 30;
+		if (sangle < -180)
+		{
+			sangle = 150;
+		}
 	}
+	map_angle[1][2] = 0;
+	map_angle[2][1] = 180;
+	map_angle[1][24] = 180;
+	map_angle[24][1] = 0;
+
 	map_angle[3][25]  = -150;
     map_angle[25][3]  = 30;
 	map_angle[3][26]  = -90;
