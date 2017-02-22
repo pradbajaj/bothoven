@@ -52,6 +52,29 @@ int* Move (int path[], int pathSize) {
 	return res;
 }
 
+int* move (int path[], int count) {
+	int *res = new int[3];
+	res[0] = res[1] = res[2] = 0;
+	cout << path[0] << "\t";
+	for (int i = 0; i < count-1; i++) {
+		if ((path[i] == 32 && path[i+1] == 48) || (path[i] == 48 && 
+			path[i+1] == 32) || (path[i] == 24 && path[i+1] == 1) ||
+			(path[i] == 1 && path[i+1] == 24) || (path[i] == 35 && 
+			path[i+1] == 36) || (path[i] == 36 && path[i+1] == 35) || 
+			(path[i] == 11 && path[i+1] == 12) || (path[i] == 11 && 
+			path[i+1] == 12)) {
+				cout << "Obstacle between " << path[i] << " and " << path[i+1];
+				res[0] = 1;
+				res[1] = path[i];
+				res[2] = path[i+1];
+				return res;
+			}
+			cout << path [i+1] << "\t";
+	}
+	return res;
+}
+
+
 bool callDStar (int *arr, int size) {
 	for (int i = 0; i < size; i++) {
 		dStar (arr[i], arr[i+1]);
@@ -147,7 +170,7 @@ int dStar (int source, int dest) {
 		int *pathSize = (int*) malloc (sizeof(int));
 		*pathSize = 0;
 		int *path = pathFind (parent, dest, pathSize);
-		int *result = Move (path, *pathSize);
+		int *result = move (path, *pathSize);
 		if (result[0] == 0) {
 			free (result);
 			return 0;		//Movement complete
