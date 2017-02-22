@@ -97,7 +97,9 @@ int split (int *array, int size) {
 		}
 	}
 	arrayM[countM] = arrayS[countS] = -1;
+	cout << "Slave Bot: ";
 	callDStar (arrayS, countS);
+	cout << "\nMaster Bot: ";
 	callDStar (arrayM, countM);
 	//Call slave with the array value in arrayS and call dStar in slave
 	//Calling dStar here is not possible right now as the slave cannot return obstacle.
