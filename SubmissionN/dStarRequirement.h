@@ -14,7 +14,7 @@
 #include "DynamicQueue.h"
 #include <stdlib.h>
 
-#define size 49
+//const int size = 49;
 #define INF 600000
 
 #include "adjacency.h"

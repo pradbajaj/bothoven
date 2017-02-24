@@ -14,15 +14,16 @@
 #define __DSTAR__
 
 #include <stdlib.h>
-#include "DynamicQueue.h"
 
-#define size 49
+const int size = 49;
 #define INF 600000
 
 #include "dStarRequirement.h"
-#include "mapRun.h"
+//#include "mapRun.h"
 #include "adjacency.h"
+#include <iostream>
 
+using namespace std;
 /*
 	*Funtion Name: Move (int[], int)
 	*Input: An array that contains the path to be followed and
@@ -35,6 +36,7 @@
 			Returns the result by changing index to actual nodes
 	*Example Call: int *res = Move (path, pathSize);
 */
+/*
 int* Move (int path[], int pathSize) {
 	signed int *angle = (signed int*) malloc(pathSize*sizeof(int));
 	for (int j = 0, i = 1; i < pathSize-1; i++, j++) {
@@ -51,11 +53,13 @@ int* Move (int path[], int pathSize) {
 	free(angle);
 	return res;
 }
-
+*/
 int* move (int path[], int count) {
 	int *res = new int[3];
 	res[0] = res[1] = res[2] = 0;
-	cout << path[0] << "\t";
+	for (int i = 0; i < count; i++)
+		cout << path[i] << "\t";
+	/*cout << path[0] << "\t";
 	for (int i = 0; i < count-1; i++) {
 		if ((path[i] == 32 && path[i+1] == 48) || (path[i] == 48 && 
 			path[i+1] == 32) || (path[i] == 24 && path[i+1] == 1) ||
@@ -70,14 +74,16 @@ int* move (int path[], int count) {
 				return res;
 			}
 			cout << path [i+1] << "\t";
-	}
+	}*/
 	return res;
 }
 
+int dStar (int, int); 
 
-bool callDStar (int *arr, int size) {
+void callDStar (int *arr, int size) {
 	for (int i = 0; i < size; i++) {
 		dStar (arr[i], arr[i+1]);
+		cout << endl;
 	}
 }
 
@@ -85,8 +91,8 @@ int split (int *array, int size) {
 	int *arrayS = (int*) malloc (size * sizeof(int));
 	int *arrayM = (int*) malloc (size * sizeof(int));
 	int countS = 0, countM = 0;
-	arrayS[countS++] = 1;
-	arrayM[countM++] = 25;
+	arrayS[countS++] = 25;
+	arrayM[countM++] = 1;
 	for (int i = 1; i <= size; i++) {
 		if ((array[i]>=1 && array[i]<=7) || (array[i]>=19 && array[i]<=27) 
 			||array[i]==33) {
@@ -98,9 +104,9 @@ int split (int *array, int size) {
 	}
 	arrayM[countM] = arrayS[countS] = -1;
 	cout << "Slave Bot: ";
-	callDStar (arrayS, countS);
+	callDStar (arrayS, countS-1);
 	cout << "\nMaster Bot: ";
-	callDStar (arrayM, countM);
+	callDStar (arrayM, countM-1);
 	//Call slave with the array value in arrayS and call dStar in slave
 	//Calling dStar here is not possible right now as the slave cannot return obstacle.
 	//Removing obstacle from current implementation will require altering the entire dStar
@@ -183,6 +189,17 @@ int dStar (int source, int dest) {
 		free (pathSize);
 		free (result);
 	}
+}
+
+int main () {
+	initMap();
+	int Size = 15;
+	int *path = (int *) malloc (Size * sizeof (int));
+	for (int i = 0; i < Size; i++) {
+		path[i] = rand()%33 + 1;
+	}
+	split (path, Size);
+	return 0;
 }
 
 #endif		//__DSTAR__
