@@ -2,7 +2,7 @@ import serial
 import time
 
 #ser = serial.Serial("/dev/ttyUSB0", 9600)   # open serial port that Arduino is using
-ser = serial.Serial("COM1", 9600)   # open serial port that Arduino is using
+ser = serial.Serial("COM2", 9600)   # open serial port that Arduino is using
 
 
 # 0 = 0
@@ -57,10 +57,10 @@ ser = serial.Serial("COM1", 9600)   # open serial port that Arduino is using
 # 49 = a
 # 50 = b
 # end = e
-# Sending Nodes 17, 33, 9, 6, 20, 17, 33, 9, 6, 20
+# Sending Nodes 17, 33, 9, 6, 20
 
 #Size would be 10 which is equal to ':'
-ser.write(b':')
+ser.write(b'5')
 time.sleep(0.1)
 
 ser.write(b'A')
@@ -73,16 +73,7 @@ ser.write(b'6')
 time.sleep(0.1)
 ser.write(b'D')
 time.sleep(0.1)
-ser.write(b'A')
-time.sleep(0.1)
-ser.write(b'Q')
-time.sleep(0.1)
-ser.write(b'9')
-time.sleep(0.1)
-ser.write(b'6')
-time.sleep(0.1)
-ser.write(b'D')
-time.sleep(0.1)
+
 ser.write(b'e')
 time.sleep(0.1)
 
