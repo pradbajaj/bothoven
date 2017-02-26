@@ -337,6 +337,20 @@ void lcd_print (char row, char coloumn, unsigned int value, int digits)
 	
 }
 
+//Function To Initialize UART0
+// desired baud rate:9600
+// actual baud rate:9600 (error 0.0%)
+// char size: 8 bit
+// parity: Disabled
+void uart0_init(void)
+{
+ UCSR0B = 0x00; //disable while setting baud rate
+ UCSR0A = 0x00;
+ UCSR0C = 0x06;
+ UBRR0L = 0x5F; //set baud rate lo
+ UBRR0H = 0x00; //set baud rate hi
+ UCSR0B = 0x98;
+}
 
 //Function To Initialize UART2
 // desired baud rate:9600
@@ -374,6 +388,14 @@ void print() {
 	}
 }
 
+SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
+{
+	data = UDR0; 				//making copy of data from UDR0 in 'data' variable 
+
+	UDR2 = data; 				//echo data back to PC
+
+}
+
 SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 {
 	data = UDR2; 				//making copy of data from UDR2 in 'data' variable 
@@ -385,34 +407,16 @@ SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 		size -= 48;
 		count++;
 		arr = (signed int*) malloc(size*sizeof(signed int));
-		//lcd_wr_char(data);
-		//lcd_print(1,1,size,2);
-
 	} 
 	
 	else if (count < size) {
 		arr[count] = (signed int) data;
 		arr[count] -= 48;
 		count++;
-		//lcd_wr_char(arr[count-1]);
-		//lcd_wr_char((int)count);
-		//lcd_print(1,count+1,arr[count-1],1);
 	}
 	else {
-		//print();
-		/*for (int i = 0; i < size; ++i)
-		{
-			lcd_wr_char(arr[i]);
-		}*/
-		//lcd_wr_char(data);
-		//lcd_cursor(2,1);
-		//lcd_string("All recieved");
-		//lcd_cursor(1,1);
 		print();
 	}
-
-	//lcd_wr_char(data);
-		
 }
 
 
@@ -421,6 +425,7 @@ void init_devices()
 {
  cli(); //Clears the global interrupts
  port_init();  //Initializes all the ports
+ uart0_init(); //Initailize UART0 for serial communiaction
  uart2_init(); //Initailize UART1 for serial communiaction
  sei();   //Enables the global interrupts
 }
@@ -431,6 +436,6 @@ int main(void)
 	init_devices();
 	lcd_set_4bit();
 	lcd_init();
-		while(1);
+	while(1);
 }
 
