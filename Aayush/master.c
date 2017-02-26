@@ -127,10 +127,13 @@ Commands:
 #include "lcd.h"
 
 unsigned char data; //to store received data from UDR1
-signed int count = -1;
 signed int size = 0;
 signed int *arr;
-
+signed int count = -1;
+signed int *arr_master;
+signed int *arr_slave;
+signed int master_size = 0;
+signed int arr_master_updated[20];
 
 //Function to configure LCD port
 void lcd_port_config (void)
@@ -175,21 +178,51 @@ void uart2_init(void)
  UCSR2B = 0x98;
 }
 
+void seperate() {
+	for (int i = 0; i < size; ++i)
+	{
+		if ((arr[i] >= 7 && arr[i] <= 18) || (arr[i] >= 28 && arr[i] <= 31))
+		{
+			arr_slave[i] = arr[i];
+			UDR0 = arr_slave[i];
+			arr_master[i] = 0;
+		}
+		else {
+			arr_slave[i] = 0;
+			UDR0 = arr_slave[i];
+			arr_master[i] = arr[i];
+		}
+	}
+	UDR0 = 'e';	
+}
 
+void remove_zero() {
+	int i = 0, j = 0;
+	while (i < size)
+	{
+		if(arr_master[i]!=0)
+		{
+			arr_master_updated[j] = arr_master[i];
+			j++;
+		}
+		i++;
+	}
+	master_size = j;
+}
 
 void print() {
 	int k = 1;
 	int j = 1;
 	for (int i = 0; i < size; ++i)
 	{
-		//lcd_wr_char(arr[i]);
 		if (j == 17)
 		{
 			j = 1;
 			k = 2;
 		}
 
-		lcd_print(k,j,arr[i],2);
+		lcd_print(k,j,arr_slave[i],2);
+		
 		j += 2;
 	}
 }
@@ -212,6 +245,8 @@ SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 		size -= 48;
 		count++;
 		arr = (signed int*) malloc(size*sizeof(signed int));
+		arr_master = (signed int*) malloc(size*sizeof(signed int));
+		arr_slave = (signed int*) malloc(size*sizeof(signed int));
 	} 
 	
 	else if (count < size) {
@@ -220,7 +255,12 @@ SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 		count++;
 	}
 	else {
+		UDR0 = size;
+		seperate();
+		remove_zero();
 		print();
+		//UDR0 = 'e';
+
 	}
 }
 
