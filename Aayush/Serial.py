@@ -57,32 +57,32 @@ ser = serial.Serial("COM1", 9600)   # open serial port that Arduino is using
 # 49 = a
 # 50 = b
 # end = e
-# Sending Nodes 17, 33, 9, 6, 20
+# Sending Nodes 9, 6, 17, 20, 33
 
 #Size would be 10 which is equal to ':'
-ser.write(b'9')
+ser.write(b'5')
 time.sleep(0.1)
 
-ser.write(b'<')
-time.sleep(0.1)
-ser.write(b'Q')
-time.sleep(0.1)
-ser.write(b'1')
-time.sleep(0.1)
-ser.write(b'A')
+ser.write(b'9')
 time.sleep(0.1)
 ser.write(b'6')
 time.sleep(0.1)
-ser.write(b'H')
+ser.write(b'A')
 time.sleep(0.1)
-ser.write(b'I')
+ser.write(b'D')
 time.sleep(0.1)
-ser.write(b'N')
+ser.write(b'Q')
 time.sleep(0.1)
-ser.write(b'3')
-time.sleep(0.1)
+#ser.write(b'H')
+#time.sleep(0.1)
+#ser.write(b'I')
+#time.sleep(0.1)
+#ser.write(b'N')
+#time.sleep(0.1)
+#ser.write(b'3')
+#time.sleep(0.1)
 
-ser.write(b'e')
-time.sleep(0.1)
+#ser.write(b'e')
+#time.sleep(0.1)
 
 ser.close()
