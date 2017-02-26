@@ -207,22 +207,22 @@ void seperate() {
 		if ((arr[i] >= 8 && arr[i] <= 18) || (arr[i] >= 28 && arr[i] <= 32))
 		{
 			arr_slave[i] = arr[i];
-			buzzer_on();
+			//buzzer_on();
 			_delay_ms(100);
 
 			UDR0 = arr_slave[i];
 
-			buzzer_off();		
+			//buzzer_off();		
 			arr_master[i] = 0;
 		}
 		else {
 			arr_slave[i] = 0;
-			buzzer_on();
+			//buzzer_on();
 			_delay_ms(100);
 			
 			UDR0 = arr_slave[i];
 
-			buzzer_off();
+			//buzzer_off();
 			arr_master[i] = arr[i];
 		}
 	}

@@ -239,15 +239,16 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 	UDR2 = data; 				//echo data back to PC
 	if (count == -1)
 	{
-		buzzer_on();
-		_delay_ms(30);
-		buzzer_off();
-		buzzer_on();
-		_delay_ms(30);
-		buzzer_off();
-		buzzer_on();
-		_delay_ms(40);
-		buzzer_off();
+		//buzzer_on();
+		//_delay_ms(30);
+		//buzzer_off();
+		//buzzer_on();
+		//_delay_ms(30);
+		//buzzer_off();
+		//buzzer_on();
+		//_delay_ms(40);
+		//buzzer_off();
+		_delay_ms(100);
 		size = (signed int) data;
 		//size -= 48;
 		count++;
@@ -256,20 +257,22 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 	} 
 	
 	else if (count < size) {
-		buzzer_on();
-		_delay_ms(50);
-		buzzer_off();
-		buzzer_on();
-		_delay_ms(50);
-		buzzer_off();
+		//buzzer_on();
+		//_delay_ms(50);
+		//buzzer_off();
+		//buzzer_on();
+		//_delay_ms(50);
+		//buzzer_off();
+		_delay_ms(100);
 		arr[count] = (signed int) data;
 		//arr[count] -= 48;
 		count++;
 	}
 	else {
-		buzzer_on();
+		//buzzer_on();
+		//_delay_ms(100);
+		//buzzer_off();
 		_delay_ms(100);
-		buzzer_off();
 		remove_zero();
 		print();
 	}
