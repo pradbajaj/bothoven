@@ -1,0 +1,459 @@
+
+pwm.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000025a  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000002ae  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 00000069  00000000  00000000  000002ce  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000041f  00000000  00000000  00000337  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 0000015d  00000000  00000000  00000756  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000003b7  00000000  00000000  000008b3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000070  00000000  00000000  00000c6c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    00000108  00000000  00000000  00000cdc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    0000010f  00000000  00000000  00000de4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000078  00000000  00000000  00000ef3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 72 00 	jmp	0xe4	; 0xe4 <__ctors_end>
+   4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+   8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+   c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  10:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  14:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  18:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  1c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  20:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  24:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  28:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  2c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  30:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  34:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  38:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  3c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  40:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  44:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  48:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  4c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  50:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  54:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  58:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  5c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  60:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  64:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  68:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  6c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  70:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  74:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  78:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  7c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  80:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  84:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  88:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  8c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  90:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  94:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  98:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  9c:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  a0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  a4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  a8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  ac:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  b0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  b4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  b8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  bc:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  c0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  c4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  c8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  cc:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  d0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  d4:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  d8:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  dc:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+  e0:	0c 94 8b 00 	jmp	0x116	; 0x116 <__bad_interrupt>
+
+000000e4 <__ctors_end>:
+  e4:	11 24       	eor	r1, r1
+  e6:	1f be       	out	0x3f, r1	; 63
+  e8:	cf ef       	ldi	r28, 0xFF	; 255
+  ea:	d1 e2       	ldi	r29, 0x21	; 33
+  ec:	de bf       	out	0x3e, r29	; 62
+  ee:	cd bf       	out	0x3d, r28	; 61
+  f0:	00 e0       	ldi	r16, 0x00	; 0
+  f2:	0c bf       	out	0x3c, r16	; 60
+
+000000f4 <__do_copy_data>:
+  f4:	12 e0       	ldi	r17, 0x02	; 2
+  f6:	a0 e0       	ldi	r26, 0x00	; 0
+  f8:	b2 e0       	ldi	r27, 0x02	; 2
+  fa:	ea e5       	ldi	r30, 0x5A	; 90
+  fc:	f2 e0       	ldi	r31, 0x02	; 2
+  fe:	00 e0       	ldi	r16, 0x00	; 0
+ 100:	0b bf       	out	0x3b, r16	; 59
+ 102:	02 c0       	rjmp	.+4      	; 0x108 <__do_copy_data+0x14>
+ 104:	07 90       	elpm	r0, Z+
+ 106:	0d 92       	st	X+, r0
+ 108:	a0 30       	cpi	r26, 0x00	; 0
+ 10a:	b1 07       	cpc	r27, r17
+ 10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
+ 10e:	0e 94 c9 00 	call	0x192	; 0x192 <main>
+ 112:	0c 94 2b 01 	jmp	0x256	; 0x256 <_exit>
+
+00000116 <__bad_interrupt>:
+ 116:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000011a <motion_pin_config>:
+#include<avr/io.h>
+#include<avr/interrupt.h>
+#include<util/delay.h>
+void motion_pin_config(void)
+{
+	DDRA = DDRA | 0x0F;
+ 11a:	81 b1       	in	r24, 0x01	; 1
+ 11c:	8f 60       	ori	r24, 0x0F	; 15
+ 11e:	81 b9       	out	0x01, r24	; 1
+	PORTA = PORTA & 0xF0;
+ 120:	82 b1       	in	r24, 0x02	; 2
+ 122:	80 7f       	andi	r24, 0xF0	; 240
+ 124:	82 b9       	out	0x02, r24	; 2
+	DDRL = DDRL | 0x18;
+ 126:	ea e0       	ldi	r30, 0x0A	; 10
+ 128:	f1 e0       	ldi	r31, 0x01	; 1
+ 12a:	80 81       	ld	r24, Z
+ 12c:	88 61       	ori	r24, 0x18	; 24
+ 12e:	80 83       	st	Z, r24
+	PORTL= PORTL | 0x18;
+ 130:	eb e0       	ldi	r30, 0x0B	; 11
+ 132:	f1 e0       	ldi	r31, 0x01	; 1
+ 134:	80 81       	ld	r24, Z
+ 136:	88 61       	ori	r24, 0x18	; 24
+ 138:	80 83       	st	Z, r24
+}
+ 13a:	08 95       	ret
+
+0000013c <init_timer5>:
+void init_timer5(void)
+{
+	TCCR5B = 0x00;	//stop
+ 13c:	e1 e2       	ldi	r30, 0x21	; 33
+ 13e:	f1 e0       	ldi	r31, 0x01	; 1
+ 140:	10 82       	st	Z, r1
+	TCNT5H = 0xFF;	//counter higher 8 bit value to which OCRxH is compared with
+ 142:	9f ef       	ldi	r25, 0xFF	; 255
+ 144:	90 93 25 01 	sts	0x0125, r25
+	TCNT5L = 0x01;	//counter higher 8 bit value to which OCRxH is compared with
+ 148:	81 e0       	ldi	r24, 0x01	; 1
+ 14a:	80 93 24 01 	sts	0x0124, r24
+	OCR5AH = 0x00;	//Output compare register high for left motor
+ 14e:	10 92 29 01 	sts	0x0129, r1
+	OCR5AL = 0xFF;	//Output compare register low for left motor
+ 152:	90 93 28 01 	sts	0x0128, r25
+	OCR5BH = 0x00;	//Output compare register high for right motor	
+ 156:	10 92 2b 01 	sts	0x012B, r1
+	OCR5BL = 0xFF;	//Output compare register high for right motor
+ 15a:	90 93 2a 01 	sts	0x012A, r25
+	OCR5CH = 0x00;	//Motor C1
+ 15e:	10 92 2d 01 	sts	0x012D, r1
+	OCR5CL = 0xFF;	//Motor C1
+ 162:	90 93 2c 01 	sts	0x012C, r25
+
+	TCCR5A = 0xA9;
+ 166:	89 ea       	ldi	r24, 0xA9	; 169
+ 168:	80 93 20 01 	sts	0x0120, r24
+/* COM5A1=1,COM5A0=0,COM5B1=1,COM5B0=0,COM5C1=1,COM5C0=0
+For Overriding normal port functionality to OCRnA ouputs
+WGM51=0,WGM50=1 along with WGM52 in TCCRB for selecting fast PWM 8 bit mode
+*/
+
+	TCCR5B = 0x0B;	//WGM12=1,CS12=0,CS11=1,CS10=1	(Prescaler=64)
+ 16c:	8b e0       	ldi	r24, 0x0B	; 11
+ 16e:	80 83       	st	Z, r24
+
+}
+ 170:	08 95       	ret
+
+00000172 <velocity>:
+void velocity(unsigned char left,unsigned char right)
+{
+	OCR5AL = (unsigned char) left;
+ 172:	80 93 28 01 	sts	0x0128, r24
+	OCR5BL = (unsigned char) right;
+ 176:	60 93 2a 01 	sts	0x012A, r22
+}
+ 17a:	08 95       	ret
+
+0000017c <motion_set>:
+void motion_set(unsigned char dir)
+{
+	unsigned char PORTARestore= 0;
+	dir &= 0x0F;			//remove upper nibbel
+	PORTARestore = PORTA; // Read org value
+ 17c:	92 b1       	in	r25, 0x02	; 2
+	PORTARestore &= 0xF0; //Lower nibbel to 0
+ 17e:	90 7f       	andi	r25, 0xF0	; 240
+	PORTARestore |= dir;  // Lower nibbel to new val
+ 180:	8f 70       	andi	r24, 0x0F	; 15
+ 182:	89 2b       	or	r24, r25
+	PORTA = PORTARestore;
+ 184:	82 b9       	out	0x02, r24	; 2
+}
+ 186:	08 95       	ret
+
+00000188 <forward>:
+}
+void motion_set(unsigned char dir)
+{
+	unsigned char PORTARestore= 0;
+	dir &= 0x0F;			//remove upper nibbel
+	PORTARestore = PORTA; // Read org value
+ 188:	82 b1       	in	r24, 0x02	; 2
+	PORTARestore &= 0xF0; //Lower nibbel to 0
+ 18a:	80 7f       	andi	r24, 0xF0	; 240
+	PORTARestore |= dir;  // Lower nibbel to new val
+ 18c:	86 60       	ori	r24, 0x06	; 6
+	PORTA = PORTARestore;
+ 18e:	82 b9       	out	0x02, r24	; 2
+}
+void forward(void)
+{
+	motion_set(0x06);
+}
+ 190:	08 95       	ret
+
+00000192 <main>:
+int main(void)
+{
+	cli();
+ 192:	f8 94       	cli
+#include<avr/io.h>
+#include<avr/interrupt.h>
+#include<util/delay.h>
+void motion_pin_config(void)
+{
+	DDRA = DDRA | 0x0F;
+ 194:	81 b1       	in	r24, 0x01	; 1
+ 196:	8f 60       	ori	r24, 0x0F	; 15
+ 198:	81 b9       	out	0x01, r24	; 1
+	PORTA = PORTA & 0xF0;
+ 19a:	82 b1       	in	r24, 0x02	; 2
+ 19c:	80 7f       	andi	r24, 0xF0	; 240
+ 19e:	82 b9       	out	0x02, r24	; 2
+	DDRL = DDRL | 0x18;
+ 1a0:	80 91 0a 01 	lds	r24, 0x010A
+ 1a4:	88 61       	ori	r24, 0x18	; 24
+ 1a6:	80 93 0a 01 	sts	0x010A, r24
+	PORTL= PORTL | 0x18;
+ 1aa:	80 91 0b 01 	lds	r24, 0x010B
+ 1ae:	88 61       	ori	r24, 0x18	; 24
+ 1b0:	80 93 0b 01 	sts	0x010B, r24
+}
+void init_timer5(void)
+{
+	TCCR5B = 0x00;	//stop
+ 1b4:	10 92 21 01 	sts	0x0121, r1
+	TCNT5H = 0xFF;	//counter higher 8 bit value to which OCRxH is compared with
+ 1b8:	9f ef       	ldi	r25, 0xFF	; 255
+ 1ba:	90 93 25 01 	sts	0x0125, r25
+	TCNT5L = 0x01;	//counter higher 8 bit value to which OCRxH is compared with
+ 1be:	81 e0       	ldi	r24, 0x01	; 1
+ 1c0:	80 93 24 01 	sts	0x0124, r24
+	OCR5AH = 0x00;	//Output compare register high for left motor
+ 1c4:	10 92 29 01 	sts	0x0129, r1
+	OCR5AL = 0xFF;	//Output compare register low for left motor
+ 1c8:	90 93 28 01 	sts	0x0128, r25
+	OCR5BH = 0x00;	//Output compare register high for right motor	
+ 1cc:	10 92 2b 01 	sts	0x012B, r1
+	OCR5BL = 0xFF;	//Output compare register high for right motor
+ 1d0:	90 93 2a 01 	sts	0x012A, r25
+	OCR5CH = 0x00;	//Motor C1
+ 1d4:	10 92 2d 01 	sts	0x012D, r1
+	OCR5CL = 0xFF;	//Motor C1
+ 1d8:	90 93 2c 01 	sts	0x012C, r25
+
+	TCCR5A = 0xA9;
+ 1dc:	89 ea       	ldi	r24, 0xA9	; 169
+ 1de:	80 93 20 01 	sts	0x0120, r24
+/* COM5A1=1,COM5A0=0,COM5B1=1,COM5B0=0,COM5C1=1,COM5C0=0
+For Overriding normal port functionality to OCRnA ouputs
+WGM51=0,WGM50=1 along with WGM52 in TCCRB for selecting fast PWM 8 bit mode
+*/
+
+	TCCR5B = 0x0B;	//WGM12=1,CS12=0,CS11=1,CS10=1	(Prescaler=64)
+ 1e2:	8b e0       	ldi	r24, 0x0B	; 11
+ 1e4:	80 93 21 01 	sts	0x0121, r24
+int main(void)
+{
+	cli();
+	motion_pin_config();
+	init_timer5();
+	sei();
+ 1e8:	78 94       	sei
+}
+void motion_set(unsigned char dir)
+{
+	unsigned char PORTARestore= 0;
+	dir &= 0x0F;			//remove upper nibbel
+	PORTARestore = PORTA; // Read org value
+ 1ea:	82 b1       	in	r24, 0x02	; 2
+	PORTARestore &= 0xF0; //Lower nibbel to 0
+ 1ec:	80 7f       	andi	r24, 0xF0	; 240
+	PORTARestore |= dir;  // Lower nibbel to new val
+ 1ee:	86 60       	ori	r24, 0x06	; 6
+	PORTA = PORTARestore;
+ 1f0:	82 b9       	out	0x02, r24	; 2
+	TCCR5B = 0x0B;	//WGM12=1,CS12=0,CS11=1,CS10=1	(Prescaler=64)
+
+}
+void velocity(unsigned char left,unsigned char right)
+{
+	OCR5AL = (unsigned char) left;
+ 1f2:	54 e6       	ldi	r21, 0x64	; 100
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 1f4:	20 e7       	ldi	r18, 0x70	; 112
+ 1f6:	31 e0       	ldi	r19, 0x01	; 1
+	OCR5BL = (unsigned char) right;
+ 1f8:	4f ef       	ldi	r20, 0xFF	; 255
+	TCCR5B = 0x0B;	//WGM12=1,CS12=0,CS11=1,CS10=1	(Prescaler=64)
+
+}
+void velocity(unsigned char left,unsigned char right)
+{
+	OCR5AL = (unsigned char) left;
+ 1fa:	50 93 28 01 	sts	0x0128, r21
+	OCR5BL = (unsigned char) right;
+ 1fe:	50 93 2a 01 	sts	0x012A, r21
+}
+void motion_set(unsigned char dir)
+{
+	unsigned char PORTARestore= 0;
+	dir &= 0x0F;			//remove upper nibbel
+	PORTARestore = PORTA; // Read org value
+ 202:	82 b1       	in	r24, 0x02	; 2
+	PORTARestore &= 0xF0; //Lower nibbel to 0
+ 204:	80 7f       	andi	r24, 0xF0	; 240
+	PORTARestore |= dir;  // Lower nibbel to new val
+ 206:	86 60       	ori	r24, 0x06	; 6
+	PORTA = PORTARestore;
+ 208:	82 b9       	out	0x02, r24	; 2
+ 20a:	80 e2       	ldi	r24, 0x20	; 32
+ 20c:	9e e4       	ldi	r25, 0x4E	; 78
+ 20e:	f9 01       	movw	r30, r18
+ 210:	31 97       	sbiw	r30, 0x01	; 1
+ 212:	f1 f7       	brne	.-4      	; 0x210 <main+0x7e>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 214:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 216:	d9 f7       	brne	.-10     	; 0x20e <main+0x7c>
+	TCCR5B = 0x0B;	//WGM12=1,CS12=0,CS11=1,CS10=1	(Prescaler=64)
+
+}
+void velocity(unsigned char left,unsigned char right)
+{
+	OCR5AL = (unsigned char) left;
+ 218:	10 92 28 01 	sts	0x0128, r1
+	OCR5BL = (unsigned char) right;
+ 21c:	40 93 2a 01 	sts	0x012A, r20
+}
+void motion_set(unsigned char dir)
+{
+	unsigned char PORTARestore= 0;
+	dir &= 0x0F;			//remove upper nibbel
+	PORTARestore = PORTA; // Read org value
+ 220:	82 b1       	in	r24, 0x02	; 2
+	PORTARestore &= 0xF0; //Lower nibbel to 0
+ 222:	80 7f       	andi	r24, 0xF0	; 240
+	PORTARestore |= dir;  // Lower nibbel to new val
+ 224:	86 60       	ori	r24, 0x06	; 6
+	PORTA = PORTARestore;
+ 226:	82 b9       	out	0x02, r24	; 2
+ 228:	80 e2       	ldi	r24, 0x20	; 32
+ 22a:	9e e4       	ldi	r25, 0x4E	; 78
+ 22c:	f9 01       	movw	r30, r18
+ 22e:	31 97       	sbiw	r30, 0x01	; 1
+ 230:	f1 f7       	brne	.-4      	; 0x22e <main+0x9c>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 232:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 234:	d9 f7       	brne	.-10     	; 0x22c <main+0x9a>
+	TCCR5B = 0x0B;	//WGM12=1,CS12=0,CS11=1,CS10=1	(Prescaler=64)
+
+}
+void velocity(unsigned char left,unsigned char right)
+{
+	OCR5AL = (unsigned char) left;
+ 236:	40 93 28 01 	sts	0x0128, r20
+	OCR5BL = (unsigned char) right;
+ 23a:	10 92 2a 01 	sts	0x012A, r1
+}
+void motion_set(unsigned char dir)
+{
+	unsigned char PORTARestore= 0;
+	dir &= 0x0F;			//remove upper nibbel
+	PORTARestore = PORTA; // Read org value
+ 23e:	82 b1       	in	r24, 0x02	; 2
+	PORTARestore &= 0xF0; //Lower nibbel to 0
+ 240:	80 7f       	andi	r24, 0xF0	; 240
+	PORTARestore |= dir;  // Lower nibbel to new val
+ 242:	86 60       	ori	r24, 0x06	; 6
+	PORTA = PORTARestore;
+ 244:	82 b9       	out	0x02, r24	; 2
+ 246:	80 e2       	ldi	r24, 0x20	; 32
+ 248:	9e e4       	ldi	r25, 0x4E	; 78
+ 24a:	f9 01       	movw	r30, r18
+ 24c:	31 97       	sbiw	r30, 0x01	; 1
+ 24e:	f1 f7       	brne	.-4      	; 0x24c <main+0xba>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 250:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 252:	d9 f7       	brne	.-10     	; 0x24a <main+0xb8>
+ 254:	d2 cf       	rjmp	.-92     	; 0x1fa <main+0x68>
+
+00000256 <_exit>:
+ 256:	f8 94       	cli
+
+00000258 <__stop_program>:
+ 258:	ff cf       	rjmp	.-2      	; 0x258 <__stop_program>

@@ -82,14 +82,14 @@ int dStar (int source, int dest) {
 		int openSize = 0, closedSize = 0;				//Maintains the size of
 		//open list.
 		//This speeds up the scanning process.
-		gCost[source] = 0;
-		fCost[source] = fCostCalc (gCost[source], heuris[source]);
 		for (int i = 0; i < size; i++) {
 			//Initialising open and closed list to be empty
 			open[i] = closed[i] = 0;
 			parent[i] = -1;
 			gCost[i] = fCost[i] = INF;
 		}
+		gCost[source] = 0;
+		fCost[source] = fCostCalc (gCost[source], heuris[source]);
 		open[source] = 1, openSize++;
 		//Scan as long as the open list is not empty
 		while (openSize > 0) {

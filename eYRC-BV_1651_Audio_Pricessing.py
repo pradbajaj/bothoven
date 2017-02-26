@@ -4,9 +4,11 @@
 #                                                                          #
 ############################################################################
 
+import serial
+import time
 import numpy as np
 import wave
-from scipy.io import wavfile
+import scipy
 import struct
 import math
 
@@ -85,22 +87,46 @@ def play(sound_file):                           # importing 'sound_file'
         if fre[x] > 1035 and fre[x] < 1055:
             Identified_Notes.append('C6')
         elif fre[x] > 1165 and fre[x] < 1185:
+            ser.write(b'4')
+            time.sleep(0.1)
+            #ser.write(b' ')
+            #time.sleep(0.1)
             Identified_Notes.append('D6')
         elif fre[x] > 1310 and fre[x] < 1330:   ##########################################################################
+            ser.write(b'7')
+            time.sleep(0.1)
+            #ser.write(b' ')
+            #time.sleep(0.1)
             Identified_Notes.append('E6')       #                                                                        #
         elif fre[x] > 1385 and fre[x] < 1405:   #                                                                        #
             Identified_Notes.append('F6')       #     Updating array 'Identified_Notes' with the value corresponding     #
         elif fre[x] > 1560 and fre[x] < 1580:   #                    to the value in 'fre' n_d_array                     #
             Identified_Notes.append('G6')       #                                                                        #
         elif fre[x] > 1750 and fre[x] < 1770:   #        Taking a band of (+)(-)10 hz of frequency for each note         #
+            ser.write(b'2')
+            time.sleep(0.1)
+            #ser.write(b' ')
+            #time.sleep(0.1)
             Identified_Notes.append('A6')       #                                                                        #
         elif fre[x] > 1965 and fre[x] < 1985:   #                                                                        #
+            ser.write(b'9')
+            time.sleep(0.1)
+            #ser.write(b' ')
+            #time.sleep(0.1)
             Identified_Notes.append('B6')       #                                                                        #
         elif fre[x] > 2085 and fre[x] < 2105:   ##########################################################################
+            ser.write(b'8')
+            time.sleep(0.1)
+            #ser.write(b' ')
+            #time.sleep(0.1)
             Identified_Notes.append('C7')
         elif fre[x] > 2340 and fre[x] < 2360:
             Identified_Notes.append('D7')
         elif fre[x] > 2625 and fre[x] < 2645:
+            ser.write(b'6')
+            time.sleep(0.1)
+            #ser.write(b' ')
+            #time.sleep(0.1)
             Identified_Notes.append('E7')
         elif fre[x] > 2780 and fre[x] < 2800:
             Identified_Notes.append('F7')
@@ -111,6 +137,10 @@ def play(sound_file):                           # importing 'sound_file'
         elif fre[x] > 3940 and fre[x] < 3960:
             Identified_Notes.append('B7')
         elif fre[x] > 4175 and fre[x] < 4195:
+            ser.write(b'1')
+            time.sleep(0.1)
+            #ser.write(b' ')
+            #time.sleep(0.1)
             Identified_Notes.append('C8')
         elif fre[x] > 4690 and fre[x] < 4710:
             Identified_Notes.append('D8')
@@ -119,8 +149,16 @@ def play(sound_file):                           # importing 'sound_file'
         elif fre[x] > 5580 and fre[x] < 5600:
             Identified_Notes.append('F8')
         elif fre[x] > 6260 and fre[x] < 6280:
+            ser.write(b'3')
+            time.sleep(0.1)
+            #ser.write(b' ')
+            #time.sleep(0.1)
             Identified_Notes.append('G8')
         elif fre[x] > 7030 and fre[x] < 7050:
+            ser.write(b'5')
+            time.sleep(0.1)
+            #ser.write(b' ')
+            #time.sleep(0.1)
             Identified_Notes.append('A8')
         elif fre[x] > 7890 and fre[x] < 7910:
             Identified_Notes.append('B8')
@@ -129,12 +167,31 @@ def play(sound_file):                           # importing 'sound_file'
 ############################## Read Audio File #############################
 
 if __name__ == "__main__":
-    '''
+    
     #code for checking output for single audio file
-    sound_file = wave.open('Audio_files/audacity_1.wav', 'r')          # Opening Audio file
+    #ser = serial.Serial("/dev/ttyUSB0", 9600)   					# open serial port that Arduino is using
+    ser = serial.Serial("COM1", 9600)                       # open serial port that Arduino is using
+    sound_file = wave.open('Audio_files/Audio_1.wav', 'r')       # Opening Audio file
     Identified_Notes = play(sound_file)                             # Calling play function
     sound_file.close()                                              # closing the audio file
     print ("Notes = ", Identified_Notes)                            # printing the values of notes obtained for 'play'
+    
+    '''
+    ser.write(b's')
+    time.sleep(0.1)
+    ser.write(b'e')
+    time.sleep(0.1)
+    ser.write(b'r')
+    time.sleep(0.1)
+    ser.write(b'i')
+    time.sleep(0.1)
+    ser.write(b'a')
+    time.sleep(0.1)
+    ser.write(b'l')
+    time.sleep(0)
+	'''
+    ser.close()
+
     '''
     #code for checking output for all audio files
     Identified_Notes_list = []                                      # defining an empty list

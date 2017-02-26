@@ -575,42 +575,8 @@ int* mapRun(signed int angle[], int Size)
 	
 	// after dectecting the note bot will turn angle[i] angle
 	signed int count = -1;
-	int *res = (int*) malloc (3*sizeof(int));		//Holds result
-	for (int i = 0; i < 3; i++)
-		res[i] = 0;
 
-	while(count < Size)
-	{
-		int flag = 0;
-
-		Front_IR_Sensor = ADC_Conversion(6);    //Getting data of Center IR Proximity Sensor Sensor
-
-		// If their an object with in 9 cm range of IR sensor
-		// LCD will print "OBSTRACLE DETECTED !"
-		// Bot will take an initial right turn to shift from the black line
-		// Then bot will take right turn until the center whiteline sensor is on top of black line
-		if (Front_IR_Sensor < 90)
-		{
-			lcd_cursor(1,1);
-			lcd_string("    OBSTRACLE   ");
-			lcd_cursor(2,1);
-			lcd_string("    DETECTED !  ");
-			right();
-			_delay_ms(100);
-			do
-			{
-				right();
-				Center_white_line = ADC_Conversion(2);
-			}
-			while (Center_white_line < 0x50);
-			stop();
-			_delay_ms(100);
-			forward();
-			res[0] = 1;
-			res[1] = count+1;
-			res[2] = count+2;
-			return res;
-		}
+	while (count < size) {
 
 		move();// calling the move function
 
@@ -836,5 +802,4 @@ int* mapRun(signed int angle[], int Size)
 			lcd_string("MOVING ON FLEX!!");
 		}
 	}
-	return res;
 }

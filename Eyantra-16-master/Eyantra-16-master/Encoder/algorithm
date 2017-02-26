@@ -1,0 +1,124 @@
+START
+
+Two bots -> Bot & BotX
+
+Stack Functions
+	1. top() - view top element
+	2. pop() - pop top element
+	3. push() - push to top
+	4. isEmpty() - checks if is empty
+
+Description on pathStructure: It is itself a stack and each element represents the next node to reach and path to reach
+
+pathStructure (as a stack) {
+	mainPath : Next Main Node
+	subPaths[] : Path to next main node (as a stack)
+}
+
+Shared members:
+	1. musicNote -> Stack of the elements which has to be covered
+	2. pathStructure -> Path to be followed by Bot
+	3. pathStructureX -> Path to be followed by BotX
+	4. ready -> Is Bot ready to proceed further
+	5. readyX -> Is BotX ready to proceed further
+	6. node -> It represents the current node of Bot
+	7. nodeX -> It represents the current node of BotX
+
+Shared: musicNote, pathStructure, pathStructureX, ready, readyX, node, nodeX
+
+travellingAlgo {
+	while (!pathStructure.isEmpty()) {
+		while (!subPaths.isEmpty()) {
+			while (subPaths.top() == subPathsX.top()) {
+				if (ready == 0) {
+					readyX = 0;
+					while (ready == 0);
+					return;
+				}
+			}
+			if (ready == 0) {
+				readyX = 0;
+				while (ready == 0);
+				return;
+			}
+			Go to subPaths.top()
+			if (obstacle) {
+				readyX = 0
+				while (ready == 1);
+				setObstacle
+				newPathReq()
+				Return
+			}
+			node = subPath.top();
+			subPath.pop()
+		}
+		while (pathStructure.top() != musicNote.top()) {
+			if (ready == 0) {
+				readyX = 0;
+				while (ready == 0);
+				return;
+			}
+		}
+		beep
+		pathStructure.pop()
+		musicNote.pop()
+	}
+}
+
+travellingAlgoX {
+	while (!pathStructureX.isEmpty()) {
+		while (!subPathsX.isEmpty()) {
+			while (subPathsX.top() == subPaths.top()) {
+				if (readyX == 0) {
+					ready = 0;
+					while (readyX == 0);
+					return;
+				}
+			}
+			if (readyX == 0) {
+				ready = 0;
+				while (readyX == 0);
+				return;
+			}
+			Go to subPathsX.top()
+			if (obstacle) {
+				ready = 0
+				while (readyX == 1);
+				setObstacle
+				newPathReq()
+				Return
+			}
+			nodeX = subPathX.top();
+			subPathX.pop()
+		}
+		while (pathStructureX.top() != musicNote.top()) {
+			if (readyX == 0) {
+				ready = 0;
+				while (readyX == 0);
+				return;
+			}
+		}
+		beep
+		pathStructureX.pop()
+		musicNote.pop()
+	}
+}
+
+Main() {
+	readyX = 0
+	node = 0
+	nodeX = 12
+	newPathReq()
+	readyX = 1
+	ready = 1
+	while (!pathStructure.isEmpty())
+		travellingAlgo
+}
+
+MainX() {
+	while (readyX == 0);
+	while (!pathStructure.isEmpty())
+		travellingAlgo
+}
+
+END
