@@ -133,6 +133,13 @@ signed int *arr;
 signed int slave_size = 0;
 signed int arr_slave[20];
 
+
+void buzzer_pin_config (void)
+{
+ DDRC = DDRC | 0x08;		//Setting PORTC 3 as output
+ PORTC = PORTC & 0xF7;		//Setting PORTC 3 logic low to turnoff buzzer
+}
+
 //Function to configure LCD port
 void lcd_port_config (void)
 {
@@ -143,6 +150,7 @@ void lcd_port_config (void)
 //Function to initialize ports
 void port_init()
 {
+	buzzer_pin_config();
 	lcd_port_config();
 }
 
@@ -176,6 +184,22 @@ void uart2_init(void)
  UCSR2B = 0x98;
 }
 
+void buzzer_on (void)
+{
+ unsigned char port_restore = 0;
+ port_restore = PINC;
+ port_restore = port_restore | 0x08;
+ PORTC = port_restore;
+}
+
+void buzzer_off (void)
+{
+ unsigned char port_restore = 0;
+ port_restore = PINC;
+ port_restore = port_restore & 0xF7;
+ PORTC = port_restore;
+}
+
 void remove_zero() {
 	int i = 0, j = 0;
 	while (i < size)
@@ -193,8 +217,8 @@ void remove_zero() {
 void print() {
 	int k = 1;
 	int j = 1;
-	//for (int i = 0; i < slave_size; ++i)
-	for (int i = 0; i < size; ++i)
+	for (int i = 0; i < slave_size; ++i)
+	//for (int i = 0; i < size; ++i)
 	{
 		//lcd_wr_char(arr[i]);
 		if (j == 9)
@@ -203,8 +227,8 @@ void print() {
 			k = 2;
 		}
 
-		//lcd_print(k,j,arr_slave[i],2);
-		lcd_print(k,j,arr[i],2);
+		lcd_print(k,j,arr_slave[i],2);
+		//lcd_print(k,j,arr[i],2);
 		j += 2;
 	}
 }
@@ -215,6 +239,15 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 	UDR2 = data; 				//echo data back to PC
 	if (count == -1)
 	{
+		buzzer_on();
+		_delay_ms(30);
+		buzzer_off();
+		buzzer_on();
+		_delay_ms(30);
+		buzzer_off();
+		buzzer_on();
+		_delay_ms(40);
+		buzzer_off();
 		size = (signed int) data;
 		//size -= 48;
 		count++;
@@ -223,12 +256,21 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 	} 
 	
 	else if (count < size) {
+		buzzer_on();
+		_delay_ms(50);
+		buzzer_off();
+		buzzer_on();
+		_delay_ms(50);
+		buzzer_off();
 		arr[count] = (signed int) data;
 		//arr[count] -= 48;
 		count++;
 	}
 	else {
-		//remove_zero();
+		buzzer_on();
+		_delay_ms(100);
+		buzzer_off();
+		remove_zero();
 		print();
 	}
 }

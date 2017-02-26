@@ -135,6 +135,12 @@ signed int *arr_slave;
 signed int master_size = 0;
 signed int arr_master_updated[20];
 
+
+void buzzer_pin_config (void)
+{
+ DDRC = DDRC | 0x08;		//Setting PORTC 3 as output
+ PORTC = PORTC & 0xF7;		//Setting PORTC 3 logic low to turnoff buzzer
+}
 //Function to configure LCD port
 void lcd_port_config (void)
 {
@@ -145,6 +151,7 @@ void lcd_port_config (void)
 //Function to initialize ports
 void port_init()
 {
+	buzzer_pin_config();
 	lcd_port_config();
 }
 
@@ -178,18 +185,44 @@ void uart2_init(void)
  UCSR2B = 0x98;
 }
 
+void buzzer_on (void)
+{
+ unsigned char port_restore = 0;
+ port_restore = PINC;
+ port_restore = port_restore | 0x08;
+ PORTC = port_restore;
+}
+
+void buzzer_off (void)
+{
+ unsigned char port_restore = 0;
+ port_restore = PINC;
+ port_restore = port_restore & 0xF7;
+ PORTC = port_restore;
+}
+
 void seperate() {
 	for (int i = 0; i < size; ++i)
 	{
-		if ((arr[i] >= 7 && arr[i] <= 18) || (arr[i] >= 28 && arr[i] <= 31))
+		if ((arr[i] >= 8 && arr[i] <= 18) || (arr[i] >= 28 && arr[i] <= 32))
 		{
 			arr_slave[i] = arr[i];
+			buzzer_on();
+			_delay_ms(100);
+
 			UDR0 = arr_slave[i];
+
+			buzzer_off();		
 			arr_master[i] = 0;
 		}
 		else {
 			arr_slave[i] = 0;
+			buzzer_on();
+			_delay_ms(100);
+			
 			UDR0 = arr_slave[i];
+
+			buzzer_off();
 			arr_master[i] = arr[i];
 		}
 	}
@@ -213,7 +246,8 @@ void remove_zero() {
 void print() {
 	int k = 1;
 	int j = 1;
-	for (int i = 0; i < size; ++i)
+	//for (int i = 0; i < size; ++i)
+	for (int i = 0; i < master_size; i++)
 	{
 		if (j == 17)
 		{
@@ -221,7 +255,8 @@ void print() {
 			k = 2;
 		}
 
-		lcd_print(k,j,arr_slave[i],2);
+		//lcd_print(k,j,arr_slave[i],2);
+		lcd_print(k,j,arr_master_updated[i],2);
 		
 		j += 2;
 	}
