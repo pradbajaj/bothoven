@@ -214,22 +214,18 @@ void seperate() {
 		if ((arr[i] >= 8 && arr[i] <= 18) || (arr[i] >= 28 && arr[i] <= 32))
 		{
 			arr_slave[i] = arr[i];
-			//buzzer_on();
 			_delay_ms(100);
 
 			UDR0 = arr_slave[i];
 
-			//buzzer_off();		
 			sequence_arr[i] = 0;
 		}
 		else {
 			arr_slave[i] = 0;
-			//buzzer_on();
 			_delay_ms(100);
 			
 			UDR0 = arr_slave[i];
 
-			//buzzer_off();
 			sequence_arr[i] = arr[i];
 		}
 	}
@@ -253,7 +249,6 @@ void remove_zero() {
 void print() {
 	int k = 1;
 	int j = 1;
-	//for (int i = 0; i < arr_size; ++i)
 	for (int i = 0; i < master_size; i++)
 	{
 		if (j == 17)
@@ -262,7 +257,6 @@ void print() {
 			k = 2;
 		}
 
-		//lcd_print(k,j,arr_slave[i],2);
 		lcd_print(k,j,arr_master[i],2);
 		
 		j += 2;
@@ -270,27 +264,29 @@ void print() {
 }
 
 void simulation(int val1,int val2) {
-	_delay_ms((val2 - val1)*500);
-	lcd_print(1,15,Counter,2);
+
+	_delay_ms((val2 - val1)*200);
 	while (sequence_arr[Counter] == 0)
 	{
-		lcd_print(1,12,Counter,2);
-		for (int i = 0; i < 100; ++i)
-		{
-			_delay_ms(10);
-		}
+		//lcd_print(1,14,Counter,2);
+		lcd_cursor(1,1);
+		lcd_string("   Waiting!!!   ");
+		lcd_cursor(2,1);
+		lcd_string(" For Slave Bot! ");
+		_delay_ms(100);
 	}
+
 	buzzer_on();
-	//stop();
-	//velocity(0,0);
-	lcd_print(1,1,sequence_arr[Counter],2);
+	lcd_cursor(1,1);
+	lcd_string("MNP DETECTED ");
+	lcd_print(1,14,sequence_arr[Counter],2);
 	lcd_cursor(2,1);
-	lcd_string("MNP DETECTED !!!");
+	lcd_string("Strinking Node!!");
 	_delay_ms(500);
 	buzzer_off();
-	//count++;
+
 	++Counter;
-	lcd_print(1,4,Counter,2);
+	//lcd_print(1,4,Counter,2);
 	UDR0 = Counter;
 }
 
@@ -300,7 +296,7 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 
 	Counter = (signed int) data;
 	//UDR2 = data; 				//echo data back to PC
-	lcd_print(1,4,Counter,2);
+	//lcd_print(1,4,Counter,2);
 
 }
 SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
@@ -308,6 +304,7 @@ SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 	data = UDR2; 				//making copy of data from UDR2 in 'data' variable 
 
 	UDR2 = data; 				//echo data back to PC
+
 	if (count == -1)
 	{
 		arr_size = (signed int) data;
@@ -323,21 +320,6 @@ SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 		arr[count] -= 48;
 		count++;
 	}
-	/*else if (count == arr_size){
-		count++;
-		UDR0 = arr_size;
-		seperate();
-		remove_zero();
-		for (int i = 0; i < master_size; i++) {
-			simulation (arr_master[i], arr_master[i+1]);
-		}
-		//print();
-		//UDR0 = 'e';
-
-	}
-	else {
-		//Counter = (signed int) data;
-	}*/
 }
 
 //Function To Initialize all The Devices
@@ -366,11 +348,17 @@ int main(void)
 			for (int i = 0; i < master_size; i++) {
 				simulation (arr_master[i], arr_master[i+1]);
 			}
+			while(1) {
+				lcd_cursor(1,1);
+				lcd_string("      Task      ");
+				lcd_cursor(2,1);
+				lcd_string("  Completed!!!  ");
+			}
 		}
 		lcd_cursor(1,1);
 		lcd_string("      Task      ");
 		lcd_cursor(2,1);
-		lcd_string("  Completed!!!  ");
+		lcd_string("  Initiated!!!  ");
 	}
 }
 

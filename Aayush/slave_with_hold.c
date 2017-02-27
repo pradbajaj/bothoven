@@ -224,9 +224,7 @@ void print() {
 	int k = 1;
 	int j = 1;
 	for (int i = 0; i < slave_size; ++i)
-	//for (int i = 0; i < arr_size; ++i)
 	{
-		//lcd_wr_char(sequence_arr[i]);
 		if (j == 9)
 		{
 			j = 1;
@@ -234,32 +232,33 @@ void print() {
 		}
 
 		lcd_print(k,j,arr_slave[i],2);
-		//lcd_print(k,j,sequence_arr[i],2);
 		j += 2;
 	}
 }
 
 void simulation(int val1,int val2) {
-	_delay_ms((val2 - val1)*500);
+
+	_delay_ms((val2 - val1)*200);
 	while (sequence_arr[Counter] == 0)
 	{
-		lcd_print(1,12,Counter,2);
-		for (int i = 0; i < 100; ++i)
-		{
-			_delay_ms(10);
-		}
+		//lcd_print(1,1,Counter,2);
+		lcd_cursor(1,1);
+		lcd_string("   Waiting!!!   ");
+		lcd_cursor(2,1);
+		lcd_string(" For Master Bot ");
+		_delay_ms(100);
 	}
+
 	buzzer_on();
-	//stop();
-	//velocity(0,0);
-	lcd_print(1,1,sequence_arr[Counter],2);
+	lcd_cursor(1,1);
+	lcd_string("MNP DETECTED    ");
+	lcd_print(1,14,sequence_arr[Counter],2);
 	lcd_cursor(2,1);
-	lcd_string("MNP DETECTED !!!");
+	lcd_string("Strinking Node!!");
 	_delay_ms(500);
 	buzzer_off();
-	//count++;
+
 	++Counter;
-	lcd_print(1,4,Counter,2);
 	UDR0 = Counter;
 }
 
@@ -269,62 +268,32 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 	UDR2 = data; 				//echo data back to PC
 	if (count == -1)
 	{
-		//buzzer_on();
-		//_delay_ms(30);
-		//buzzer_off();
-		//buzzer_on();
-		//_delay_ms(30);
-		//buzzer_off();
-		//buzzer_on();
-		//_delay_ms(40);
-		//buzzer_off();
 		_delay_ms(100);
 		arr_size = (signed int) data;
 		//arr_size -= 48;
 		count++;
 		sequence_arr = (signed int*) malloc(arr_size*sizeof(signed int));
-		//arr_slave = (signed int*) malloc(arr_size*sizeof(signed int));
 	} 
 	
 	else if (count < arr_size) {
-		//buzzer_on();
-		//_delay_ms(50);
-		//buzzer_off();
-		//buzzer_on();
-		//_delay_ms(50);
-		//buzzer_off();
 		_delay_ms(100);
 		sequence_arr[count] = (signed int) data;
 		//sequence_arr[count] -= 48;
 		count++;
 	}
-	/*else if (count == arr_size){
-		//buzzer_on();
-		//_delay_ms(100);
-		//buzzer_off();
-		count++;
-		_delay_ms(100);
-		remove_zero();
-		for (int i = 0; i < slave_size; i++) {
-			simulation (arr_slave[i], arr_slave[i+1]);
-		}
-		//print();
-	}*/
+	
 	else if (count > arr_size){
 		Counter = (signed int) data;
-		lcd_print(1,15,Counter,2);
+		//lcd_print(1,15,Counter,2);
 	}
 }
 
-SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
+/*SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 {
 	data = UDR2; 				//making copy of data from UDR0 in 'data' variable 
 
 	UDR2 = data;
-
- // UDR0 = data; 				//echo data back to PC
-
-}
+}*/
 
 //Function To Initialize all The Devices
 void init_devices()
@@ -345,18 +314,22 @@ int main(void)
 	while(1) {
 		if (count == arr_size)
 		{
-			count += 10;
-			//UDR0 = arr_size;
-			//seperate();
+			count++;
 			remove_zero();
 			for (int i = 0; i < slave_size; i++) {
 				simulation (arr_slave[i], arr_slave[i+1]);
+			}
+			while(1) {
+				lcd_cursor(1,1);
+				lcd_string("      Task      ");
+				lcd_cursor(2,1);
+				lcd_string("  Completed!!!  ");
 			}
 		}
 		lcd_cursor(1,1);
 		lcd_string("      Task      ");
 		lcd_cursor(2,1);
-		lcd_string("  Completed!!!  ");
+		lcd_string("  Initiated!!!  ");
 	}
 }
 
