@@ -1,0 +1,4 @@
+i-1 to i --- i+1 to i
+i+1 to i --- i-1 to i
+
+Logic: angle i to i+1 - angle i-1 to i
