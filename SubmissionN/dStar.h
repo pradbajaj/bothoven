@@ -43,6 +43,8 @@ int* Move (int path[], int pathSize) {
 					map_angle[path[i-1]][path[i]];
 	}
 	angle[pathSize-1] = -1;
+	int *res = new int;
+	*res = 0;
 	int *res = mapRun (angle, pathSize);
 	if (res[0] != 0) {
 		res[1] = path[res[1]];
@@ -50,36 +52,6 @@ int* Move (int path[], int pathSize) {
 	}
 	free(angle);
 	return res;
-}
-
-bool callDStar (int *arr, int size) {
-	for (int i = 0; i < size; i++) {
-		dStar (arr[i], arr[i+1]);
-	}
-}
-
-int split (int *array, int size) {
-	int *arrayS = (int*) malloc (size * sizeof(int));
-	int *arrayM = (int*) malloc (size * sizeof(int));
-	int countS = 0, countM = 0;
-	arrayS[countS++] = 1;
-	arrayM[countM++] = 25;
-	for (int i = 1; i <= size; i++) {
-		if ((array[i]>=1 && array[i]<=7) || (array[i]>=19 && array[i]<=27) 
-			||array[i]==33) {
-			arrayM[countM++] = array[i];
-		} 
-		else {
-			arrayS[countS++] = array[i];
-		}
-	}
-	arrayM[countM] = arrayS[countS] = -1;
-	callDStar (arrayS, countS);
-	callDStar (arrayM, countM);
-	//Call slave with the array value in arrayS and call dStar in slave
-	//Calling dStar here is not possible right now as the slave cannot return obstacle.
-	//Removing obstacle from current implementation will require altering the entire dStar
-	//code
 }
 
 /*

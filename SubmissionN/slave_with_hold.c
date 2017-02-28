@@ -124,6 +124,7 @@ Commands:
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "dStar.h"
 
 #include "lcd.h"
 //#include "dStar.h"
@@ -236,9 +237,9 @@ void print() {
 	}
 }
 
-void simulation(int val1,int val2) {
+void simulation(int from,int to) {
 
-	_delay_ms((val2 - val1)*200);
+	dStar(from, to);
 	while (sequence_arr[Counter] == 0)
 	{
 		//lcd_print(1,1,Counter,2);
