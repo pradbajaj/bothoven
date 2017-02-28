@@ -264,32 +264,7 @@ void print() {
 	}
 }
 
-void simulation(int from,int to) {
 
-	dStar(from, to);
-	while (sequence_arr[Counter] == 0)
-	{
-		//lcd_print(1,14,Counter,2);
-		lcd_cursor(1,1);
-		lcd_string("   Waiting!!!   ");
-		lcd_cursor(2,1);
-		lcd_string(" For Slave Bot! ");
-		_delay_ms(100);
-	}
-
-	buzzer_on();
-	lcd_cursor(1,1);
-	lcd_string("MNP DETECTED ");
-	lcd_print(1,14,sequence_arr[Counter],2);
-	lcd_cursor(2,1);
-	lcd_string("Strinking Node!!");
-	_delay_ms(500);
-	buzzer_off();
-
-	++Counter;
-	//lcd_print(1,4,Counter,2);
-	UDR0 = Counter;
-}
 
 SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 {
@@ -347,7 +322,7 @@ int main(void)
 			seperate();
 			remove_zero();
 			for (int i = 0; i < master_size; i++) {
-				simulation (arr_master[i], arr_master[i+1]);
+				dStar (arr_master[i], arr_master[i+1]);
 			}
 			while(1) {
 				lcd_cursor(1,1);
