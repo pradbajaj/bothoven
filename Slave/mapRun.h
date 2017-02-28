@@ -129,7 +129,7 @@ Date: 19th October 2012
 #include <util/delay.h>
 
 #include <math.h> //included to support power function
-#include "lcd.h"
+//#include "lcd.h"
 
 #define		IR_THRESHOLD	100
 #define		WL_THRESHOLD	90
@@ -139,7 +139,7 @@ Date: 19th October 2012
 #define		Threshold 		40		//Defining Threshold value of black line
 									// Sensor Value less than threshold will be considered white line
 
-void port_init();
+void port_initial();
 void timer5_init();
 void velocity(unsigned char, unsigned char);
 void motors_delay();
@@ -219,7 +219,7 @@ void right_encoder_pin_config (void)
 }
 
 //Function to Initialize PORTS
-void port_init()
+void port_initial()
 {
 	//lcd_port_config();
 	adc_pin_config();
@@ -494,10 +494,10 @@ void soft_right_2_degrees(unsigned int Degrees)
 	angle_rotate(Degrees);
 }
 
-void init_devices (void)
+void initial_devices (void)
 {
  	cli(); //Clears the global interrupts
-	port_init();
+	port_initial();
 	adc_init();
 	timer5_init();
 	left_position_encoder_interrupt_init();
@@ -567,7 +567,7 @@ void move()
 */
 int* mapRun(signed int angle[], int Size)
 {
-	init_devices();
+	initial_devices();
 	lcd_set_4bit();
 	lcd_init();
 	

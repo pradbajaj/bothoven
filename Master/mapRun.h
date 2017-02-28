@@ -129,7 +129,7 @@ Date: 19th October 2012
 #include <util/delay.h>
 
 #include <math.h> //included to support power function
-#include "lcd.h"
+//#include "lcd.h"
 
 #define		IR_THRESHOLD	100
 #define		WL_THRESHOLD	90

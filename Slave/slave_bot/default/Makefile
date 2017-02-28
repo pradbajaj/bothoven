@@ -1,11 +1,11 @@
 ###############################################################################
-# Makefile for the project master_bot
+# Makefile for the project slave_bot
 ###############################################################################
 
 ## General Flags
-PROJECT = master_bot
+PROJECT = slave_bot
 MCU = atmega2560
-TARGET = master_bot.elf
+TARGET = slave_bot.elf
 CC = avr-gcc
 
 CPP = avr-g++
@@ -15,7 +15,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -Os -std=gnu99 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -Wall -gdwarf-2 -std=gnu99 -DF_CPU=14745600UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
@@ -25,7 +25,7 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 
 ## Linker flags
 LDFLAGS = $(COMMON)
-LDFLAGS +=  -Wl,-Map=master_bot.map
+LDFLAGS +=  -Wl,-Map=slave_bot.map
 
 
 ## Intel Hex file production flags
@@ -37,19 +37,16 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Objects that must be built in order to link
-OBJECTS = master_bot.o master_with_hold.o 
+OBJECTS = slave_with_hold.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
 
 ## Build
-all: $(TARGET) master_bot.hex master_bot.eep master_bot.lss size
+all: $(TARGET) slave_bot.hex slave_bot.eep slave_bot.lss size
 
 ## Compile
-master_bot.o: ../master_bot.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-master_with_hold.o: ../../master_with_hold.c
+slave_with_hold.o: ../../slave_with_hold.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link
@@ -72,7 +69,7 @@ size: ${TARGET}
 ## Clean target
 .PHONY: clean
 clean:
-	-rm -rf $(OBJECTS) master_bot.elf dep/* master_bot.hex master_bot.eep master_bot.lss master_bot.map
+	-rm -rf $(OBJECTS) slave_bot.elf dep/* slave_bot.hex slave_bot.eep slave_bot.lss slave_bot.map
 
 
 ## Other dependencies
