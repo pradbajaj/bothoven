@@ -143,6 +143,7 @@ signed int master_size = 0;
 signed int arr_master[20];
 signed int Counter = 0;
 
+void simulation(int, int);
 
 void buzzer_pin_config (void)
 {
@@ -157,7 +158,7 @@ void lcd_port_config (void)
 }
 
 //Function to initialize ports
-void port_init()
+void port_initial()
 {
 	buzzer_pin_config();
 	lcd_port_config();
@@ -299,10 +300,10 @@ SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 }
 
 //Function To Initialize all The Devices
-void init_devices()
+void initial_devices()
 {
  cli(); //Clears the global interrupts
- port_init();  //Initializes all the ports
+ port_initial();  //Initializes all the ports
  uart0_init(); //Initailize UART0 for serial communiaction
  uart2_init(); //Initailize UART1 for serial communiaction
  sei();   //Enables the global interrupts
@@ -338,7 +339,7 @@ void simulation(int from, int to) {
 //Main Function
 int main(void)
 {
-	init_devices();
+	initial_devices();
 	lcd_set_4bit();
 	lcd_init();
 	while(1) {
@@ -349,7 +350,7 @@ int main(void)
 			seperate();
 			remove_zero();
 			for (int i = 0; i < master_size; i++) {
-				dStar (arr_master[i], arr_master[i+1]);
+				simulation (arr_master[i], arr_master[i+1]);
 			}
 			while(1) {
 				lcd_cursor(1,1);

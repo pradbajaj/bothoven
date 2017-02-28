@@ -318,7 +318,7 @@ int main(void)
 			count++;
 			remove_zero();
 			for (int i = 0; i < slave_size; i++) {
-				dStar (arr_slave[i], arr_slave[i+1]);
+				simulation (arr_slave[i], arr_slave[i+1]);
 			}
 			while(1) {
 				lcd_cursor(1,1);
