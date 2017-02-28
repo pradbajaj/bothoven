@@ -627,9 +627,29 @@ int* mapRun(signed int angle[], int Size)
 				buzzer_on();
 				stop();
 				velocity(0,0);
+				// lcd_cursor(2,1);
+				// lcd_string("MNP DETECTED !!!");
+				while (sequence_arr[Counter] == 0)
+				{
+					//lcd_print(1,1,Counter,2);
+					lcd_cursor(1,1);
+					lcd_string("   Waiting!!!   ");
+					lcd_cursor(2,1);
+					lcd_string(" For Master Bot ");
+					_delay_ms(100);
+				}
+
+				// buzzer_on();
+				lcd_cursor(1,1);
+				lcd_string("MNP DETECTED    ");
+				lcd_print(1,14,sequence_arr[Counter],2);
 				lcd_cursor(2,1);
-				lcd_string("MNP DETECTED !!!");
+				lcd_string("Strinking Node!!");
 				_delay_ms(500);
+				// buzzer_off();
+				++Counter;
+				UDR0 = Counter;
+				//_delay_ms(500);
 				buzzer_off();
 				count++;
 			}
