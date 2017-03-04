@@ -97,8 +97,8 @@ Date: 19th October 2012
 	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
 	*filename: mapRun.c
 	*Theme: Bothoven
-	*Functions: initMap()
-	*Global Variable: map, map_link, map_angle
+	*Functions: mapRun(), move()
+	*Global Variable: NIL
 */
 #ifndef __MAP_RUN__
 #define __MAP_RUN__
@@ -541,7 +541,7 @@ void move()
 }
 
 /*
-	*Function Name: main()
+	*Function Name: mapRun()
 	*Input: NIL
 	*Output: 0 on successful completion
 	*Logic: Given a array of nodes, executes dStar to find the best path

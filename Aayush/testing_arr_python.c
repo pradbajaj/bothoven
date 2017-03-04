@@ -120,6 +120,15 @@ Commands:
 
 ********************************************************************************/
 
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*filename: testing_arr_python.c
+	*Theme: Bothoven
+	*Functions: remove_zero(), seperate()
+	*Global Variable: NIL
+*/
+
 #define F_CPU 14745600
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -371,6 +380,13 @@ signed int count = -1;
 signed int size = 0;
 signed int *arr;
 
+/*
+	*Function Name: print
+	*Input: NIL
+	*Output: NIL
+	*Logic: prints array on lcd.
+	*Example Call: print();
+*/
 void print() {
 	int k = 1;
 	int j = 1;

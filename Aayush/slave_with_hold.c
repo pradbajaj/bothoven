@@ -120,6 +120,15 @@ Commands:
 
 ********************************************************************************/
 
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*filename: slave_with_hold.c
+	*Theme: Bothoven
+	*Functions: remove_zero(), seperate(), print()
+	*Global Variable: NIL
+*/
+
 #define F_CPU 14745600
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -206,6 +215,13 @@ void buzzer_off (void)
  PORTC = port_restore;
 }
 
+/*
+	*Function Name: remove_zero
+	*Input: NIL
+	*Output: NIL
+	*Logic: removes all zeros from input array.
+	*Example Call: remove_zero();
+*/
 void remove_zero() {
 	int i = 0, j = 0;
 	while (i < arr_size)
@@ -220,6 +236,13 @@ void remove_zero() {
 	slave_size = j;
 }
 
+/*
+	*Function Name: print
+	*Input: NIL
+	*Output: NIL
+	*Logic: prints array on lcd.
+	*Example Call: print();
+*/
 void print() {
 	int k = 1;
 	int j = 1;
@@ -236,6 +259,14 @@ void print() {
 	}
 }
 
+/*
+	*Function Name: simulation
+	*Input: initial position and destination
+	*Output: NIL
+	*Logic: simulates (later changed to actually do it)
+			the dStar and holding at node detection.
+	*Example Call: simulation(1, 8);
+*/
 void simulation(int val1,int val2) {
 
 	_delay_ms((val2 - val1)*200);

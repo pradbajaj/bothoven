@@ -120,6 +120,14 @@ Commands:
 
 ********************************************************************************/
 
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*filename: testing_arr_Xbee.c
+	*Theme: Bothoven
+	*Functions: remove_zero(), seperate()
+	*Global Variable: NIL
+*/
 #define F_CPU 14745600
 #include <avr/io.h>
 #include <avr/interrupt.h>
