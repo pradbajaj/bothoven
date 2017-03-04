@@ -110,22 +110,34 @@ Date: 19th October 2012
   http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode
 
 ********************************************************************************/
+/*
+	*Team ID: eYRC-BV#1651
+	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
+	*filename: mapRun.c
+	*Theme: Bothoven
+	*Functions: initMap()
+	*Global Variable: map, map_link, map_angle
+*/
+//#ifndef __MAP_RUN__
+//#define __MAP_RUN__
+
+//#include "dstar.h"
+//#include "adjacency.h"
 #define F_CPU 14745600
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-#include <math.h> //included to support power function
-#include "lcd.h"
+//#include <math.h> //included to support power function
+//#include "lcd.h"
 
 #define		IR_THRESHOLD	100
 #define		WL_THRESHOLD	90
 #define		VELOCITY_MAX	175
 #define		VELOCITY_MIN	125
 #define 	VELOCITY_LOW	0
-#define 	BLACK			0x5A
-#define 	WHITE			10
-#define		Threshold 		12
+#define		Threshold 		40		//Defining Threshold value of black line
+									// Sensor Value less than threshold will be considered white line
 
 void port_init();
 void timer5_init();
@@ -148,17 +160,32 @@ int left_motor = 0, right_motor = 0;
 unsigned char Front_ultrasonic_Sensor=0;
 unsigned char Front_IR_Sensor=0;
 
-void buzzer_pin_config (void)
+/*
+	*Function name: buzzer_pin_config()
+	*Input: NIL
+	*Output: NIL
+	*Logic: Configures the pin used for buzzer
+	*Example Call: int *cost = BFS(source);
+*/
+
+/*void buzzer_pin_config (void)
 {
  DDRC = DDRC | 0x08;		//Setting PORTC 3 as output
  PORTC = PORTC & 0xF7;		//Setting PORTC 3 logic low to turnoff buzzer
-}
+}*/
+
+/*
+	*********************************NOTE**************************************
+	*The following functions configures the pins required for various stuff
+	*like lcd_port, adc_pin etc
+	**********************************END**************************************
+*/
 //Function to configure LCD port
-void lcd_port_config (void)
+/*void lcd_port_config (void)
 {
  DDRC = DDRC | 0xF7; //all the LCD pin's direction set as output
  PORTC = PORTC & 0x80; // all the LCD pins are set to logic 0 except PORTC 7
-}
+}*/
 
 //ADC pin configuration
 void adc_pin_config (void)
@@ -194,10 +221,10 @@ void right_encoder_pin_config (void)
 //Function to Initialize PORTS
 void port_init()
 {
-	lcd_port_config();
+	//lcd_port_config();
 	adc_pin_config();
 	motion_pin_config();	
-	buzzer_pin_config();
+	//buzzer_pin_config();
 	left_encoder_pin_config(); //left encoder pin config
 	right_encoder_pin_config(); //right encoder pin config
 }
@@ -231,7 +258,7 @@ ISR(INT4_vect)
 	ShaftCountLeft++;  //increment left shaft position count
 }
 
-void buzzer_on (void)
+/*void buzzer_on (void)
 {
  unsigned char port_restore = 0;
  port_restore = PINC;
@@ -245,7 +272,7 @@ void buzzer_off (void)
  port_restore = PINC;
  port_restore = port_restore & 0xF7;
  PORTC = port_restore;
-}
+}*/
 // Timer 5 initialized in PWM mode for velocity control
 // Prescale:256
 // PWM 8bit fast, TOP=0x00FF
@@ -484,34 +511,44 @@ void move()
 	senser_value_C = ADC_Conversion(2);	//Getting data of Center WL Sensor
 	senser_value_R = ADC_Conversion(1);	//Getting data of Right WL Sensor
 
+	// If black line is at left sensor and center sensor is not decting a black line
+	// Speed up right motor a bit to get a left turn
+	// Further set the flag to be equal to '1' suggesting that bot has taken left turn this time
 	if ((senser_value_L > Threshold) && (senser_value_C < Threshold))
 	{
 		forward();
-		left_motor = 125;
-		right_motor = 250;
+		left_motor = 200;
+		right_motor = 255;
 		velocity(left_motor,right_motor);
 		flag = 1;
 	}
+	// If black line is at right sensor and center sensor is not decting a black line
+	// Speed up left motor a bit to get a right turn
+	// Further set the flag to be equal to '2' suggesting that bot has taken right turn this time
 	else if ((senser_value_R > Threshold) && (senser_value_C < Threshold))
 	{
 		forward();
-		left_motor = 250;
-		right_motor = 125;
+		left_motor = 255;
+		right_motor = 200;
 		velocity(left_motor,right_motor);
 		flag = 2;
 	}
+	// If black line is at center sensor and left & right sensors are not decting a black line
+	// Speed up both motors equally to get a straight movement
 	else if ((senser_value_C > Threshold) && (senser_value_L < Threshold) && (senser_value_R < Threshold))
 	{
 		forward();
-		left_motor = 250;
-		right_motor = 250;
+		left_motor = 255;
+		right_motor = 255;
 		velocity(left_motor, right_motor);
 	}
+	// If black line is nowhere to be found
+	// Speed up right or left motor according to the flag set
 	else if ((senser_value_R < Threshold) && (senser_value_C < Threshold) && (senser_value_L < Threshold))
 	{
 		forward();
-		left_motor = 100;
-		right_motor = 250;
+		left_motor = 170;
+		right_motor = 255;
 		if (flag == 1) {
 			velocity(left_motor, right_motor);
 		}
@@ -521,23 +558,35 @@ void move()
 	}
 }
 
-//Main Function
-int main()
+/*
+	*Function Name: main()
+	*Input: NIL
+	*Output: 0 on successful completion
+	*Logic: Given a array of nodes, executes dStar to find the best path
+			to touch all the nodes and follows it.
+*/
+int* mapRun(signed int angle[], int Size)
 {
 	init_devices();
 	lcd_set_4bit();
 	lcd_init();
-	//int n = 8; // nummber of angles
-	signed int angle[] = {0,-60,0,60,0,-1,-120,0,-1,-120,-1,120,-60,-60,120,120,0,120,0,-60,0,60,-1,180,-60,0,60,0,-60,-1,180,60,0,60,-60,-60,120,-120,0,120,0,-1,0,0,180,0,0,0,-120,0,-60,-1,180,60,0,-60,-1,0,0,0,0,-1}; // after dectecting the note bot will turn angle[i] angle
-	//signed int angle[] = {120,0}; // after dectecting the note bot will turn angle[i] angle
+	
+	// after dectecting the note bot will turn angle[i] angle
 	signed int count = -1;
+	int *res = (int*) malloc (3*sizeof(int));		//Holds result
+	for (int i = 0; i < 3; i++)
+		res[i] = 0;
 
-	while(count < 61)
+	while(count < Size)
 	{
 		int flag = 0;
 
 		Front_IR_Sensor = ADC_Conversion(6);    //Getting data of Center IR Proximity Sensor Sensor
 
+		// If their an object with in 9 cm range of IR sensor
+		// LCD will print "OBSTRACLE DETECTED !"
+		// Bot will take an initial right turn to shift from the black line
+		// Then bot will take right turn until the center whiteline sensor is on top of black line
 		if (Front_IR_Sensor < 90)
 		{
 			lcd_cursor(1,1);
@@ -555,10 +604,16 @@ int main()
 			stop();
 			_delay_ms(100);
 			forward();
+			res[0] = 1;
+			res[1] = count;
+			res[2] = count+1;
+			return res;
 		}
 
-		move();
+		move();// calling the move function
 
+		// If center center plus left or right sensor detects the black line
+		// The bot is over a node
 		if ((senser_value_C > Threshold) && (senser_value_L > Threshold) || (senser_value_C > Threshold) && (senser_value_R > Threshold))
 		{
 			lcd_cursor(2,1);
@@ -566,79 +621,86 @@ int main()
 			// move while encoders certain value reach
 			
 			count++;
-			if (angle[count] == -1)
+			//if angle[i] is 60 the bot has to take a 60 degree turn
+			// bot will move 6 cm ahead and 30 degree left to skip the current black line
+			// then it will rotate left until it finds another black line
+			// lcd will print "60 degree success"
+			if (angle[count] == 60 || angle[count] == -300)
 			{
-				buzzer_on();
-				stop();
-				velocity(0,0);
-				lcd_cursor(2,1);
-				lcd_string("MNP DETECTED !!!");
-				_delay_ms(500);
-				buzzer_off();
-				count++;
-			}
-
-			if (angle[count] == 60)
-			{
-				forward_mm(30);
+				forward_mm(60);
 				_delay_ms(100);
-				left_degrees(15);
+				left_degrees(30);
 				do
 				{
 					left();
 					senser_value_C = ADC_Conversion(2);
 				}
-				while (senser_value_C < 30);
+				while (senser_value_C < 110);
 				stop();
 				lcd_cursor(1,1);
 				lcd_string("60 degree succes");
 			}
-			else if (angle[count] == 120)
+			//if angle[i] is 120 the bot has to take a 120 degree turn
+			// bot will move 1.5 cm ahead and 30 degree back left to skip the current black line
+			// then it will rotate soft left until it finds another black line
+			// lcd will print "120 degree success"
+			else if (angle[count] == 120 || angle[count] == -240)
 			{
 				forward_mm(15);
 				_delay_ms(100);
-				soft_left_2_degrees(45);
+				soft_left_2_degrees(30);
 				do
 				{
 					soft_left();
 					senser_value_C = ADC_Conversion(2);
 				}
-				while (senser_value_C < 30);
+				while (senser_value_C < 110);
 				stop();
 				lcd_cursor(1,1);
 				lcd_string("120 degree suces");
 			}
-			else if (angle[count] == -60)
+			//if angle[i] is -60 the bot has to take a -60 degree turn
+			// bot will move 6 cm ahead and 30 degree right to skip the current black line
+			// then it will rotate rihgt until it finds another black line
+			// lcd will print "-60 degree success"
+			else if (angle[count] == -60 || angle[count] == 300)
 			{
-				forward_mm(30);
+				forward_mm(60);
 				_delay_ms(100);
-				right_degrees(15);
+				right_degrees(30);
 				do
 				{
 					right();
 					senser_value_C = ADC_Conversion(2);
 				}
-				while (senser_value_C < 30);
+				while (senser_value_C < 110);
 				stop();
 				lcd_cursor(1,1);
 				lcd_string("-60 degree suces");
 			}
-			else if (angle[count] == -120)
+			//if angle[i] is -120 the bot has to take a -120 degree turn
+			// bot will move 1.5 cm ahead and 30 degree back right to skip the current black line
+			// then it will rotate soft right until it finds another black line
+			// lcd will print "-120 degree success"
+			else if (angle[count] == -120 || angle[count] == 240)
 			{
 				forward_mm(15);
 				_delay_ms(100);
-				soft_right_2_degrees(45);
+				soft_right_2_degrees(30);
 				do
 				{
 					soft_right();
 					senser_value_C = ADC_Conversion(2);
 				}
-				while (senser_value_C < 30);
+				while (senser_value_C < 110);
 				stop();
 				lcd_cursor(1,1);
 				lcd_string("-120 degre suces");
 			}
-			else if (angle[count] == 180)
+			//if angle[i] is 180 the bot has to take a 190 degree turn
+			// bot will move left for 500 milliseconds to skip the current black line
+			// then it will rotate left until it finds another black line
+			else if (angle[count] == 180 || angle[count] == -180)
 			{
 				left();
 				_delay_ms(500);
@@ -647,56 +709,20 @@ int main()
 					left();
 					Center_white_line = ADC_Conversion(2);
 				}
-				while (Center_white_line < 30);
+				while (Center_white_line < 110);
 				stop();
 				_delay_ms(100);
 				forward();
 			}
 
+			// by default lcd will be print "MOVING ON FLEX"
 			lcd_cursor(1,1);
 			lcd_string("                ");
 			lcd_cursor(2,1);
 			lcd_string("MOVING ON FLEX!!");
 		}
-	
-		//print_sensor(2,3,3);	//Prints value of WHITE Line Sensor1
-		//print_sensor(2,7,2);	//Prints Value of WHITE Line Sensor2
-		//print_sensor(2,11,1);	//Prints Value of WHITE Line Sensor3
-		//print_sensor(2,1,6);	//Prints Value of IR sensor
-		//lcd_print(2,1,pid,3);
-		//lcd_print(1,1,senser_value_1,2);
-		//lcd_print(1,4,senser_value_2,2);
-		//lcd_print(1,7,senser_value_3,2);
-		//lcd_print(1,10,senser_value_4,2);
-		//lcd_print(1,13,senser_value_5,2);
-		//lcd_print(2,1,senser_value_6,2);
-		//lcd_print(2,4,senser_value_7,2);
-		//lcd_print(2,7,senser_value_L+50,2);
-		//lcd_print(2,10,senser_value_C+50,2);
-		//lcd_print(2,13,senser_value_R+50,2);
-		//lcd_print(2,5,left_motor,3);
-		//lcd_print(2,9,right_motor,3);
-		//lcd_cursor(1,1);
-		//lcd_string("Pradyumna Aayush");
-		//lcd_cursor(2,1);
-		//lcd_string("Shashwat Pranjal");
 	}
-	for (int i = 0; i < 20; ++i)
-	{
-		stop();
-		velocity(0,0);
-		buzzer_on();
-		_delay_ms(100);
-		buzzer_off();
-		_delay_ms(150);
-	}
-	while(1)
-	{
-		stop();
-		velocity(0,0);
-		lcd_cursor(1,1);
-		lcd_string("      Task      ");
-		lcd_cursor(2,1);
-		lcd_string("  Completed!!!  ");
-	}
+	return res;
 }
+
+//#endif			//__MAP_RUN__

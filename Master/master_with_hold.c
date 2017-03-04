@@ -4,12 +4,12 @@
  AVR Studio Version 4.17, Build 666
 
  Date: 26th December 2010
- 
- Application example: Robot control over serial port via USB-RS232 converter 
+
+ Application example: Robot control over serial port via USB-RS232 converter
  					  (located on the ATMEGA260 microcontroller adaptor board)
 
  Concepts covered:  serial communication
- 
+
  Serial Port used: UART2
 
  There are two components to the motion control:
@@ -17,14 +17,14 @@
  2. Velocity control by PWM on pins PL3 and PL4 using OC5A and OC5B.
 
  In this experiment for the simplicity PL3 and PL4 are kept at logic 1.
- 
+
  Pins for PWM are kept at logic 1.
-  
- Connection Details:  	
- 						
+
+ Connection Details:
+
   Motion control:		L-1---->PA0;		L-2---->PA1;
    						R-1---->PA2;		R-2---->PA3;
-   						PL3 (OC5A) ----> Logic 1; 	PL4 (OC5B) ----> Logic 1; 
+   						PL3 (OC5A) ----> Logic 1; 	PL4 (OC5B) ----> Logic 1;
 
 
   Serial Communication:	PORTD 2 --> RXD1 UART1 receive for RS232 serial communication
@@ -53,27 +53,27 @@ Commands:
 				7				0x37	Buzzer on
 				9				0x39	Buzzer off
 
- Note: 
- 
- 1. Make sure that in the configuration options following settings are 
+ Note:
+
+ 1. Make sure that in the configuration options following settings are
  	done for proper operation of the code
 
  	Microcontroller: atmega2560
  	Frequency: 14745600
- 	Optimization: -O0  (For more information read section: Selecting proper optimization 
+ 	Optimization: -O0  (For more information read section: Selecting proper optimization
  					options below figure 2.22 in the Software Manual)
 
  2. Difference between the codes for RS232 serial, USB and wireless communication is only in the serial port number.
- 	Rest of the things are the same. 
+ 	Rest of the things are the same.
 
  3. For USB communication check the Jumper 1 position on the ATMEGA2560 microcontroller adaptor board
- 
- 4. Auxiliary power can supply current up to 1 Ampere while Battery can supply current up to 
- 	2 Ampere. When both motors of the robot changes direction suddenly without stopping, 
+
+ 4. Auxiliary power can supply current up to 1 Ampere while Battery can supply current up to
+ 	2 Ampere. When both motors of the robot changes direction suddenly without stopping,
 	it produces large current surge. When robot is powered by Auxiliary power which can supply
-	only 1 Ampere of current, sudden direction change in both the motors will cause current 
-	surge which can reset the microcontroller because of sudden fall in voltage. 
-	It is a good practice to stop the motors for at least 0.5seconds before changing 
+	only 1 Ampere of current, sudden direction change in both the motors will cause current
+	surge which can reset the microcontroller because of sudden fall in voltage.
+	It is a good practice to stop the motors for at least 0.5seconds before changing
 	the direction. This will also increase the useable time of the fully charged battery.
 	the life of the motor.
 
@@ -99,7 +99,7 @@ Commands:
      contributors may be used to endorse or promote products derived
      from this software without specific prior written permission.
 
-   * Source code can be used for academic purpose. 
+   * Source code can be used for academic purpose.
 	 For commercial use permission form the author needs to be taken.
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -112,10 +112,10 @@ Commands:
   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE. 
+  POSSIBILITY OF SUCH DAMAGE.
 
   Software released under Creative Commence cc by-nc-sa licence.
-  For legal information refer to: 
+  For legal information refer to:
   http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode
 
 ********************************************************************************/
@@ -225,17 +225,18 @@ void seperate() {
 		else {
 			arr_slave[i] = 0;
 			_delay_ms(100);
-			
+
 			UDR0 = arr_slave[i];
 
 			sequence_arr[i] = arr[i];
 		}
 	}
-	//UDR0 = 'e';	
+	//UDR0 = 'e';
 }
 
 void remove_zero() {
-	int i = 0, j = 0;
+	int i = 0, j = 1;
+    arr_master[0] = 1;
 	while (i < arr_size)
 	{
 		if(sequence_arr[i]!=0)
@@ -260,7 +261,7 @@ void print() {
 		}
 
 		lcd_print(k,j,arr_master[i],2);
-		
+
 		j += 2;
 	}
 }
@@ -269,7 +270,7 @@ void print() {
 
 SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 {
-	data = UDR0; 				//making copy of data from UDR0 in 'data' variable 
+	data = UDR0; 				//making copy of data from UDR0 in 'data' variable
 
 	Counter = (signed int) data;
 	//UDR2 = data; 				//echo data back to PC
@@ -278,7 +279,7 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 }
 SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 {
-	data = UDR2; 				//making copy of data from UDR2 in 'data' variable 
+	data = UDR2; 				//making copy of data from UDR2 in 'data' variable
 
 	UDR2 = data; 				//echo data back to PC
 
@@ -290,8 +291,8 @@ SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 		arr = (signed int*) malloc(arr_size*sizeof(signed int));
 		sequence_arr = (signed int*) malloc(arr_size*sizeof(signed int));
 		arr_slave = (signed int*) malloc(arr_size*sizeof(signed int));
-	} 
-	
+	}
+
 	else if (count < arr_size) {
 		arr[count] = (signed int) data;
 		arr[count] -= 48;

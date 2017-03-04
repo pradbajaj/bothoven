@@ -6,7 +6,9 @@
 
 import numpy as np
 import wave
-from scipy.io import wavfile
+import serial
+import time
+import scipy
 import struct
 import math
 
@@ -83,9 +85,17 @@ def play(sound_file):                           # importing 'sound_file'
         Identified_Notes = []                                                      # declaring an empty list Identified_Notes
     for x in range(0,len(fre)):          
         if fre[x] > 1035 and fre[x] < 1055:
-            Identified_Notes.append('C6')
+            #Identified_Notes.append('C6')
+            #Character for sending value 2
+            Identified_Notes.append('2')
+            #ser.write(b'2')
+            #time.sleep(0.1)
         elif fre[x] > 1165 and fre[x] < 1185:
-            Identified_Notes.append('D6')
+            #Identified_Notes.append('D6')
+            #Character for sending value 13
+            Identified_Notes.append('=')
+            #ser.write(b'=')
+            #time.sleep(0.1)
         elif fre[x] > 1310 and fre[x] < 1330:   ##########################################################################
             Identified_Notes.append('E6')       #                                                                        #
         elif fre[x] > 1385 and fre[x] < 1405:   #                                                                        #
@@ -105,36 +115,82 @@ def play(sound_file):                           # importing 'sound_file'
         elif fre[x] > 2780 and fre[x] < 2800:
             Identified_Notes.append('F7')
         elif fre[x] > 3125 and fre[x] < 3145:
-            Identified_Notes.append('G7')
+            #Identified_Notes.append('G7')
+            #Character for sending value 4
+            Identified_Notes.append('4')
+            #ser.write(b'4')
+            #time.sleep(0.1)
         elif fre[x] > 3510 and fre[x] < 3530:
-            Identified_Notes.append('A7')
+            #Identified_Notes.append('A7')
+            #Character for sending value 32
+            Identified_Notes.append('P')
+            #ser.write(b'P')
+            #time.sleep(0.1)
         elif fre[x] > 3940 and fre[x] < 3960:
             Identified_Notes.append('B7')
         elif fre[x] > 4175 and fre[x] < 4195:
-            Identified_Notes.append('C8')
+            #Identified_Notes.append('C8')
+            #Character for sending value 22
+            Identified_Notes.append('F')
+            #ser.write(b'F')
+            #time.sleep(0.1)
         elif fre[x] > 4690 and fre[x] < 4710:
             Identified_Notes.append('D8')
         elif fre[x] > 5265 and fre[x] < 5285:
             Identified_Notes.append('E8')
         elif fre[x] > 5580 and fre[x] < 5600:
-            Identified_Notes.append('F8')
+            #Identified_Notes.append('F8')
+            #Character for sending value 11
+            Identified_Notes.append(';')
+            #ser.write(b';')
+            #time.sleep(0.1)
         elif fre[x] > 6260 and fre[x] < 6280:
-            Identified_Notes.append('G8')
+            #Identified_Notes.append('G8')
+            #Character for sending value 10
+            Identified_Notes.append(':')
+            #ser.write(b':')
+            #time.sleep(0.1)
         elif fre[x] > 7030 and fre[x] < 7050:
-            Identified_Notes.append('A8')
+            #Identified_Notes.append('A8')
+            #Character for sending value 16
+            Identified_Notes.append('@')
+            #ser.write(b'@')
+            #time.sleep(0.1)
         elif fre[x] > 7890 and fre[x] < 7910:
-            Identified_Notes.append('B8')
+            #Identified_Notes.append('B8')
+            #Character for sending value 5
+            Identified_Notes.append('5')
+            #ser.write(b'5')
+            #time.sleep(0.1)
     return Identified_Notes                       # returning the array Identified_Notes
 
 ############################## Read Audio File #############################
 
 if __name__ == "__main__":
-    '''
+    
     #code for checking output for single audio file
-    sound_file = wave.open('Audio_files/audacity_1.wav', 'r')          # Opening Audio file
+    ser = serial.Serial("COM1", 9600)                             # open serial port that Firebird is using
+    
+    sound_file = wave.open('Audio_files/Audio.wav', 'r')          # Opening Audio file
     Identified_Notes = play(sound_file)                             # Calling play function
     sound_file.close()                                              # closing the audio file
     print ("Notes = ", Identified_Notes)                            # printing the values of notes obtained for 'play'
+
+    # Code for sending data to firebird
+    # Our firebird robot is type casting recived data (from python file) into integer
+    # Since 0 as a character has a ascii value of 48 so firebird is subtracting 48 from the interger data
+    # Since the number of notes in audio file is 15, and character with ascii value 63 (48+15) is '?'
+    # So we are sending ? as the size
+    array_size = chr(len(Identified_Notes) + 48)
+    ser.write(array_size.encode('ascii'))
+    time.sleep(0.1)
+    for x in range(0,15):
+        temp = Identified_Notes[x]
+        ser.write(temp.encode('ascii'))
+        time.sleep(0.2)
+    # Sending end_character
+    ser.write(b'e')
+    time.sleep(0.1)
     '''
     #code for checking output for all audio files
     Identified_Notes_list = []                                      # defining an empty list

@@ -582,7 +582,7 @@ int main()
 			{
 				forward_mm(30);
 				_delay_ms(100);
-				left_degrees(15);
+				left_degrees(30);
 				do
 				{
 					left();
@@ -595,9 +595,13 @@ int main()
 			}
 			else if (angle[count] == 120)
 			{
-				forward_mm(15);
-				_delay_ms(100);
-				soft_left_2_degrees(45);
+				forward_mm(30);
+				//_delay_ms(100);
+				stop();
+				_delay_ms(50);
+				soft_right_2_degrees(45);
+				stop();
+				_delay_ms(50);
 				do
 				{
 					soft_left();
@@ -605,6 +609,7 @@ int main()
 				}
 				while (senser_value_C < 30);
 				stop();
+				_delay_ms(50);
 				lcd_cursor(1,1);
 				lcd_string("120 degree suces");
 			}
@@ -612,7 +617,7 @@ int main()
 			{
 				forward_mm(30);
 				_delay_ms(100);
-				right_degrees(15);
+				right_degrees(30);
 				do
 				{
 					right();
@@ -625,9 +630,13 @@ int main()
 			}
 			else if (angle[count] == -120)
 			{
-				forward_mm(15);
-				_delay_ms(100);
+				forward_mm(30);
+				//_delay_ms(100);
+				stop();
+				_delay_ms(50);
 				soft_right_2_degrees(45);
+				stop();
+				_delay_ms(50);
 				do
 				{
 					soft_right();
@@ -635,6 +644,7 @@ int main()
 				}
 				while (senser_value_C < 30);
 				stop();
+				_delay_ms(50);
 				lcd_cursor(1,1);
 				lcd_string("-120 degre suces");
 			}
