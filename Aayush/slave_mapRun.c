@@ -124,13 +124,13 @@ Commands:
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-//#include "dstar.h"
+#include "dstar.h"
 #include "lcd.h"
-//#include "dStar.h"
-//#include "adjacency.h"
+#include "dStar.h"
+#include "adjacency.h"
 
-//#define size 49
-//#define INF 600000
+#define size 49
+#define INF 600000
 
 #define		IR_THRESHOLD	100
 #define		WL_THRESHOLD	90
