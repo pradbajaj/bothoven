@@ -395,7 +395,14 @@ void initial_devices()
 	uart2_init(); //Initailize UART1 for serial communiaction
  	sei();   //Enables the global interrupts
 }
-//Main Function
+
+/*
+	*Function Name: main
+	*Input:	NIL
+	*Output: Success or failure as in 0 for success
+	*Logic: Runs the entire program.
+	*Example Call: Automatic calling
+*/
 int main(void)
 {
 	initial_devices();
