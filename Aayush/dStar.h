@@ -144,18 +144,24 @@ int dStar (int source, int dest) {
 				}
 			}
 		}
+		if (parent[dest] == -1) {
+			//Path cannot exist.
+			//Print on LCD that path does not exist
+			free (heuris);
+			return -1;
+		}
 		int *pathSize = (int*) malloc (sizeof(int));
 		*pathSize = 0;
 		int *path = pathFind (parent, dest, pathSize);
 		int *result = Move (path, *pathSize);
+		free (heuris);
+		free (pathSize);
 		if (result[0] == 0) {
 			free (result);
 			return 0;		//Movement complete
 		}
 		//Updates the map
 		map[result[1]][result[2]] = map[result[2]][result[1]] = INF;
-		free (heuris);
-		free (pathSize);
 		free (result);
 	}
 }
