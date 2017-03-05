@@ -319,7 +319,6 @@ void simulation(int val1,int val2) {
 	buzzer_off();
 
 	++Counter;
-	//lcd_print(1,4,Counter,2);
 	UDR0 = Counter;
 }
 
@@ -328,9 +327,6 @@ SIGNAL(SIG_USART0_RECV) 		// ISR for receive complete interrupt
 	data = UDR0; 				//making copy of data from UDR0 in 'data' variable 
 
 	Counter = (signed int) data;
-	//UDR2 = data; 				//echo data back to PC
-	//lcd_print(1,4,Counter,2);
-
 }
 SIGNAL(SIG_USART2_RECV) 		// ISR for receive complete interrupt
 {
