@@ -52,13 +52,22 @@ int* Move (int path[], int pathSize) {
 	}
 	free(angle);
 	return res;
-}
-*/
+}*/
+
 int* move (int path[], int count) {
 	int *res = new int[3];
 	res[0] = res[1] = res[2] = 0;
 	for (int i = 0; i < count; i++)
 		cout << path[i] << "\t";
+	cout << endl << "Angle: ";
+	signed int *angle = (signed int*) malloc(count*sizeof(int));
+	for (int j = 0, i = 1; i < count-1; i++, j++) {
+		//This could be buggy
+		angle[j] = map_angle[path[i]][path[i+1]] - 
+					map_angle[path[i-1]][path[i]];
+		cout << angle[j] << "\t";
+	}
+	angle[count-1] = -1;
 	/*cout << path[0] << "\t";
 	for (int i = 0; i < count-1; i++) {
 		if ((path[i] == 32 && path[i+1] == 48) || (path[i] == 48 && 
@@ -88,17 +97,16 @@ void callDStar (int *arr, int size) {
 }
 
 int split (int *array, int size) {
-	int *arrayS = (int*) malloc (size * sizeof(int));
-	int *arrayM = (int*) malloc (size * sizeof(int));
+	int *arrayS = (int*) malloc ((size+2) * sizeof(int));
+	int *arrayM = (int*) malloc ((size+2) * sizeof(int));
 	int countS = 0, countM = 0;
-	arrayS[countS++] = 25;
-	arrayM[countM++] = 1;
-	for (int i = 1; i <= size; i++) {
+	arrayS[countS++] = 24;
+	arrayM[countM++] = 2;
+	for (int i = 0; i < size; i++) {
 		if ((array[i]>=1 && array[i]<=7) || (array[i]>=19 && array[i]<=27) 
 			||array[i]==33) {
 			arrayM[countM++] = array[i];
-		} 
-		else {
+		} else {
 			arrayS[countS++] = array[i];
 		}
 	}
@@ -193,11 +201,13 @@ int dStar (int source, int dest) {
 
 int main () {
 	initMap();
-	int Size = 15;
+	int Size = 2;
 	int *path = (int *) malloc (Size * sizeof (int));
-	for (int i = 0; i < Size; i++) {
+	path[0] = 22;
+	path[1] = 18;
+	/*for (int i = 0; i < Size; i++) {
 		path[i] = rand()%33 + 1;
-	}
+	}*/
 	split (path, Size);
 	return 0;
 }
