@@ -4,6 +4,12 @@
 #                                                                          #
 ############################################################################
 
+#     *Team ID: eYRC-BV#1651
+#     *Author List: Aayush, Pradyumna, Pranjal, Shashwat
+#     *filename: eYRC-BV_1651_Audio_Processing.py
+#     *Theme: Bothoven
+#     *Functions: initMap()
+
 import numpy as np
 import wave
 import serial
@@ -11,6 +17,13 @@ import time
 import scipy
 import struct
 import math
+
+# *Function Name: detect_silence
+# *Input: sound_file array
+# *Output: 2D array containing list of index of starting silence and ending silence
+# *Logic: Checks the sound_file and if 500 or more 0's occur simlutaneously,
+#           term them as silence
+# *Example Call: detect_silence(sound_file);
 
 #Function To Detect Silence
 def detect_silence(sound_file):           # importing Sound file array
@@ -36,6 +49,13 @@ def detect_silence(sound_file):           # importing Sound file array
     silence.append(silence_end)     # adding silence_end as an element in silence
     return silence                  # retuning silence n_d_array
 
+# *Function Name: detect_note
+# *Input: sound_file array
+# *Output: 2D array containing list of index of starting of note and ending of note
+# *Logic: calls the detect_silence function and set the starting of silence with ending of previous note
+#           and ending of silence with startin of next note
+# *Example Call: detect_note(sound_file);
+
 #Function To detect Indices of Notes
 def detect_note(sound_file):        # importing sound file array
     silence = detect_silence(sound_file)        # calling detect_silence to get silence matrix
@@ -57,6 +77,14 @@ def detect_note(sound_file):        # importing sound file array
     return notes                                # returning notes n_d_array
 
 sampling_freq = 44100                           # Sampling frequency of audio signal
+
+# *Function Name: play
+# *Input: sound_file array
+# *Output: An array containing the list of identified notes
+# *Logic: calls the detect_note function and applies fast fourier transform algorithum on the sound file 
+#               between the index given by dectect_note. This gives the frequency of the note present in
+#               that region. Now it classifies the frequencies into 21 notes and returns the array
+# *Example Call: play(sound_file);
 
 #Functon to detect notes
 def play(sound_file):                           # importing 'sound_file'
@@ -86,16 +114,14 @@ def play(sound_file):                           # importing 'sound_file'
     for x in range(0,len(fre)):          
         if fre[x] > 1035 and fre[x] < 1055:
             #Identified_Notes.append('C6')
+            #Since C6 is at MNP 2 also
             #Character for sending value 2
             Identified_Notes.append('2')
-            #ser.write(b'2')
-            #time.sleep(0.1)
         elif fre[x] > 1165 and fre[x] < 1185:
             #Identified_Notes.append('D6')
+            #Since D6 is at MNP 13 also
             #Character for sending value 13
             Identified_Notes.append('=')
-            #ser.write(b'=')
-            #time.sleep(0.1)
         elif fre[x] > 1310 and fre[x] < 1330:   ##########################################################################
             Identified_Notes.append('E6')       #                                                                        #
         elif fre[x] > 1385 and fre[x] < 1405:   #                                                                        #
@@ -116,52 +142,45 @@ def play(sound_file):                           # importing 'sound_file'
             Identified_Notes.append('F7')
         elif fre[x] > 3125 and fre[x] < 3145:
             #Identified_Notes.append('G7')
+            #Since G7 is at MNP 4 also
             #Character for sending value 4
             Identified_Notes.append('4')
-            #ser.write(b'4')
-            #time.sleep(0.1)
         elif fre[x] > 3510 and fre[x] < 3530:
             #Identified_Notes.append('A7')
+            #Since A7 is at MNP 32 also
             #Character for sending value 32
             Identified_Notes.append('P')
-            #ser.write(b'P')
-            #time.sleep(0.1)
         elif fre[x] > 3940 and fre[x] < 3960:
             Identified_Notes.append('B7')
         elif fre[x] > 4175 and fre[x] < 4195:
             #Identified_Notes.append('C8')
+            #Since C8 is at MNP 22 also
             #Character for sending value 22
             Identified_Notes.append('F')
-            #ser.write(b'F')
-            #time.sleep(0.1)
         elif fre[x] > 4690 and fre[x] < 4710:
             Identified_Notes.append('D8')
         elif fre[x] > 5265 and fre[x] < 5285:
             Identified_Notes.append('E8')
         elif fre[x] > 5580 and fre[x] < 5600:
             #Identified_Notes.append('F8')
+            #Since F8 is at MNP 11 also
             #Character for sending value 11
             Identified_Notes.append(';')
-            #ser.write(b';')
-            #time.sleep(0.1)
         elif fre[x] > 6260 and fre[x] < 6280:
             #Identified_Notes.append('G8')
+            #Since G8 is at MNP 10 also
             #Character for sending value 10
             Identified_Notes.append(':')
-            #ser.write(b':')
-            #time.sleep(0.1)
         elif fre[x] > 7030 and fre[x] < 7050:
             #Identified_Notes.append('A8')
+            #Since A8 is at MNP 16 also
             #Character for sending value 16
             Identified_Notes.append('@')
-            #ser.write(b'@')
-            #time.sleep(0.1)
         elif fre[x] > 7890 and fre[x] < 7910:
             #Identified_Notes.append('B8')
+            #Since B8 is at MNP 5 also
             #Character for sending value 5
             Identified_Notes.append('5')
-            #ser.write(b'5')
-            #time.sleep(0.1)
     return Identified_Notes                       # returning the array Identified_Notes
 
 ############################## Read Audio File #############################
@@ -169,7 +188,7 @@ def play(sound_file):                           # importing 'sound_file'
 if __name__ == "__main__":
     
     #code for checking output for single audio file
-    ser = serial.Serial("COM1", 9600)                             # open serial port that Firebird is using
+    #ser = serial.Serial("COM1", 9600)                             # open serial port that Firebird is using
     
     sound_file = wave.open('Audio_files/Audio.wav', 'r')          # Opening Audio file
     Identified_Notes = play(sound_file)                             # Calling play function
@@ -177,20 +196,20 @@ if __name__ == "__main__":
     print ("Notes = ", Identified_Notes)                            # printing the values of notes obtained for 'play'
 
     # Code for sending data to firebird
+    # We are sending characters for different values
     # Our firebird robot is type casting recived data (from python file) into integer
-    # Since 0 as a character has a ascii value of 48 so firebird is subtracting 48 from the interger data
-    # Since the number of notes in audio file is 15, and character with ascii value 63 (48+15) is '?'
-    # So we are sending ? as the size
+    # Since 0 as a character has an ascii value of 48 so firebird is subtracting 48 from the interger data
+
+    # Now if '0' (ascii = 48) is termed as 0 in firebird, so the character for length must be lenght + 48
     array_size = chr(len(Identified_Notes) + 48)
-    ser.write(array_size.encode('ascii'))
+    # Before sending charcter value we need to encode them into ascii or hex
+    #ser.write(array_size.encode('ascii'))
     time.sleep(0.1)
-    for x in range(0,15):
+    for x in range(0,len(Identified_Notes)):
         temp = Identified_Notes[x]
-        ser.write(temp.encode('ascii'))
+    #    ser.write(temp.encode('ascii'))
         time.sleep(0.2)
-    # Sending end_character
-    ser.write(b'e')
-    time.sleep(0.1)
+
     '''
     #code for checking output for all audio files
     Identified_Notes_list = []                                      # defining an empty list
