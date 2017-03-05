@@ -23,6 +23,8 @@
 #include "mapRun.h"
 #include "adjacency.h"
 
+#include <avr/io.h>
+
 /*
 	*Funtion Name: Move (int[], int)
 	*Input: An array that contains the path to be followed and
@@ -146,7 +148,10 @@ int dStar (int source, int dest) {
 		}
 		if (parent[dest] == -1) {
 			//Path cannot exist.
-			//Print on LCD that path does not exist
+			lcd_cursor(1,1);
+			lcd_string("Dest out of");
+			lcd_cursor(2, 1);
+			lcd_string("reach");
 			free (heuris);
 			return -1;
 		}
