@@ -123,7 +123,7 @@ int dStar (int source, int dest) {
 			lcd_cursor(2, 1);
 			lcd_string("reach");
 			free (heuris);
-			return current;
+			return source;
 		}
 		int *pathSize = (int*) malloc (sizeof(int));
 		*pathSize = 0;
