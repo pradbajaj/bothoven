@@ -19,7 +19,7 @@ const int size = 49;
 #define INF 600000
 
 #include "dStarRequirement.h"
-//#include "mapRun.h"
+#include "mapRun.h"
 #include "adjacency.h"
 #include <iostream>
 
@@ -36,13 +36,15 @@ using namespace std;
 			Returns the result by changing index to actual nodes
 	*Example Call: int *res = Move (path, pathSize);
 */
-/*
-int* Move (int path[], int pathSize) {
+
+int* move (int path[], int pathSize) {
 	signed int *angle = (signed int*) malloc(pathSize*sizeof(int));
+	cout << endl << endl;
 	for (int j = 0, i = 1; i < pathSize-1; i++, j++) {
 		//This could be buggy
 		angle[j] = map_angle[path[i]][path[i+1]] - 
 					map_angle[path[i-1]][path[i]];
+		cout << angle[j] << "  ";
 	}
 	angle[pathSize-1] = -1;
 	int *res = mapRun (angle, pathSize);
@@ -52,8 +54,8 @@ int* Move (int path[], int pathSize) {
 	}
 	free(angle);
 	return res;
-}*/
-
+}
+/*
 int* move (int path[], int count) {
 	int *res = new int[3];
 	res[0] = res[1] = res[2] = 0;
@@ -80,16 +82,22 @@ int* move (int path[], int count) {
 			cout << path [i+1] << "\t";
 	}
 	return res;
-}
+}*/
 
 int dStar (int, int); 
 
 void callDStar (int *arr, int size) {
 	for (int i = 0; i < size; i++) {
 		int res = dStar (arr[i], arr[i+1]);
-		cout << endl;
-		if (res != 0)
-			dStar(res, arr[++i+1]);
+		cout << endl << endl << endl;
+		cout << "Return = " << res << endl << endl << endl;
+		if (i >= size-1)
+			break;
+		if (res != 0) {
+			res = dStar(res, arr[++i+1]);
+			cout << endl << endl << endl;
+			cout << "Return = " << res << endl << endl << endl;
+		}
 	}
 }
 
@@ -97,7 +105,7 @@ int split (int *array, int size) {
 	int *arrayS = (int*) malloc ((size+2) * sizeof(int));
 	int *arrayM = (int*) malloc ((size+2) * sizeof(int));
 	int countS = 0, countM = 0;
-	arrayS[countS++] = 24;
+	arrayS[countS++] = 13;
 	arrayM[countM++] = 2;
 	for (int i = 0; i < size; i++) {
 		if ((array[i] >= 8 && array[i] <= 18) || (array[i] >= 28 && array[i] <= 32)) {
@@ -205,8 +213,14 @@ int dStar (int source, int dest) {
 
 int main () {
 	initMap();
+	//int Size = 5;
 	int Size = 3;
 	int *path = (int *) malloc (Size * sizeof (int));
+	/*path[0] = 32;
+	path[1] = 12;
+	path[2] = 8;
+	path[3] = 30;
+	path[4] = 18;*/
 	path[0] = 22;
 	path[1] = 26;
 	path[2] = 20;
