@@ -71,7 +71,7 @@ int* move (int path[], int count) {
 			path[i+1] == 28) || (path[i] == 27 && path[i+1] == 28) || (path[i] == 28 && 
 			path[i+1] == 27) || (path[i] == 27 && path[i+1] == 45) || (path[i] == 45 && 
 			path[i+1] == 27)) {
-				cout << "Obstacle between " << path[i] << " and " << path[i+1];
+				cout << "Obstacle between " << path[i] << " and " << path[i+1] << " ";
 				res[0] = 1;
 				res[1] = path[i];
 				res[2] = path[i+1];
@@ -87,9 +87,9 @@ int dStar (int, int);
 void callDStar (int *arr, int size) {
 	for (int i = 0; i < size; i++) {
 		int res = dStar (arr[i], arr[i+1]);
+		cout << endl;
 		if (res != 0)
 			dStar(res, arr[++i+1]);
-		cout << endl;
 	}
 }
 
@@ -100,7 +100,7 @@ int split (int *array, int size) {
 	arrayS[countS++] = 24;
 	arrayM[countM++] = 2;
 	for (int i = 0; i < size; i++) {
-		if ((arr[i] >= 8 && arr[i] <= 18) || (arr[i] >= 28 && arr[i] <= 32)) {
+		if ((array[i] >= 8 && array[i] <= 18) || (array[i] >= 28 && array[i] <= 32)) {
 			arrayS[countS++] = array[i];
 		} else {
 			arrayM[countM++] = array[i];
@@ -181,20 +181,22 @@ int dStar (int source, int dest) {
 		}
 		if (parent[dest] == -1) {
 			//Path cannot exist.
-			cout << "Destination out of reach\t";
+			cout << "Destination " << dest << " out of reach\t";
 			free (heuris);
-			return current;
+			return source;
 		}
 		int *pathSize = (int*) malloc (sizeof(int));
 		*pathSize = 0;
 		int *path = pathFind (parent, dest, pathSize);
-		int *result = Move (path, *pathSize);
+		int *result = move (path, *pathSize);
 		free (heuris);
 		free (pathSize);
 		if (result[0] == 0) {
 			free (result);
+			cout << endl;
 			return 0;		//Movement complete
 		}
+		source = result[1];
 		//Updates the map
 		map[result[1]][result[2]] = map[result[2]][result[1]] = INF;
 		free (result);
@@ -203,10 +205,11 @@ int dStar (int source, int dest) {
 
 int main () {
 	initMap();
-	int Size = 2;
+	int Size = 3;
 	int *path = (int *) malloc (Size * sizeof (int));
 	path[0] = 22;
-	path[1] = 18;
+	path[1] = 26;
+	path[2] = 20;
 	/*for (int i = 0; i < Size; i++) {
 		path[i] = rand()%33 + 1;
 	}*/
