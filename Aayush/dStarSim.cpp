@@ -57,25 +57,20 @@ int* Move (int path[], int pathSize) {
 int* move (int path[], int count) {
 	int *res = new int[3];
 	res[0] = res[1] = res[2] = 0;
-	for (int i = 0; i < count; i++)
-		cout << path[i] << "\t";
-	cout << endl << "Angle: ";
-	signed int *angle = (signed int*) malloc(count*sizeof(int));
-	for (int j = 0, i = 1; i < count-1; i++, j++) {
-		//This could be buggy
-		angle[j] = map_angle[path[i]][path[i+1]] - 
-					map_angle[path[i-1]][path[i]];
-		cout << angle[j] << "\t";
-	}
-	angle[count-1] = -1;
-	/*cout << path[0] << "\t";
+	cout << path[0] << "\t";
 	for (int i = 0; i < count-1; i++) {
-		if ((path[i] == 32 && path[i+1] == 48) || (path[i] == 48 && 
-			path[i+1] == 32) || (path[i] == 24 && path[i+1] == 1) ||
-			(path[i] == 1 && path[i+1] == 24) || (path[i] == 35 && 
-			path[i+1] == 36) || (path[i] == 36 && path[i+1] == 35) || 
-			(path[i] == 11 && path[i+1] == 12) || (path[i] == 11 && 
-			path[i+1] == 12)) {
+		if ((path[i] == 6 && path[i+1] == 7) || (path[i] == 7 && 
+			path[i+1] == 6) || (path[i] == 16 && path[i+1] == 17) ||
+			(path[i] == 17 && path[i+1] == 16) || (path[i] == 21 && 
+			path[i+1] == 22) || (path[i] == 22 && path[i+1] == 21) || 
+			(path[i] == 23 && path[i+1] == 24) || (path[i] == 24 && 
+			path[i+1] == 23) || (path[i] == 31 && path[i+1] == 32) || (path[i] == 32 && 
+			path[i+1] == 31) || (path[i] == 35 && path[i+1] == 36) || (path[i] == 36 && 
+			path[i+1] == 35) || (path[i] == 36 && path[i+1] == 44) || (path[i] == 44 && 
+			path[i+1] == 36) || (path[i] == 28 && path[i+1] == 29) || (path[i] == 29 && 
+			path[i+1] == 28) || (path[i] == 27 && path[i+1] == 28) || (path[i] == 28 && 
+			path[i+1] == 27) || (path[i] == 27 && path[i+1] == 45) || (path[i] == 45 && 
+			path[i+1] == 27)) {
 				cout << "Obstacle between " << path[i] << " and " << path[i+1];
 				res[0] = 1;
 				res[1] = path[i];
@@ -83,7 +78,7 @@ int* move (int path[], int count) {
 				return res;
 			}
 			cout << path [i+1] << "\t";
-	}*/
+	}
 	return res;
 }
 
@@ -91,7 +86,9 @@ int dStar (int, int);
 
 void callDStar (int *arr, int size) {
 	for (int i = 0; i < size; i++) {
-		dStar (arr[i], arr[i+1]);
+		int res = dStar (arr[i], arr[i+1]);
+		if (res != 0)
+			dStar(res, arr[++i+1]);
 		cout << endl;
 	}
 }
@@ -103,11 +100,10 @@ int split (int *array, int size) {
 	arrayS[countS++] = 24;
 	arrayM[countM++] = 2;
 	for (int i = 0; i < size; i++) {
-		if ((array[i]>=1 && array[i]<=7) || (array[i]>=19 && array[i]<=27) 
-			||array[i]==33) {
-			arrayM[countM++] = array[i];
-		} else {
+		if ((arr[i] >= 8 && arr[i] <= 18) || (arr[i] >= 28 && arr[i] <= 32)) {
 			arrayS[countS++] = array[i];
+		} else {
+			arrayM[countM++] = array[i];
 		}
 	}
 	arrayM[countM] = arrayS[countS] = -1;
@@ -183,18 +179,24 @@ int dStar (int source, int dest) {
 				}
 			}
 		}
+		if (parent[dest] == -1) {
+			//Path cannot exist.
+			cout << "Destination out of reach\t";
+			free (heuris);
+			return current;
+		}
 		int *pathSize = (int*) malloc (sizeof(int));
 		*pathSize = 0;
 		int *path = pathFind (parent, dest, pathSize);
-		int *result = move (path, *pathSize);
+		int *result = Move (path, *pathSize);
+		free (heuris);
+		free (pathSize);
 		if (result[0] == 0) {
 			free (result);
 			return 0;		//Movement complete
 		}
 		//Updates the map
 		map[result[1]][result[2]] = map[result[2]][result[1]] = INF;
-		free (heuris);
-		free (pathSize);
 		free (result);
 	}
 }
