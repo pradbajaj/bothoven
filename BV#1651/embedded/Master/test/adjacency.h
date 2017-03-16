@@ -20,7 +20,7 @@
 int map_angle[49][5];
 int map_link[34][2];
 int map [49][5];
-
+int strike_side [34][2];		// 0 means left and 1 means right
 /*
 	*Function Name: initMap
 	*Input: NIL
@@ -94,7 +94,7 @@ int initMap () {
     map[48][0] = 15;
     map[48][1] = 32;
 
-	for (int i = 1; i < 25; i++)
+	for (int i = 1; i < 34; i++)
 		for (int j = 0; j < 2; j++)
 			map_link[i][j] = (j == 0 ? i : -1);
 	//Manually linking nodes to notes
@@ -106,11 +106,11 @@ int initMap () {
 	map_link[31][0] = 17;
 	map_link[33][0] = 21;
 	map_link[26][0] = 37;
-	map_link[26][1] = 38;
+	map_link[26][1] = 25;
 	map_link[29][0] = 39;
-	map_link[29][1] = 40;
+	map_link[29][1] = 29;
 	map_link[32][0] = 41;
-	map_link[32][1] = 42;
+	map_link[32][1] = 33;
 	
 	//Storing absolute angle of every point.
 	for (int i = 0; i < 49; ++i)
@@ -225,8 +225,39 @@ int initMap () {
 	map_angle[48][0] = -90;
 	map_angle[48][1] = 90;
 	
-	return 0;
+	for (int i = 1; i < 34; i++) {
+		for (int j = 0; j < 2; j++) {
+			strike_side[i][j] = (j == 0 ? (i-1) : (i+1));
+		}
+		strike_side[i][2] = -1;
+	}
+	//Manually linking nodes to notes
+	//Replace hard code with a better method if and when available
+	strike_side[1][0] = 24;
+	strike_side[24][1] = 1;
+	strike_side[25][0] = 2;
+	strike_side[25][1] = 24;
+	strike_side[26][0] = 25;
+	strike_side[26][1] = 37;
+	strike_side[26][2] = 0;
+	strike_side[27][0] = 6;
+	strike_side[27][1] = 4;
+	strike_side[28][0] = 10;
+	strike_side[28][1] = 8;
+	strike_side[29][0] = 29;
+	strike_side[29][1] = 39;
+	strike_side[29][2] = 0;
+	strike_side[30][0] = 14;
+	strike_side[30][1] = 12;
+	strike_side[31][0] = 18;
+	strike_side[31][1] = 16;
+	strike_side[32][0] = 33;
+	strike_side[32][1] = 41;
+	strike_side[32][2] = 0;
+	strike_side[33][0] = 22;
+	strike_side[33][1] = 20;
 	
+	return 0;
 }
 
 #endif		//__ADJACENCY__
