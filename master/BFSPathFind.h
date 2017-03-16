@@ -104,6 +104,12 @@ int* pathFind (int *parent, int destination, int *pathSize) {
 	return path;
 }
 
+int BFSPathFind (int source, int destination) {
+	int *pSize;	
+	int *path = BFS (source, destination, pSize);
+	Move (path, pSize);
+}
+
 /*
 	*Function name: BFS (int)
 	*Input: Source of the search tree
@@ -114,7 +120,7 @@ int* pathFind (int *parent, int destination, int *pathSize) {
 			which were not already explored and updates the cost.
 	*Example Call: int *cost = BFS(source);
 */
-int* BFS (int source, int destination) {
+int* BFS (int source, int destination, int *pSize) {
 	struct Queue *Q = NewQueue();	//Initializing the queue required to 
 									//maintain nodes to be visited
 	int *bfs, current = source, *parent;
@@ -130,7 +136,7 @@ int* BFS (int source, int destination) {
 	int flag = 1;	
 	while (!IsEmpty (Q) && flag == 1) {
 		//Accessing the first node in the queue and marking it's neighbours to
-		//be searched
+		//be searched 
 		current = DeQueue (Q);
 		for (int i = 0, j = current[0]; current[i] != -1; i++, j = current[i]) {
 			if (visited[i] == 0) {
@@ -150,8 +156,7 @@ int* BFS (int source, int destination) {
 	}
 	free (bfs);
 	EmptyQueue(Q);
-	int *pathSize;
-	int *path = findPath(parent, destination);
+	int *path = pathFind(parent, destination, pSize);
 	return path; 
 }
 

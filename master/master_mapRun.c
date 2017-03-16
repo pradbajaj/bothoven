@@ -137,9 +137,8 @@ Commands:
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "dstar.h"
 #include "lcd.h"
-#include "dStar.h"
+#include "BFSPathFind.h"
 #include "adjacency.h"
 
 
@@ -411,7 +410,7 @@ void initial_devices()
 */
 void simulation(int from, int to) {
 
-	signed int success = dStar(from,to);
+	signed int success = BFSPathFind(from,to);
 
 	while (sequence_arr[Counter] == 0)
 	{
@@ -423,11 +422,11 @@ void simulation(int from, int to) {
 		lcd_string(" For Slave Bot! ");
 		_delay_ms(100);
 		if(update < 0) {
-			dStar(to, -update);
+			BFSPathFind(to, -update);
 			strike();
 			++Counter;
 			UDR0 = Counter;
-			dStar(-update, to);
+			BFSPathFind(-update, to);
 			update = 0;
 		}
 	}

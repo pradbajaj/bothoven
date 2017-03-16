@@ -103,8 +103,7 @@ Date: 19th October 2012
 #ifndef __MAP_RUN__
 #define __MAP_RUN__
 
-#include "dstar.h"
-#include "adjacency.h"
+#include "BFSPathFind.h"
 #define F_CPU 14745600
 #include <avr/io.h>
 #include <avr/interrupt.h>
