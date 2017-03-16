@@ -138,7 +138,7 @@ int* BFS (int source, int destination, int *pSize) {
 		//Accessing the first node in the queue and marking it's neighbours to
 		//be searched 
 		current = DeQueue (Q);
-		for (int i = 0, j = current[0]; current[i] != -1; i++, j = current[i]) {
+		for (int i = 0, j = map[current][0]; map[current][i] != -1; i++, j = current[i]) {
 			if (visited[i] == 0) {
 				//Adding weight to bfs if the node is connected
 				bfs[i] = 1 + bfs[current];
