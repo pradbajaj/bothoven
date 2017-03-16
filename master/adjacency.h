@@ -15,6 +15,7 @@
 
 // const int size = 25;
 #define INF 6000
+#define size 49
 
 //Stores absolute angles, links nodes to notes and maps graphs respectively
 int map_angle[49][5];

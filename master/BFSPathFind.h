@@ -13,10 +13,11 @@
 #define __BFS_PATH_FIND__
 
 #include "DynamicQueue.h"
+#include "mapRun.h"
 #include <stdlib.h>
 
 //const int size = 49;
-#define INF 600000
+// #define INF 600000
 
 #include "adjacency.h"
 
@@ -55,8 +56,20 @@ int* Move (int path[], int pathSize) {
 	signed int *angle = (signed int*) malloc(pathSize*sizeof(int));
 	for (int j = 0, i = 1; i < pathSize-1; i++, j++) {
 		//This could be buggy
-		angle[j] = map_angle[path[i]][path[i+1]] - 
-					map_angle[path[i-1]][path[i]];
+		int initial_angle, final_angle;
+		for (int index = 0; index < 5; ++index) {
+			if (map[path[i]][index] == path[i+1]) {
+				final_angle = map_angle[path[i]][index];
+				break;
+			}
+		}
+		for (int index = 0; index < 5; ++index) {
+			if (map[path[i-1]][index] == path[i]) {
+				initial_angle = map_angle[path[i-1]][index];
+				break;
+			}
+		}
+		angle[j] = final_angle - initial_angle;
 	}
 	angle[pathSize-1] = -1;
 	int *res = mapRun (angle, pathSize);
@@ -104,12 +117,6 @@ int* pathFind (int *parent, int destination, int *pathSize) {
 	return path;
 }
 
-int BFSPathFind (int source, int destination) {
-	int *pSize;	
-	int *path = BFS (source, destination, pSize);
-	Move (path, pSize);
-}
-
 /*
 	*Function name: BFS (int)
 	*Input: Source of the search tree
@@ -138,7 +145,11 @@ int* BFS (int source, int destination, int *pSize) {
 		//Accessing the first node in the queue and marking it's neighbours to
 		//be searched 
 		current = DeQueue (Q);
+<<<<<<< HEAD
 		for (int i = 0, j = map[current][0]; map[current][i] != -1; i++, j = current[i]) {
+=======
+		for (int i = 0, j = map[current][0]; map[current][i] != -1; i++, j = map[current][i]) {
+>>>>>>> d5ed0a12082aee61f0b5da1ee77f4426053376b3
 			if (visited[i] == 0) {
 				//Adding weight to bfs if the node is connected
 				bfs[i] = 1 + bfs[current];
@@ -158,6 +169,12 @@ int* BFS (int source, int destination, int *pSize) {
 	EmptyQueue(Q);
 	int *path = pathFind(parent, destination, pSize);
 	return path; 
+}
+
+int BFSPathFind (int source, int destination) {
+	int *pSize;	
+	int *path = BFS (source, destination, pSize);
+	Move (path, pSize);
 }
 
 #endif		//__BFS_PATH_FIND__
