@@ -55,8 +55,20 @@ int* Move (int path[], int pathSize) {
 	signed int *angle = (signed int*) malloc(pathSize*sizeof(int));
 	for (int j = 0, i = 1; i < pathSize-1; i++, j++) {
 		//This could be buggy
-		angle[j] = map_angle[path[i]][path[i+1]] - 
-					map_angle[path[i-1]][path[i]];
+		int initial_angle, final_angle;
+		for (int index = 0; index < 5; ++index) {
+			if (map[path[i]][index] == path[i+1]) {
+				final_angle = map_angle[path[i]][index];
+				break;
+			}
+		}
+		for (int index = 0; index < 5; ++index) {
+			if (map[path[i-1]][index] == path[i]) {
+				initial_angle = map_angle[path[i-1]][index];
+				break;
+			}
+		}
+		angle[j] = final_angle - initial_angle;
 	}
 	angle[pathSize-1] = -1;
 	int *res = mapRun (angle, pathSize);
