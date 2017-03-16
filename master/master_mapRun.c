@@ -137,6 +137,7 @@ Commands:
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "mapRun.h"
 #include "lcd.h"
 #include "BFSPathFind.h"
 #include "adjacency.h"

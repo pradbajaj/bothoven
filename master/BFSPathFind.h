@@ -13,10 +13,11 @@
 #define __BFS_PATH_FIND__
 
 #include "DynamicQueue.h"
+#include "mapRun.h"
 #include <stdlib.h>
 
 //const int size = 49;
-#define INF 600000
+// #define INF 600000
 
 #include "adjacency.h"
 
@@ -116,12 +117,6 @@ int* pathFind (int *parent, int destination, int *pathSize) {
 	return path;
 }
 
-int BFSPathFind (int source, int destination) {
-	int *pSize;	
-	int *path = BFS (source, destination, pSize);
-	Move (path, pSize);
-}
-
 /*
 	*Function name: BFS (int)
 	*Input: Source of the search tree
@@ -150,7 +145,7 @@ int* BFS (int source, int destination, int *pSize) {
 		//Accessing the first node in the queue and marking it's neighbours to
 		//be searched 
 		current = DeQueue (Q);
-		for (int i = 0, j = current[0]; current[i] != -1; i++, j = current[i]) {
+		for (int i = 0, j = map[current][0]; map[current][i] != -1; i++, j = map[current][i]) {
 			if (visited[i] == 0) {
 				//Adding weight to bfs if the node is connected
 				bfs[i] = 1 + bfs[current];
@@ -170,6 +165,12 @@ int* BFS (int source, int destination, int *pSize) {
 	EmptyQueue(Q);
 	int *path = pathFind(parent, destination, pSize);
 	return path; 
+}
+
+int BFSPathFind (int source, int destination) {
+	int *pSize;	
+	int *path = BFS (source, destination, pSize);
+	Move (path, pSize);
 }
 
 #endif		//__BFS_PATH_FIND__
