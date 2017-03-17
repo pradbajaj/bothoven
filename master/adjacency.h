@@ -21,7 +21,7 @@
 int map_angle[49][5];
 int map_link[34][2];
 int map [49][5];
-int strike_side [34][2];		// 0 means left and 1 means right
+int strike_side [34][3];		// 0 means left and 1 means right
 /*
 	*Function Name: initMap
 	*Input: NIL
@@ -106,12 +106,12 @@ int initMap () {
 	map_link[30][0] = 13;
 	map_link[31][0] = 17;
 	map_link[33][0] = 21;
-	map_link[26][0] = 37;
-	map_link[26][1] = 25;
-	map_link[29][0] = 39;
-	map_link[29][1] = 29;
-	map_link[32][0] = 41;
-	map_link[32][1] = 33;
+	map_link[26][0] = 25;
+	map_link[26][1] = 37;
+	map_link[29][0] = 29;
+	map_link[29][1] = 39;
+	map_link[32][0] = 33;
+	map_link[32][1] = 41;
 	
 	//Storing absolute angle of every point.
 	for (int i = 0; i < 49; ++i)
