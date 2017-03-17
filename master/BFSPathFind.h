@@ -138,8 +138,8 @@ int* BFS (int source, int destination, int *pSize) {
 	for (int i = 1; i < size; i++) {
 		bfs[i] = 0;
 		visited[i] = 0;
+		parent[size] = -1;
 	}
-	parent[source] = -1;
 	EnQueue (Q, current);
 	int flag = 1;	
 	while (!IsEmpty (Q) && flag == 1) {
