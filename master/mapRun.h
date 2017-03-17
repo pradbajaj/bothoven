@@ -577,10 +577,10 @@ int* mapRun(signed int angle[], int Size_)
 	        while (Center_white_line < 75);
 	        stop();
 	        _delay_ms(100);
-			//res[0] = 1;
-			//res[1] = count;
-			//res[2] = count+1;
-			//return res;
+			res[0] = 1;
+			res[1] = count;
+			res[2] = count+1;
+			return res;
 		}
 
 		// If center center plus left or right sensor detects the black line

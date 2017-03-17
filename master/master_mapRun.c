@@ -479,7 +479,7 @@ int main(void)
 			seperate();
 			remove_zero();
 			for (int i = 0; i < master_size - 1; i++) {
-				simulation (arr_master[i], arr_master[i+1]);
+				simulation (map_link[arr_master[i]], map_link[arr_master[i+1]]);
 			}
 			for ( int i = 0; i < 20; i++) {
 				buzzer_on();

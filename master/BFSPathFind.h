@@ -74,6 +74,7 @@ int* Move (int path[], int pathSize) {
 	angle[pathSize-1] = -1;
 	int *res = mapRun (angle, pathSize);
 	if (res[0] != 0) {
+		//Assuming that mapRun returns the index of the nodes in res[1] and res[2]	
 		res[1] = path[res[1]];
 		res[2] = path[res[2]];
 	}
@@ -163,14 +164,59 @@ int* BFS (int source, int destination, int *pSize) {
 	}
 	free (bfs);
 	EmptyQueue(Q);
+	if (parent[destination] == -1){
+		int *path = (int*) malloc (sizeof(int));
+		path[0] = -2;
+		return path;
+	}
 	int *path = pathFind(parent, destination, pSize);
 	return path; 
 }
 
-int BFSPathFind (int source, int destination) {
-	int *pSize;	
-	int *path = BFS (source, destination, pSize);
-	Move (path, pSize);
+int* BFSPathFind (int source, int destination) {
+	while (1) {
+		int *pSize;	
+		int *path = BFS (source, destination, pSize);
+		//In case no path is possible, return 1 for failure and the node the bot is standing on.	
+		if (path[0] == -2){
+			ret[0] = 1;
+			ret[1] = source;
+			free(path);
+			break;
+		}
+		int *res = Move (path, pSize);
+		int *ret = (int *) malloc (2*sizeof(int));
+		free (pSize);
+		free (path);
+		//If movement is successful, the function will return 0, and the destination
+		//node that the bot has reached.
+		if (res[0] == 0) {
+			ret[0] = 0;
+			ret[1] = destination;
+			free (res);
+			break;
+		} else { //Otherwise try to run it again.
+			for (int i = 0, cur = res[1]; cur[i+1] != -1; i++){
+				if (cur[i] == res[2]) {
+					while (cur[i] != -1) {
+						cur[i++] = cur[i+1];
+					}
+					break;
+				}
+			}
+			for (int i = 0, cur = res[2]; cur[i+1] != -1; i++){
+				if (cur[i] == res[1]) {
+					while (cur[i] != -1) {
+						cur[i++] = cur[i+1];
+					}
+					break; }
+			}
+		}
+		source = res[1];
+		free (res);
+		free (ret);
+	}
+	return ret;
 }
 
 #endif		//__BFS_PATH_FIND__
