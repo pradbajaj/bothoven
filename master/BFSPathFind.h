@@ -196,20 +196,21 @@ int* BFSPathFind (int source, int destination) {
 			free (res);
 			break;
 		} else { //Otherwise try to run it again.
-			for (int i = 0, cur = res[1]; cur[i+1] != -1; i++){
-				if (cur[i] == res[2]) {
+			for (int i = 0, cur = res[1]; map[cur][i+1] != -1; i++){
+				if (map[cur][i] == res[2]) {
 					while (cur[i] != -1) {
-						cur[i++] = cur[i+1];
+						map[cur][i++] = map[cur][i+1];
 					}
 					break;
 				}
 			}
 			for (int i = 0, cur = res[2]; cur[i+1] != -1; i++){
-				if (cur[i] == res[1]) {
+				if (cur[i] == res[1]){
 					while (cur[i] != -1) {
 						cur[i++] = cur[i+1];
 					}
-					break; }
+					break;
+				}
 			}
 		}
 		source = res[1];
