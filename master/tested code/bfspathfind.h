@@ -185,7 +185,7 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize) {
 		lcd_string("   Waiting005   ");
 	}
 
-	bfs[current] = 1;
+	bfs[current] = 0;
 	visited[current] = 1;
 	parent[source] = -1;
 	
@@ -228,6 +228,7 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize) {
 	lcd_cursor(1,1);
 	lcd_string("   Waiting009   ");
 	signed int *path = pathFind(parent, destination, pSize);
+	free (parent);
 	lcd_cursor(1,1);
 	lcd_string("   Waiting016   ");
 	return path; 

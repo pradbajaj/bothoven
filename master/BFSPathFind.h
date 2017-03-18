@@ -170,6 +170,7 @@ int* BFS (int source, int destination, int *pSize) {
 		return path;
 	}
 	int *path = pathFind(parent, destination, pSize);
+	free (parent);
 	return path; 
 }
 
