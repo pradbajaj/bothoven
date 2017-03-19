@@ -44,6 +44,21 @@ void reverse (signed int *Rev, signed int path_Size) {
 		lcd_cursor(1,1);
 		lcd_string("   Waiting013   ");
 	}
+	int k = 1;
+	int l = 1;
+	for (i = 0; i < path_Size-1; i++)
+	{
+		if (l == 17)
+		{
+			l = 1;
+			k = 2;
+		}
+
+		lcd_print(k,l,Rev[i],2);
+
+		l += 2;
+	}
+	_delay_ms(5000);
 	lcd_cursor(1,1);
 	lcd_string("   Waiting014   ");
 }
@@ -95,9 +110,9 @@ signed int* Move (signed int path[], signed int pathSize) {
 		lcd_string("   Waiting023   ");
 	}
 	angle[pathSize-2] = -1;
-	for (int i = 0; i < pathSize-1; ++i) {
-		lcd_print(2,(i+1)*3,abs(angle[i]),3);
-	}
+	// for (int i = 0; i < pathSize-1; ++i) {
+	// 	lcd_print(2,(i+1)*3,abs(angle[i]),3);
+	// }
 	// _delay_ms(5000);
 	lcd_cursor(1,1);
 	lcd_string("   Waiting024   ");
@@ -179,13 +194,21 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize) {
 	bfs = (signed int *) calloc (size,sizeof (signed int));
 	// signed int visited[size];				//Maintains if the node is visited
 	signed int *visited = (signed int *) calloc (size,sizeof(signed int));
-	// for (signed int i = 1; i < size; i++) {
-	// 	bfs[i] = 0;
-	// 	visited[i] = 0;
-	// 	// parent[i] = -1;
-	// 	lcd_cursor(1,1);
-	// 	lcd_string("   Waiting005   ");
-	// }
+	for (signed int i = 1; i < size; i++) {
+		// bfs[i] = 0;
+		if ((i >= 8 && i <= 18) || (i >= 28 && i <= 32)) {
+			visited[i] = 1;
+		}
+		
+		// parent[i] = -1;
+		// lcd_cursor(1,1);
+		// lcd_string("   Waiting005   ");
+	}
+	visited[39] = 1;
+	visited[40] = 1;
+	visited[46] = 1;
+	visited[47] = 1;
+	visited[48] = 1;
 
 	bfs[current] = 1;
 	visited[current] = 1;

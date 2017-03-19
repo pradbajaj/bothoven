@@ -21,7 +21,7 @@
 signed int map_angle[49][5];
 signed int map_link[34][2];
 signed int map [49][5];
-signed int strike_side [34][3];		// 0 means left and 1 means right
+signed int strike_side [34][5];		// 0 means left and 1 means right
 
 // static signed int *ret = (signed int *) malloc (2*sizeof(signed int));						//in front of the path to calculate correct angles
 // static signed int *res = (signed int *) malloc (3*sizeof(signed int));
@@ -245,10 +245,24 @@ int initMap () {
 			strike_side[i][j] = (j == 0 ? (i-1) : (i+1));
 		}
 		strike_side[i][2] = -1;
+		strike_side[i][3] = -1;
+		strike_side[i][4] = -1;
 	}
 	//Manually linking nodes to notes
 	//Replace hard code with a better method if and when available
 	strike_side[1][0] = 24;
+	strike_side[3][3] = 26;
+	strike_side[3][4] = 25;
+	strike_side[7][3] = 46;
+	strike_side[7][4] = 45;
+	strike_side[11][3] = 30;
+	strike_side[11][4] = 29;
+	strike_side[15][3] = 48;
+	strike_side[15][4] = 47;
+	strike_side[19][3] = 34;
+	strike_side[19][4] = 33;
+	strike_side[23][3] = 44;
+	strike_side[23][4] = 43;
 	strike_side[24][1] = 1;
 	strike_side[25][0] = 2;
 	strike_side[25][1] = 24;

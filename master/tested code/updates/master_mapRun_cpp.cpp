@@ -261,6 +261,13 @@ void servo_3_free (void) //makes servo 3 free rotating
  OCR1CL = 0xFF; //Servo 3 off
 } 
 
+signed int * set_initial_success() {
+	signed int *initial_success = (signed int *) malloc (2*sizeof(signed int));
+	initial_success[0] = 0;
+	initial_success[1] = 24;
+	return initial_success;
+}
+
 /*
 	*Function Name: seperate()
 	*Input: NIL
@@ -346,6 +353,7 @@ void print() {
 */
 void strike(int previous_node) {
 	unsigned int i = 0;
+	unsigned int hexagon_node = 0;
 	lcd_cursor(1,1);
 	lcd_string("MNP DETECTED ");
 	lcd_print(1,14,sequence_arr[Counter],2);
@@ -373,6 +381,9 @@ void strike(int previous_node) {
 		signed int angle[] = {(final_angle - initial_angle),180};
 		mapRun(angle,1);
 		previous_node = map_link[sequence_arr[Counter]][0];
+		success[1] = map_link[sequence_arr[Counter]][0] + 1;
+		hexagon_node = 1;
+		
 		//Further we could add here the condition if their is an obstacle between say 25 and 26
 		//so robot will try to travel to 37 and do the same thing
 	}
@@ -385,6 +396,11 @@ void strike(int previous_node) {
 		}
 		_delay_ms(50);
 		servo_3(105);
+		if (hexagon_node == 1) {
+			while ((senser_value_C < 50) && (senser_value_L < 50) || (senser_value_C < 50) && (senser_value_R < 50)) {
+				move();
+			}
+		}
 		// servo_3_free();
 	}
 	else
@@ -396,6 +412,37 @@ void strike(int previous_node) {
 		}
 		_delay_ms(50);
 		servo_3(105);
+		if (hexagon_node == 1) {
+			while ((senser_value_C < 50) && (senser_value_L < 50) || (senser_value_C < 50) && (senser_value_R < 50)) {
+				move();
+			}
+		}
+		// servo_3_free();
+	}
+	else
+	if (strike_side[sequence_arr[Counter]][3] == previous_node) {
+		soft_left_degrees(60);
+		for (i = 105; i > 0; i--)
+		{
+			servo_3(i);
+			 _delay_ms(5);
+		}
+		_delay_ms(50);
+		servo_3(105);
+		soft_left_2_degrees(60);
+		// servo_3_free();
+	}
+	else
+	if (strike_side[sequence_arr[Counter]][4] == previous_node) {
+		soft_right_degrees(60);
+		for (i = 105; i < 210; i++)
+		{
+			servo_3(i);
+			 _delay_ms(5);
+		}
+		_delay_ms(50);
+		servo_3(105);
+		soft_right_2_degrees(60);
 		// servo_3_free();
 	}
 	_delay_ms(1000);
@@ -453,6 +500,7 @@ void initial_devices()
 	right_position_encoder_interrupt_init();
 	uart0_init(); //Initailize UART0 for serial communiaction
 	uart2_init(); //Initailize UART1 for serial communiaction
+	success = set_initial_success();
  	sei();   //Enables the global interrupts
 }
 
@@ -543,9 +591,9 @@ int main(void)
 	arr = (signed int*) malloc(arr_size*sizeof(signed int));
 	sequence_arr = (signed int*) malloc(arr_size*sizeof(signed int));
 	arr_slave = (signed int*) malloc(arr_size*sizeof(signed int));
-	arr[0] = 1;
-	arr[1] = 25;
-	arr[2] = 19;
+	arr[0] = 26;
+	arr[1] = 19;
+	arr[2] = 23;
 	while(1) {
 		if (count == arr_size)
 		{
