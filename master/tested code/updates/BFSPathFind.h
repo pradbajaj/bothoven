@@ -12,6 +12,7 @@
 #ifndef __BFS_PATH_FIND__
 #define __BFS_PATH_FIND__
 
+#include "master_visited.h"
 #include "DynamicQueue.h"
 #include "mapRun.h"
 #include <stdlib.h>
@@ -184,7 +185,7 @@ signed int* pathFind (signed int *parent, signed int destination, signed int *pa
 			which were not already explored and updates the cost.
 	*Example Call: int *cost = BFS(source);
 */
-signed int* BFS (signed int source, signed int destination, signed int *pSize) {
+signed int* BFS (signed int source, signed int destination, signed int *pSize, int callUnsuccessful) {
 	lcd_cursor(1,1);
 	lcd_string("   Waiting004   ");
 	struct Queue *Q = NewQueue();	//Initializing the queue required to 
@@ -195,21 +196,14 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize) {
 	// signed int visited[size];				//Maintains if the node is visited
 	signed int *visited = (signed int *) calloc (size,sizeof(signed int));
 	for (signed int i = 1; i < size; i++) {
-		// bfs[i] = 0;
-		if ((i >= 8 && i <= 18) || (i >= 28 && i <= 32)) {
-			visited[i] = 1;
-		}
-		
-		// parent[i] = -1;
+		bfs[i] = 0;
+		parent[i] = -1;
+		visited[i] = 0;
 		// lcd_cursor(1,1);
 		// lcd_string("   Waiting005   ");
 	}
-	visited[39] = 1;
-	visited[40] = 1;
-	visited[46] = 1;
-	visited[47] = 1;
-	visited[48] = 1;
-
+	if (!callUnsuccessful)
+		markVisited(visited);
 	bfs[current] = 1;
 	visited[current] = 1;
 	parent[source] = -1;
@@ -260,7 +254,7 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize) {
 	return path; 
 }
 
-signed int* BFSPathFind (signed int source, signed int destination, signed int prefix) {		//prefix will be the additional node which has to be added
+signed int* BFSPathFind (signed int source, signed int destination, signed int prefix, int callUnsuccessful = 1) {		//prefix will be the additional node which has to be added
 	lcd_cursor(1,1);
 	lcd_string("   Waiting002   ");
 	signed int *ret = (signed int *) malloc (2*sizeof(signed int));						//in front of the path to calculate correct angles
@@ -268,7 +262,7 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 		signed int pSize;	
 		lcd_cursor(1,1);
 		lcd_string("   Waiting003   ");
-		signed int *path = BFS (source, destination, &pSize);
+		signed int *path = BFS (source, destination, &pSize, callUnsuccessful);
 		//In case no path is possible, return 1 for failure and the node the bot is standing on.	
 		if (path[0] == -2){
 			ret[0] = source;			// If failed it will return current node at 0th index

@@ -272,8 +272,8 @@ signed int * set_initial_success() {
 	*Function Name: seperate()
 	*Input: NIL
 	*Output: NIL
-	*Logic: Divides the array recieved through python file (contained in arr) into sequence_arr (for master bot)
-			and slave_arr (for slave bot). Sequence_arr has the same length as the the array recieved through python,
+	*Logic: Divides the array received through python file (contained in arr) into sequence_arr (for master bot)
+			and slave_arr (for slave bot). Sequence_arr has the same length as the array received through python,
 			the indices that have to be played by the slave have been replaced by 0s.
 			In, slave_arr the indices that have to be played by the master has been replaced by 0s.
 			This method allows for us to maintain sequence of plays.
@@ -306,7 +306,7 @@ void seperate() {
 	*Function Name: remove_zero()
 	*Input: NIL
 	*Output: NIL
-	*Logic: Removes the zeros from the seqence_arr which were inserted by seperate
+	*Logic: Removes the zeros from the sequence_arr which were inserted by seperate
 			Converts the MNPs to corresponding nodes according to map_link
 	*example-call: remove_zero();
 */
@@ -358,7 +358,7 @@ void strike(int previous_node) {
 	lcd_string("MNP DETECTED ");
 	lcd_print(1,14,sequence_arr[Counter],2);
 	lcd_cursor(2,1);
-	lcd_string("Strinking Node!!");
+	lcd_string("Striking Node!!");
 
 	if (strike_side[sequence_arr[Counter]][2] == 0)
 	{
@@ -528,7 +528,7 @@ void simulation(int from, int to, int prefix) {
 					strike(fesible_node[1]);
 					++Counter;
 					UDR0 = Counter;
-					success = BFSPathFind(update/100, to,fesible_node[1]);
+					success = BFSPathFind(update/100, to,fesible_node[1], 0);
 				}
 				else {
 					++Counter;

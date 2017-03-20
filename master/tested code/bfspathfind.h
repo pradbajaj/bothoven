@@ -168,7 +168,7 @@ signed int* pathFind (signed int *parent, signed int destination, signed int *pa
 			which were not already explored and updates the cost.
 	*Example Call: int *cost = BFS(source);
 */
-signed int* BFS (signed int source, signed int destination, signed int *pSize) {
+signed int* BFS (signed int source, signed int destination, signed int *pSize){
 	lcd_cursor(1,1);
 	lcd_string("   Waiting004   ");
 	struct Queue *Q = NewQueue();	//Initializing the queue required to 
@@ -329,4 +329,3 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 }
 
 #endif		//__BFS_PATH_FIND__
-
