@@ -33,8 +33,6 @@
 	*Example Call: reverse (arr, size);
 */
 void reverse (signed int *Rev, signed int path_Size) {
-	lcd_cursor(1,1);
-	lcd_string("   Waiting012   ");
 	signed int j = path_Size-1, i = 0, temp;
 	while(i < j) {
 		temp = Rev[i];
@@ -42,26 +40,16 @@ void reverse (signed int *Rev, signed int path_Size) {
 		Rev[j] = temp;
 		i++;
 		j--;
-		lcd_cursor(1,1);
-		lcd_string("   Waiting013   ");
 	}
 	int k = 1;
 	int l = 1;
-	for (i = 0; i < path_Size-1; i++)
-	{
-		if (l == 17)
-		{
+	for (i = 0; i < path_Size-1; i++){
+		if (l == 17){
 			l = 1;
 			k = 2;
 		}
-
-		lcd_print(k,l,Rev[i],2);
-
 		l += 2;
 	}
-	_delay_ms(5000);
-	lcd_cursor(1,1);
-	lcd_string("   Waiting014   ");
 }
 /*
 	*Funtion Name: Move (int[], int)
@@ -76,17 +64,7 @@ void reverse (signed int *Rev, signed int path_Size) {
 	*Example Call: int *res = Move (path, pathSize);
 */
 signed int* Move (signed int path[], signed int pathSize) {
-	lcd_cursor(1,1);
-	lcd_string("   Waiting220   ");
 	signed int *angle = (signed int*) malloc((pathSize - 1)*sizeof(signed int)); // addded the prefix so pathSize needs to be -= 1
-	// I am not understanding the role of i in for loop
-	// What if pathSize == 2
-	// that way it won't enter the loop
-	// for example if we want to move from node 25 to 26
-	// path would be 25,26,-1 and pathSize would be 2
-	// Suggestion :  I think j < pathSize-1 and add a prefix which will tell initial direction of robot
-	lcd_cursor(1,1);
-	lcd_string("   Waiting020   ");
 	for (signed int j = 0, i = 1; i < pathSize-1; i++, j++) {
 		//This could be buggy
 		signed int initial_angle, final_angle;
@@ -95,28 +73,20 @@ signed int* Move (signed int path[], signed int pathSize) {
 				final_angle = map_angle[path[i]][index];
 				break;
 			}
-			lcd_cursor(1,1);
-			lcd_string("   Waiting021   ");
 		}
 		for (signed int index = 0; index < 5; ++index) {
 			if (map[path[i-1]][index] == path[i]) {
 				initial_angle = map_angle[path[i-1]][index];
 				break;
 			}
-			lcd_cursor(1,1);
-			lcd_string("   Waiting022   ");
 		}
 		angle[j] = final_angle - initial_angle;
-		lcd_cursor(1,1);
-		lcd_string("   Waiting023   ");
 	}
 	angle[pathSize-2] = -1;
 	// for (int i = 0; i < pathSize-1; ++i) {
 	// 	lcd_print(2,(i+1)*3,abs(angle[i]),3);
 	// }
 	// _delay_ms(5000);
-	lcd_cursor(1,1);
-	lcd_string("   Waiting024   ");
 	signed int *res = mapRun (angle, pathSize);
 	if (res[0] != 0) {
 		//Assuming that mapRun returns the index of the nodes in res[1] and res[2]	
@@ -124,8 +94,6 @@ signed int* Move (signed int path[], signed int pathSize) {
 		res[1] = path[res[1] + 1];
 		res[2] = path[res[2] + 1];
 	}
-	lcd_cursor(1,1);
-	lcd_string("   Waiting025   ");
 	free(angle);
 	return res;
 }
@@ -146,8 +114,6 @@ signed int* Move (signed int path[], signed int pathSize) {
 	*Example Call: int *path = pathFind (parent, destination, &pathSize);
 */
 signed int* pathFind (signed int *parent, signed int destination, signed int *pathSize) {
-	lcd_cursor(1,1);
-	lcd_string("   Waiting010   ");
 	signed int *path = (signed int*) malloc (size*sizeof(signed int));
 	*pathSize = 1;			//There is at least one element (destination)
 	signed int i = destination, j = 1;
@@ -157,12 +123,8 @@ signed int* pathFind (signed int *parent, signed int destination, signed int *pa
 		(*pathSize)++;
 		path[j++] = parent[i];
 		i = parent[i];
-		lcd_cursor(1,1);
-		lcd_string("   Waiting011   ");
 	}
 	path[j] = -1;
-	lcd_cursor(1,1);
-	lcd_string("   Waiting111   ");
 	
 	//Corrects the order of the path
 	reverse (path, *pathSize);
@@ -170,8 +132,6 @@ signed int* pathFind (signed int *parent, signed int destination, signed int *pa
 		cout << path[i] << "\t";
 	cout << endl;
 	*/
-	lcd_cursor(1,1);
-	lcd_string("   Waiting015   ");
 	return path;
 }
 
@@ -186,8 +146,6 @@ signed int* pathFind (signed int *parent, signed int destination, signed int *pa
 	*Example Call: int *cost = BFS(source);
 */
 signed int* BFS (signed int source, signed int destination, signed int *pSize, int callUnsuccessful) {
-	lcd_cursor(1,1);
-	lcd_string("   Waiting004   ");
 	struct Queue *Q = NewQueue();	//Initializing the queue required to 
 									//maintain nodes to be visited
 	signed int *bfs, current = source, *parent;
@@ -229,14 +187,8 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize, i
 					break;
 				}	
 			}
-			lcd_cursor(1,1);
-			lcd_string("   Waiting006   ");
 		}
-		lcd_cursor(1,1);
-		lcd_string("   Waiting007   ");
 	}
-	lcd_cursor(1,1);
-	lcd_string("   Waiting008   ");
 	free (bfs);
 	EmptyQueue(Q);
 	if (parent[destination] == -1){
@@ -244,24 +196,16 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize, i
 		path[0] = -2;
 		return path;
 	}
-	lcd_cursor(1,1);
-	lcd_string("   Waiting009   ");
 	signed int *path = pathFind(parent, destination, pSize);
 	free(parent);
 	free(visited);
-	lcd_cursor(1,1);
-	lcd_string("   Waiting016   ");
 	return path; 
 }
 
 signed int* BFSPathFind (signed int source, signed int destination, signed int prefix, int callUnsuccessful = 1) {		//prefix will be the additional node which has to be added
-	lcd_cursor(1,1);
-	lcd_string("   Waiting002   ");
 	signed int *ret = (signed int *) malloc (2*sizeof(signed int));						//in front of the path to calculate correct angles
 	while (1) {
 		signed int pSize;	
-		lcd_cursor(1,1);
-		lcd_string("   Waiting003   ");
 		signed int *path = BFS (source, destination, &pSize, callUnsuccessful);
 		//In case no path is possible, return 1 for failure and the node the bot is standing on.	
 		if (path[0] == -2){
@@ -270,26 +214,18 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 			free(path);
 			break;
 		}
-		lcd_cursor(1,1);
-		lcd_string("   Waiting017   ");
 		pSize++;										//adding prefix into the path
 		for (signed int i = pSize-1; i >= 0; --i) {
 			path[i+1] = path[i];
-			lcd_cursor(1,1);
-			lcd_string("   Waiting018   ");
 		}
 
 		path[0] = prefix;
-		lcd_cursor(1,1);
-		lcd_string("   Waiting019   ");
 		
 		signed int *res = Move (path, pSize);
 		// free (pSize);		//We need pSize and path when res[0] == 0
 		// free (path);			//So copying this statement to if-else condition seperately
 		//If movement is successful, the function will return 0, and the destination
 		//node that the bot has reached.
-		lcd_cursor(1,1);
-		lcd_string("   Waiting026   ");
 		if (res[0] == 0) {
 			ret[0] = 0;
 			// ret[1] = destination;
@@ -305,43 +241,27 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 						map[cur][i] = map[cur][i+1];
 						map_angle[cur][i] = map_angle[cur][i+1];		//Along with map we need to change the angles
 						++i;
-						lcd_cursor(1,1);
-						lcd_string("   Waiting027   ");
 					}
 					break;
 				}
-				lcd_cursor(1,1);
-				lcd_string("   Waiting028   ");
 			}
-			lcd_cursor(1,1);
-			lcd_string("   Waiting029   ");
 			for (signed int i = 0, cur = res[2]; map[cur][i+1] != -1; i++){
 				if (map[cur][i] == res[1]) {
 					while (map[cur][i] != -1) {
 						map[cur][i] = map[cur][i+1];
 						map_angle[cur][i] = map_angle[cur][i+1];		//Along with map we need to change the angles
 						++i;
-						lcd_cursor(1,1);
-						lcd_string("   Waiting030   ");
 					}
 					break; 
 				}
-				lcd_cursor(1,1);
-				lcd_string("   Waiting031   ");
 			}
-			lcd_cursor(1,1);
-			lcd_string("   Waiting032   ");
 		}
-		lcd_cursor(1,1);
-		lcd_string("   Waiting032   ");
 		source = res[1];
 		// free (pSize);
 		free (path);
 		free (res);
 		free (ret);
 	}
-	lcd_cursor(1,1);
-	lcd_string("   Waiting033   ");
 	return ret;
 }
 
