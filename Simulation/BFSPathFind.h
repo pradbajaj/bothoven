@@ -11,10 +11,9 @@
 
 #ifndef __BFS_PATH_FIND__
 #define __BFS_PATH_FIND__
-
+#include <iostream>
 #include "master_visited.h"
 #include "DynamicQueue.h"
-#include "mapRun.h"
 #include <stdlib.h>
 #include <math.h>
 
@@ -22,7 +21,7 @@
 // #define INF 600000
 
 #include "adjacency.h"
-
+using namespace std;
 /*
 	*Function name: reverse (int *, int)
 	*Input: Array to be reversed and the size of the array
@@ -51,6 +50,38 @@ void reverse (signed int *Rev, signed int path_Size) {
 		l += 2;
 	}
 }
+int* move (int path[], int count) {
+	int *res = new int[3];
+	res[0] = res[1] = res[2] = 0;
+	//for (int i = 0; i < count; i++)
+	//	cout << path[i] << "\t";
+	//cout << endl << "Angle: ";
+	//signed int *angle = (signed int*) malloc(count*sizeof(int));
+	//for (int j = 0, i = 1; i < count-1; i++, j++) {
+	//	//This could be buggy
+	//	angle[j] = map_angle[path[i]][path[i+1]] - 
+	//				map_angle[path[i-1]][path[i]];
+	//	cout << angle[j] << "\t";
+	//}
+	//angle[count-1] = -1;
+	cout << path[0] << "\t";
+	for (int i = 0; i < count-1; i++) {
+		if ((path[i] == 32 && path[i+1] == 48) || (path[i] == 48 && 
+			path[i+1] == 32) || (path[i] == 24 && path[i+1] == 1) ||
+			(path[i] == 1 && path[i+1] == 24) || (path[i] == 35 && 
+			path[i+1] == 36) || (path[i] == 36 && path[i+1] == 35) || 
+			(path[i] == 11 && path[i+1] == 12) || (path[i] == 12 && 
+			path[i+1] == 11)) {
+				cout << "Obstacle between " << path[i] << " and " << path[i+1];
+				res[0] = 1;
+				res[1] = path[i];
+				res[2] = path[i+1];
+				return res;
+			}
+			cout << path [i+1] << "\t";
+	}
+	return res;
+}
 /*
 	*Funtion Name: Move (int[], int)
 	*Input: An array that contains the path to be followed and
@@ -62,7 +93,7 @@ void reverse (signed int *Rev, signed int path_Size) {
 	*Logic: Converts nodes to an array of angle and calls the run function
 			Returns the result by changing index to actual nodes
 	*Example Call: int *res = Move (path, pathSize);
-*/
+*//*
 signed int* Move (signed int path[], signed int pathSize) {
 	signed int *angle = (signed int*) malloc((pathSize - 1)*sizeof(signed int)); // addded the prefix so pathSize needs to be -= 1
 	for (signed int j = 0, i = 1; i < pathSize-1; i++, j++) {
@@ -83,10 +114,6 @@ signed int* Move (signed int path[], signed int pathSize) {
 		angle[j] = final_angle - initial_angle;
 	}
 	angle[pathSize-2] = -1;
-	// for (int i = 0; i < pathSize-1; ++i) {
-	// 	lcd_print(2,(i+1)*3,abs(angle[i]),3);
-	// }
-	// _delay_ms(5000);
 	signed int *res = mapRun (angle, pathSize);
 	if (res[0] != 0) {
 		//Assuming that mapRun returns the index of the nodes in res[1] and res[2]	
@@ -96,7 +123,7 @@ signed int* Move (signed int path[], signed int pathSize) {
 	}
 	free(angle);
 	return res;
-}
+}*/
 
 
 /*
@@ -157,15 +184,12 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize, i
 		bfs[i] = 0;
 		parent[i] = -1;
 		visited[i] = 0;
-		// lcd_cursor(1,1);
-		// lcd_string("   Waiting005   ");
 	}
 	if (!callUnsuccessful)
 		markVisited(visited);
 	bfs[current] = 1;
 	visited[current] = 1;
 	parent[source] = -1;
-	
 	EnQueue (Q, current);
 	signed int flag = 1;	
 	while (!IsEmpty (Q) && flag == 1) {
@@ -185,7 +209,7 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize, i
 				if (j == destination) {			
 					flag = 0;	//Found a path to destination
 					break;
-				}	
+				}
 			}
 		}
 	}
@@ -221,7 +245,7 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 
 		path[0] = prefix;
 		
-		signed int *res = Move (path, pSize);
+		signed int *res = move (path, pSize);
 		// free (pSize);		//We need pSize and path when res[0] == 0
 		// free (path);			//So copying this statement to if-else condition seperately
 		//If movement is successful, the function will return 0, and the destination
@@ -236,7 +260,7 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 			break;
 		} else { //Otherwise try to run it again.
 			for (signed int i = 0, cur = res[1]; map[cur][i+1] != -1; i++){
-				if (map[cur][i] == res[2]) {
+				if (map[cur][i] == path[res[2]]) {
 					while (map[cur][i] != -1) {
 						map[cur][i] = map[cur][i+1];
 						map_angle[cur][i] = map_angle[cur][i+1];		//Along with map we need to change the angles
@@ -246,7 +270,7 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 				}
 			}
 			for (signed int i = 0, cur = res[2]; map[cur][i+1] != -1; i++){
-				if (map[cur][i] == res[1]) {
+				if (map[cur][i] == path[res[1]]) {
 					while (map[cur][i] != -1) {
 						map[cur][i] = map[cur][i+1];
 						map_angle[cur][i] = map_angle[cur][i+1];		//Along with map we need to change the angles
@@ -256,7 +280,8 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 				}
 			}
 		}
-		source = res[1];
+		source = path[res[1]];
+		prefix = path[res[2]];
 		// free (pSize);
 		free (path);
 		free (res);
@@ -266,4 +291,3 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 }
 
 #endif		//__BFS_PATH_FIND__
-

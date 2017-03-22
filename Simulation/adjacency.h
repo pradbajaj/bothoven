@@ -15,7 +15,7 @@
 
 // const int size = 25;
 #define INF 6000
-#define size 49
+const int size = 49;
 
 //Stores absolute angles, links nodes to notes and maps graphs respectively
 signed int map_angle[49][5];
@@ -43,8 +43,6 @@ signed int pathSize = 0;
 	*Example Call: initMap();
 */
 int initMap () {
-	lcd_cursor(1,1);
-	lcd_string("   Waiting034   ");
 	//Initializes each nodes as unconnected
     for (int i = 0; i<49; i++) {
         for (int j = 0; j<5; j++) {

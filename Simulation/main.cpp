@@ -1,5 +1,8 @@
 #include "master_visited.h"
 #include "adjacency.h"
+#include "BFSPathFind.h"
+#include <iostream>
+using namespace std;
 /*
 	*Team ID: eYRC-BV#1651
 	*Author List: Aayush, Pradyumna, Pranjal, Shashwat
@@ -22,29 +25,15 @@ int main () {
 	Nodes[7] = 30;
 	Nodes[8] = 16;
 	Nodes[9] = 20;
+	int prefix = 24;
 	for (int i = 0; i < 9; i++) {
-		BFSPathfind (Nodes[i], Nodes[i+1]);
+		int * res = BFSPathFind (Nodes[i], Nodes[i+1], prefix);
+		if (res[0] == 0){
+			prefix = Nodes[i];
+		} else{
+			prefix = res[1];
+		}
 		cout << endl;
-	}
-	// after the bot completed all the angles
-	// it will stop and beep for 5 seconds
-	for (int i = 0; i < 20; ++i) {
-		stop();
-		velocity(0,0);
-		buzzer_on();
-		_delay_ms(100);
-		buzzer_off();
-		_delay_ms(150);
-	}
-
-	// after all the task is completed the lcd will print "TASK COMPLETED!!!"
-	while(1) {
-		stop();
-		velocity(0,0);
-		lcd_cursor(1,1);
-		lcd_string("      Task      ");
-		lcd_cursor(2,1);
-		lcd_string("  Completed!!!  ");
 	}
 	return 0;
 }
