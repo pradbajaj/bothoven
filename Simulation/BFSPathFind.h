@@ -185,7 +185,7 @@ signed int* BFS (signed int source, signed int destination, signed int *pSize, i
 		parent[i] = -1;
 		visited[i] = 0;
 	}
-	if (!callUnsuccessful)
+	if (callUnsuccessful)
 		markVisited(visited);
 	bfs[current] = 1;
 	visited[current] = 1;
@@ -259,9 +259,11 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 			free (path);
 			break;
 		} else { //Otherwise try to run it again.
-			for (signed int i = 0, cur = res[1]; map[cur][i+1] != -1; i++){
+			for (signed int i = 0, cur = res[1]; ; i++){
 				if (map[cur][i] == path[res[2]]) {
-					while (map[cur][i] != -1) {
+					while (true) {	
+						if (map[cur][i] == -1)
+							break;
 						map[cur][i] = map[cur][i+1];
 						map_angle[cur][i] = map_angle[cur][i+1];		//Along with map we need to change the angles
 						++i;
@@ -269,13 +271,15 @@ signed int* BFSPathFind (signed int source, signed int destination, signed int p
 					break;
 				}
 			}
-			for (signed int i = 0, cur = res[2]; map[cur][i+1] != -1; i++){
+			for (signed int i = 0, cur = res[2]; ; i++){
 				if (map[cur][i] == path[res[1]]) {
-					while (map[cur][i] != -1) {
+					while (true) {
+						if (map[cur][i] == -1)
+							break;
 						map[cur][i] = map[cur][i+1];
 						map_angle[cur][i] = map_angle[cur][i+1];		//Along with map we need to change the angles
 						++i;
-					}
+					}map[cur][i+1] != -1
 					break; 
 				}
 			}
